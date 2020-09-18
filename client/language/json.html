@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<style type="text/css">
+		html,
+		body {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			padding-top: 1px;
+			overflow: hidden;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="container" style="width:100%;height:100%"></div>
+	<script src="../lib/monaco-editor/min/vs/loader.js"></script>
+	<script src="java.json.min.js"></script>
+	<script src="java.class.method.js"></script>
+	<script src="java.js"></script>
+	<script>
+		var editor = null;
+		var monaco_editor = null;
+		require.config({
+			paths: { 'vs': '../lib/monaco-editor/min/vs' },
+			'vs/nls': {
+				availableLanguages: {
+					'*': 'zh-cn'
+				}
+			}
+		});
+		require(['vs/editor/editor.main'], function () {
+			registerCompletionItemProvider(monaco.languages);
+			monaco_editor = monaco.editor;
+			editor = monaco_editor.create(document.getElementById('container'), {
+				value: "",
+				theme:"vs-dark"
+			});
+			window.onresize = function () {
+				editor.layout();
+			};
+		});
+	</script>
+</body>
+
+</html>

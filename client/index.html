@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>pai-ssh</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/xterm.css" />
+    <link rel="stylesheet" href="css/toastr.min.css" />
+    <link rel="stylesheet" href="css/cloud-ide.css" type="text/css" />
+    <script src="lib/common/jquery-2.2.2.min.js"></script>
+    <script src="lib/common/bootstrap.min.js"></script>
+    <script>
+        function closeWindow() {
+            if (typeof (ipcRenderer) != "undefined") {
+                ipcRenderer.send('window-close');
+            }
+        }
+        function minWindow() {
+            if (typeof (ipcRenderer) != "undefined") {
+                ipcRenderer.send('window-min');
+            }
+        }
+        function maxWindow() {
+            if (typeof (ipcRenderer) != "undefined") {
+                ipcRenderer.send('window-max');
+            }
+        }
+        if (typeof (ipcRenderer) != "undefined") {
+            maxWindow();
+        }
+    </script>
+</head>
+
+<body>
+    <div class="tool" style="-webkit-app-region: drag;-webkit-user-select: none;"><img src="/logo.png" width="28"
+            height="28" style="padding:4px" />欢迎使用PAI-SSH工具</div>
+    <div class="btn btn-default btn-xs glyphicon glyphicon-remove right right1" onclick="closeWindow()"></div>
+    <div class="btn btn-default btn-xs glyphicon glyphicon-unchecked right right2" onclick="maxWindow()"></div>
+    <div class="btn btn-default btn-xs glyphicon glyphicon-minus right right3" onclick="minWindow()"></div>
+    <div id="main-container"></div>
+    <script src="lib/react/react.min.js"></script>
+    <script src="lib/react/react-dom.min.js"></script>
+    <script src="lib/react/react-router.min.js"></script>
+    <script src="lib/react/react-router-dom.min.js"></script>
+    <script src="lib/react/react-router.min.js"></script>
+    <script src="lib/common/BootstrapMenu.min.js"></script>
+    <script src="lib/common/toastr.min.js"></script>
+    <script src="lib/common/pekeUpload.min.js"></script>
+    <script src="lib/common/jquery.cookie.js"></script>
+    <script src="lib/common/jquery.base64.min.js"></script>
+    <script src="lib/socket.io/socket.io.js"></script>
+    <script src="lib/xterm/xterm.js"></script>
+    <script src="lib/xterm/addons/fit/fit.js"></script>
+    <script src="bin/bundle.js"></script>
+    <script>
+        $(function () {
+            toastr.options = {
+                "closeButton": true,
+                "positionClass": "toast-bottom-right",
+                "timeOut": "4500"
+            };
+        })
+    </script>
+</body>
+
+</html>

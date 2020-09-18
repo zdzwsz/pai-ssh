@@ -1,0 +1,6 @@
+{
+    "ZookeeperServer" : "localhost:2181",
+    "ZookeeperCache" : "d:/temp/zookeeper",
+    "ZookeeperPath" : "/ROOTER",
+    "ZookeeperPortocol" : "/PORTOCOL"
+}
