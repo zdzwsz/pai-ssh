@@ -17,14 +17,14 @@ function SshUtils() {
 * 参数：server,远程机器凭证；
 *		then,回调函数
 */
-SshUtils.prototype.connect = function (server, then,errorthen) {
+SshUtils.prototype.connect = function (server, then, errorthen) {
 	var that = this;
 	this.conn.on('ready', function () {
 		if (then)
 			then();
 	}).on('error', function (err) {
 		console.log(server['host'] + ' error.' + err);
-		if(errorthen){
+		if (errorthen) {
 			errorthen(err)
 		}
 	}).on('close', function (had_error) {
@@ -208,13 +208,23 @@ SshUtils.prototype.uploadFile = function (localPath, remotePath, then) {
 	});
 };
 
-SshUtils.prototype.downloadFile = function (remotePath, localPath, then) {
+SshUtils.prototype.downloadFile = function (remotePath, localPath, then, opt) {
 	this.conn.sftp(function (err, sftp) {
 		if (err) {
 			if (then)
 				then(err);
 		} else {
-			sftp.fastGet(remotePath, localPath, function (err, result) {
+			let step = {}
+			if (opt) {
+				step = opt;
+			}
+			if(fs.existsSync(localPath)){
+				const statInfo = fs.statSync(localPath);
+				step.sSize = statInfo.size;
+			}
+			
+
+			sftp.fastGet(remotePath, localPath, step, function (err, result) {
 				if (err) {
 					if (then)
 						then(err);
