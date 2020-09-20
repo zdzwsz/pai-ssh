@@ -108,7 +108,7 @@ export default class EditorView extends React.Component {
             return (
                 <div>
                     <div className="btn-group toolbar no-rolling1">
-                        <button title="展开/收缩" onClick={this.openResTool.bind(this)} type="button" className="btn btn-default btn-sm"><span className="fa fa-arrow-left" id="arrowleft"> </span></button>
+                        <button title="展开/收缩" onClick={this.openResTool.bind(this)} type="button" className="btn btn-default btn-xs"><span className="fa fa-arrow-left" id="arrowleft"> </span></button>
                     </div>
                     <div className="panel panel-default col-md-3 ide-floder" id="restoolbar">
                         <div>

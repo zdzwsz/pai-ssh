@@ -10,6 +10,11 @@ export default class LoginView extends React.Component {
             redirectToReferrer: false
         };
         this.store = new Store(this);
+        
+    }
+
+    componentDidMount(){
+        $(".downloadcss").hide();
     }
 
     login(e) {
@@ -20,6 +25,7 @@ export default class LoginView extends React.Component {
     }
     render() {
         if (this.state.redirectToReferrer) {
+            $(".downloadcss").show();
             return (
                 <Redirect to={'/Home'} />
             )

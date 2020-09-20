@@ -97,9 +97,10 @@ export default class AloneSpaceView extends React.Component {
     
 
     render() {
+        $(".downloadcss").show();
         var entry = this.state.data;
         if (this.state.status == "view") {
-            console.log(entry._id);
+            //console.log(entry._id);
             if(entry._id == "delete"){
                 return(
                     <div></div>

@@ -20,10 +20,10 @@ body{
 #res_tree{
      overflow: auto;
      min-height: 200px;
-     height: calc(100vh - 165px);
+     height: calc(100vh - 151px);
 }
 .ide-floder{
-    padding: 5px;
+    padding: 0px;
 }
 
 
@@ -68,14 +68,14 @@ body{
 
 .no-rolling{
     position:fixed; 
-    top:41px;
-    left:35px;
+    top:110px;
+    left:140px;
 }
 
 .no-rolling1{
     position:fixed; 
-    top:41px;
-    left:1px;
+    top:10px;
+    left:2px;
 }
 
 .tree-op{
@@ -203,6 +203,10 @@ body {
 a {
     color: #eee;
 }
+a:hover,a:visited {
+    color: #eee;
+    text-decoration:none;
+}
 
 .panel {
     background-color: #222;
@@ -221,15 +225,15 @@ a {
 .nav-tabs>li.active>a:hover {
     color: #eee;
     cursor: default;
-    background-color: #0a0c0e;
-    border: 1px solid #0a0c0e;
+    background-color: #121212;
+    border: 1px solid #121212;
     border-bottom-color: transparent;
 }
 
 .nav-tabs>li>a:focus,
 .nav-tabs>li>a:hover {
     background-color: #333;
-    border: 1px solid #0a0c0e;
+    border: 1px solid #333;
     color: #eee;
 }
 
@@ -332,4 +336,21 @@ a {
 }
 .dropdown-menu>li>a{
     color: #eee;
+}
+
+.downloadcss{
+    position: absolute;
+    top: 6px;
+    left: 35px;
+    width: 300px;
+    height: 26px;
+    font-size: 14px;
+    padding-top: 5px;
+    padding-left: 4px;
+    -webkit-app-region: no-drag;
+    display: none;
+}
+
+.badge{
+    margin-left: 2px;
 }

@@ -67,7 +67,7 @@ var server = app.listen(11880, "localhost", function () {
 var io = require('socket.io').listen(server);
 //clanService.start(io);
 sshService.init(app, io);
-projectService.init(app);
+projectService.init(app,io);
 dbService.init(app);
 process.on('uncaughtException', function (err) {
     console.log(err);

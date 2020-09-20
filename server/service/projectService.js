@@ -1,11 +1,14 @@
 SshUtils = require("../util/SshUtils.js");
 const fs = require('fs');
-var async = require('async');
-const os = require('os');
-var tempdir = os.tmpdir();
 var formidable = require('formidable');
-if (!tempdir) {
-    tempdir = os.homedir + "/temp";
+
+const path = require('path');
+let downloadPath = path.resolve(__dirname, '../download');
+if (typeof (__path) != "undefined") {
+    downloadPath = path.resolve(__path, './server/download');
+}
+if (!fs.existsSync(downloadPath)) {
+    fs.mkdirSync(downloadPath);
 }
 var dbService = require('./dbService.js');
 var servers = {}
@@ -23,7 +26,7 @@ var projectService = {
                     _this.errHandle(err, res);
                 } else {
                     var spaceInfo = docs[0];
-                    spaceInfo.readyTimeout=10000;
+                    spaceInfo.readyTimeout = 10000;
                     servers[spaceInfo._id] = spaceInfo;
                     args.unshift(spaceInfo);
                     callback.apply(null, args);
@@ -40,13 +43,13 @@ var projectService = {
                 res.send({ 'status': ddata });
                 sshUtils.disconnect();
             });
-        },function(error){
-            res.send({ 'status': false,"message":error });
+        }, function (error) {
+            res.send({ 'status': false, "message": error });
             sshUtils.disconnect();
 
         });
     },
-    readDir(spaceInfo, sshUtils , path, res) {
+    readDir(spaceInfo, sshUtils, path, res) {
         sshUtils.connect(spaceInfo, function () {
             sshUtils.getFileList(path, function (error, ddata) {
                 res.send({ 'status': ddata });
@@ -145,7 +148,51 @@ var projectService = {
         });
     },
 
-    init(app) {
+    initIo(io) {
+        let nsp = io.of("/download");
+        nsp.on('connection', function (socket) {
+            socket.on('filePath', function (data) {
+                const sid = data.sid;
+                if(sid == null || sid == undefined)return;
+                const path = data.path;
+                const index = path.lastIndexOf("/");
+                if (index < 0) return;
+                const name = path.substring(index + 1);
+                const sshid = data.sshid;
+                const sshUtils = new SshUtils();
+                const remotePath = path;
+                const localPath = downloadPath + "/" + name;
+                console.log("localPath:" + localPath, "remotePath:" + remotePath);
+                let fileTimeOut = null;
+                const step = function (transferred, chunk, total) {
+                    if (fileTimeOut == null) {
+                        fileTimeOut = setTimeout(() => {
+                            //console.log("transferred:" + transferred, "chunk:" + chunk, "total:" + total);
+                            nsp.emit("transferred:"+sid, { "sid":sid, "transferred": transferred, "total": total });
+                            fileTimeOut = null;
+                        }, 2000);
+                    }
+                };
+                sshUtils.connect(servers[sshid], function () {
+                    sshUtils.downloadFile(remotePath, localPath, function (error, ddata) {
+                        sshUtils.disconnect();
+                        if (error) {
+                            nsp.emit("over:"+sid, { sid:sid, status: false });
+                        } else {
+                            nsp.emit("over:"+sid, { sid:sid, status: true });
+                        }
+                        //socket.close();
+                    }, { "step": step });
+                });
+            });
+            socket.on("close", function (obj) {
+                console.log('SSH :: close');
+            })
+        })
+    },
+
+    init(app, io) {
+        this.initIo(io);
         _this = this;
         app.post('/sshProject', function (req, res, next) {
             var sshUtils = new SshUtils();
@@ -157,7 +204,7 @@ var projectService = {
             var sshUtils = new SshUtils();
             let id = req.body.id;
             let path = req.body.path;
-            _this.env(id, _this.readDir, [sshUtils,path], res);
+            _this.env(id, _this.readDir, [sshUtils, path], res);
         });
 
         app.post('/sshProject/read', function (req, res, next) {
@@ -225,17 +272,16 @@ var projectService = {
         });
 
         app.post('/sshProject/downloadfile', function (req, res, next) {
-           
             var sshUtils = new SshUtils();
             let _res = res;
             var name = req.body.name;
             var path = req.body.path;
             var id = req.body.id;
-            console.log("id:"+id);
+            console.log("id:" + id);
             var remotePath = path; //"/home/zdzwsz/22222/SystemUtil.java";
-            var localPath = tempdir + "/" + name;// "d:/test/SystemUtil.java";
-            console.log("localPath:"+localPath);
-            console.log("remotePath:"+remotePath);
+            var localPath = downloadPath + "/" + name;// "d:/test/SystemUtil.java";
+            console.log("localPath:" + localPath);
+            console.log("remotePath:" + remotePath);
             sshUtils.connect(servers[id], function () {
                 sshUtils.downloadFile(remotePath, localPath, function (error, ddata) {
                     if (error) {
@@ -257,11 +303,13 @@ var projectService = {
             });
         });
 
+
+
         app.post('/sshProject/uploadfile', function (req, res, next) {
             var obj = {};
             var form = new formidable.IncomingForm({
                 encoding: "utf-8",
-                uploadDir: tempdir,  //文件上传地址
+                uploadDir: downloadPath,  //文件上传地址
                 keepExtensions: true  //保留后缀
             });
             form.parse(req)

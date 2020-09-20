@@ -1,11 +1,6 @@
 ﻿"use strict"
-var ssh2 = require("ssh2");
-var util = require("util")
-var events = require("events");
-var Client = require("ssh2").Client;
+var Client = require("../ssh2").Client;
 var fs = require("fs");
-var path = require('path');
-var async = require('async');
 var through = require('through');
 
 function SshUtils() {
@@ -88,7 +83,7 @@ SshUtils.prototype.getFileList = function (remotePath, then) {
 		arr = data.split("\n");
 		//arr.sort(sortFolder);
 		let root = {};
-		root.name = "根目录（" + remotePath + "）";
+		root.name = "根目录";
 		root.path = fullPath;
 		let sub = []
 		arr.forEach(function (dir) {
@@ -223,7 +218,6 @@ SshUtils.prototype.downloadFile = function (remotePath, localPath, then, opt) {
 				step.sSize = statInfo.size;
 			}
 			
-
 			sftp.fastGet(remotePath, localPath, step, function (err, result) {
 				if (err) {
 					if (then)

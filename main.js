@@ -1,10 +1,9 @@
 // Packages
 const { BrowserWindow, app, ipcMain, Menu} = require('electron')
-const {fork , exec} = require('child_process')
 const { join } = require('path')
 const apppath = join(__dirname,"/server");
 const appCmd =  apppath + "/app.js";
-
+const { shell } = require("electron");
 
 
 // Prepare the renderer once the app is ready
@@ -70,6 +69,10 @@ function stop(){
 ipcMain.on('window-close', function() {
   stop();
   app.quit();
+})
+
+ipcMain.on('window-floder', function() {
+  shell.showItemInFolder(global.__path+"\\server\\download");
 })
 
 function initPath(){

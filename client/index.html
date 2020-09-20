@@ -28,15 +28,105 @@
                 ipcRenderer.send('window-max');
             }
         }
+
+        function openWindowFolder() {
+            if (typeof (ipcRenderer) != "undefined") {
+                ipcRenderer.send('window-floder');
+            }
+        }
+
         if (typeof (ipcRenderer) != "undefined") {
             maxWindow();
         }
+
+        var downloadFiles = [];
+        function showNum() {
+            var times = countDownloadFiles();
+            if(times>0){
+                var text = '<span class="badge">' + times + '</span>'
+                $("#download-num").empty();
+                $("#download-num").append(text);
+            }else{
+                $("#download-num").empty();
+            }
+ 
+        }
+        var tipString = 'data-toggle="tooltip" data-placement="bottom" title="';
+        function showProcess() {
+            $("#downloadprocesscss").empty()
+            downloadFiles.forEach(file => {
+                if (file.status != "over") {
+                    var tip = tipString + file.name + '"';
+                    var text = '<span class="badge" '+ tip +'>' + file.status + '%</span>'
+                    $("#downloadprocesscss").append(text);
+                }
+            });
+            $(function () { $("[data-toggle='tooltip']").tooltip(); });
+        }
+
+        function createId() {
+            var times = new Date().getTime()
+            times += Math.ceil(Math.random() * 10);
+            return times;
+        }
+
+        function changeDownloadFileStatus(sid, stauts) {
+            downloadFiles.forEach(file => {
+                if (file.sid == sid) {
+                    if(file.status !="over"){
+                        file.status = stauts;
+                    }
+                    return;
+                }
+            });
+        }
+
+        function countDownloadFiles() {
+            var index = 0;
+            downloadFiles.forEach(file => {
+                if (file.status != "over") {
+                    index++;
+                }
+            });
+            return index;
+        }
+
+        function downloadFile(name, sshid) {
+            var socket = io('/download');
+            var sid = createId();
+            socket.emit('filePath', { path: name, sshid: sshid, sid: sid });
+            downloadFiles.push({ sid: sid, status: 0, name: name });
+            showNum();
+            socket.on('transferred:'+sid, function (msg) {
+                if (msg) {
+                    var porcess = Math.ceil((msg.transferred / msg.total) * 100);
+                    changeDownloadFileStatus(msg.sid, porcess);
+                    showProcess();
+                }
+            });
+            socket.on('over:'+sid, function (msg) {
+                if (msg) {
+                    changeDownloadFileStatus(msg.sid, "over");
+                    showNum();
+                    showProcess();
+                    toastr.info(name+" 下载完成！");
+                }
+            });
+
+        }
+
+
     </script>
 </head>
 
 <body>
     <div class="tool" style="-webkit-app-region: drag;-webkit-user-select: none;"><img src="/logo.png" width="28"
             height="28" style="padding:4px" />欢迎使用PAI-SSH工具</div>
+    <div class="downloadcss">
+        <span class="fa fa-cloud-download" style="cursor:pointer;width:75px" onclick="openWindowFolder()">传输列表</span>
+        <span id="download-num"></span>
+        <span id="downloadprocesscss"></span>
+    </div>
     <div class="btn btn-default btn-xs glyphicon glyphicon-remove right right1" onclick="closeWindow()"></div>
     <div class="btn btn-default btn-xs glyphicon glyphicon-unchecked right right2" onclick="maxWindow()"></div>
     <div class="btn btn-default btn-xs glyphicon glyphicon-minus right right3" onclick="minWindow()"></div>
@@ -60,9 +150,10 @@
             toastr.options = {
                 "closeButton": true,
                 "positionClass": "toast-bottom-right",
-                "timeOut": "4500"
+                "timeOut": "4000"
             };
         })
+        $(function () { $("[data-toggle='tooltip']").tooltip(); });
     </script>
 </body>
 

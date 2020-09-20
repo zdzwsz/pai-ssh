@@ -13,7 +13,7 @@ export default class Store {
                 "id": _this.view.sshConfig.host
             },
             success: function (msg) {
-                console.log("treeData:" + JSON.stringify(msg));
+                //console.log("treeData:" + JSON.stringify(msg));
                 const status = msg.status;
                 if(status == false){
                     let message = JSON.stringify(msg.message);
