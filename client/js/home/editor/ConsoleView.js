@@ -1,5 +1,9 @@
 import { generateUUID } from '../../util/StringUtils'
 
+import { FitAddon } from './xterm-addon-fit'
+import { AttachAddon } from './xterm-addon-attach';
+import { Terminal } from './xterm';
+
 export default class ConsoleView extends React.Component {
 
     constructor(props, context) {
@@ -61,34 +65,79 @@ export default class ConsoleView extends React.Component {
         $("#termName option[value='" + value + "']").remove();
     }
 
+    getTermRowsAndCols() {
+        let rows = Math.floor(document.querySelector(".terminal-container").offsetHeight / 17);
+        let cols = Math.floor(document.querySelector(".terminal-container").offsetWidth / 9.1);
+        return { rows: rows, cols, cols }
+    }
+
+    setTermRowsAndCols(socket, key) {
+        socket.emit(key, this.getTermRowsAndCols());
+    }
+
     initTerm(name) {
         var _this = this;
         let socket = io("/" + name);
         this.sockets[name] = socket;
-        var terminalContainer = document.getElementById('terminal-container');
-        var term = new Terminal({
-            cols: 120,
-            rows: 80,
-            cursorBlink: true,
-            scrollback: 100,
-            tabStopWidth: 4,
-            cursorStyle: 'underline',
-        })
+        let opts = this.getTermRowsAndCols();
+        opts.scrollback = 100;
+        opts.windowsMode = true;
+        opts.allowTransparency = true;
+        var term = new Terminal(opts);
+        let terminalContainer = document.getElementById('terminal-container');
         term.open(terminalContainer, true);
         term.element.id = name;
-        term.fit();
-        $("#terminal-container").resize(function () {
-            term.fit();
-        });
-        socket.on('sshdata', function (msg) {
-            term.write(msg);
-        });
-        socket.emit('connectionssh');
-        term.on('data', function (data) {
+
+        //const attachAddon = new AttachAddon(socket);
+        //term.loadAddon(attachAddon,true,true);
+
+        //var fitAddon = new FitAddon();
+        //term.loadAddon(fitAddon);
+        //fitAddon.fit();
+
+        // $(window).resize(function() {
+        //     fitAddon.fit();
+        // });
+
+        this.setTermRowsAndCols(socket, "init");//准备
+        socket.on("init-over", function () {
+            socket.emit('connectionssh'); //正式连接
+        })
+        term.onData(function (data) {
+            //console.log(data);
             socket.emit('sshdata', data);
         });
+
+        // term.onLineFeed(function (data) {
+        //     console.log("onLineFeed",data);
+        //     //socket.emit('sshdata', data);
+        // });
+
+        // term.onRender(function (data) {
+        //     console.log("onRender",data);
+        //     //socket.emit('sshdata', data);
+        // });
+
+        term.focus();
+
+        term.onResize(function () {
+
+        });
+
+        socket.on('sshdata', function (msg) {
+            //console.log(msg);
+            //term.write(msg);
+            if (typeof msg === 'string') {
+                return term.write(msg)
+            }else{
+                msg = new Uint8Array(msg)
+                term.write(msg)
+            }
+            console.log(msg);
+
+        });
         socket.on('disconnect', function (msg) {
-            term.destroy();
+            term.dispose();
             socket.close();
             $("#termName option[value='" + name + "']").remove();
             _this.timeout = "";
@@ -96,8 +145,9 @@ export default class ConsoleView extends React.Component {
         });
         socket.on('timeout', function (msg) {
             console.log("msg:" + msg);
-            toastr.warning(Math.round(msg/1000)+"秒","控制终端("+name.substring(0, 8)+")倒计时：");
+            toastr.warning(Math.round(msg / 1000) + "秒", "控制终端(" + name.substring(0, 8) + ")倒计时：");
         });
+
     }
 
     closeTerm() {
@@ -128,7 +178,7 @@ export default class ConsoleView extends React.Component {
     }
 
     render() {
-        
+
         return (
             <div>
                 <div>
