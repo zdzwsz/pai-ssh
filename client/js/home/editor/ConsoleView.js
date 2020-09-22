@@ -1,7 +1,5 @@
 import { generateUUID } from '../../util/StringUtils'
 
-import { FitAddon } from './xterm-addon-fit'
-import { AttachAddon } from './xterm-addon-attach';
 import { Terminal } from './xterm';
 
 export default class ConsoleView extends React.Component {
@@ -11,6 +9,11 @@ export default class ConsoleView extends React.Component {
         this.sockets = [];
         this.host = props.host;
         this.name = props.name;
+        this.theme = {
+            foreground: '#fff', //字体
+            background: '#1f1f1f', //背景色
+          }
+  
     }
 
     openTerm() {
@@ -83,21 +86,11 @@ export default class ConsoleView extends React.Component {
         opts.scrollback = 100;
         opts.windowsMode = true;
         opts.allowTransparency = true;
+        opts.theme = this.theme;
         var term = new Terminal(opts);
         let terminalContainer = document.getElementById('terminal-container');
         term.open(terminalContainer, true);
         term.element.id = name;
-
-        //const attachAddon = new AttachAddon(socket);
-        //term.loadAddon(attachAddon,true,true);
-
-        //var fitAddon = new FitAddon();
-        //term.loadAddon(fitAddon);
-        //fitAddon.fit();
-
-        // $(window).resize(function() {
-        //     fitAddon.fit();
-        // });
 
         this.setTermRowsAndCols(socket, "init");//准备
         socket.on("init-over", function () {
@@ -108,16 +101,6 @@ export default class ConsoleView extends React.Component {
             socket.emit('sshdata', data);
         });
 
-        // term.onLineFeed(function (data) {
-        //     console.log("onLineFeed",data);
-        //     //socket.emit('sshdata', data);
-        // });
-
-        // term.onRender(function (data) {
-        //     console.log("onRender",data);
-        //     //socket.emit('sshdata', data);
-        // });
-
         term.focus();
 
         term.onResize(function () {
@@ -125,16 +108,12 @@ export default class ConsoleView extends React.Component {
         });
 
         socket.on('sshdata', function (msg) {
-            //console.log(msg);
-            //term.write(msg);
             if (typeof msg === 'string') {
                 return term.write(msg)
             }else{
                 msg = new Uint8Array(msg)
                 term.write(msg)
             }
-            console.log(msg);
-
         });
         socket.on('disconnect', function (msg) {
             term.dispose();

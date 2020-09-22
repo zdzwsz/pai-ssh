@@ -1,7 +1,4 @@
-body{
-    padding: 2px;
-    overflow-x:hidden;
-}
+
 #myiframe {
 			border: 1px solid #222;
         }
@@ -76,6 +73,8 @@ body{
     position:fixed; 
     top:10px;
     left:2px;
+    -webkit-app-region: no-drag;
+    z-index: 1000;
 }
 
 .tree-op{
@@ -192,7 +191,7 @@ body{
 }
 
 body {
-    background-color: #1e1e1e;
+    background-color: #1b1b1b;
     color: #eeeeee;
     margin: 0;
     padding: 0;
