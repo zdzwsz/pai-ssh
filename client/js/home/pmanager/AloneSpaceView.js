@@ -111,9 +111,9 @@ export default class AloneSpaceView extends React.Component {
                     <div className="thumbnail" style={{ "height": "240px" }}>
                         <div className="manager-title text-center">
                             <h4 onClick={this.openServiceSpace.bind(this, entry._id,entry.name)}><span className="fa fa-server span-padding"></span>{entry.name}</h4>
-                            <span title="修改空间配置" onClick={this.modify4Auth.bind(this)} className="glyphicon glyphicon-pencil span-padding"></span>
+                            <span title="修改配置" onClick={this.modify4Auth.bind(this)} className="glyphicon glyphicon-pencil span-padding"></span>
                             <span className="span-padding"></span>
-                            <span title="删除空间配置" onClick={this.delete4Auth.bind(this)} className="glyphicon glyphicon-trash"></span>
+                            <span title="删除配置" onClick={this.delete4Auth.bind(this)} className="glyphicon glyphicon-trash"></span>
                         </div>
                         <div className="manager-detail" style={{ "padding-top": 8 }}>服务地址：{entry.host}</div>
                         <div className="manager-detail">所属团队：{entry.team}</div>

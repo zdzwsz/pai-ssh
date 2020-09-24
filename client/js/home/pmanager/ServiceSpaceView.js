@@ -13,7 +13,7 @@ export default class ServiceSpaceView extends React.Component {
 
     render() {
         return (
-            <div className="panel panel-default">
+            <div className="panel panel-default space-container">
                 <div className="panel-heading">
                     <h3 className="panel-title">
                         {this.state.title}

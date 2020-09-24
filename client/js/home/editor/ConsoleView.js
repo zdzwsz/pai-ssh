@@ -9,10 +9,18 @@ export default class ConsoleView extends React.Component {
         this.sockets = [];
         this.host = props.host;
         this.name = props.name;
-        this.theme = {
-            foreground: '#fff', //字体
-            background: '#1f1f1f', //背景色
-          }
+        this.opt={
+            theme:{
+                //foreground: 'white', //字体
+                background: '#212121' //背景色
+              },
+              //fontSize: 14
+              lineHeight:1.1,
+              //allowTransparency :true,
+              windowsMode:true,
+              scrollback:100
+              //fontFamily:"黑体,sans-serif"
+        }
   
     }
 
@@ -69,8 +77,9 @@ export default class ConsoleView extends React.Component {
     }
 
     getTermRowsAndCols() {
-        let rows = Math.floor(document.querySelector(".terminal-container").offsetHeight / 17);
+        let rows = Math.floor(document.querySelector(".terminal-container").offsetHeight / 18.6585);
         let cols = Math.floor(document.querySelector(".terminal-container").offsetWidth / 9.1);
+        console.log(document.querySelector(".terminal-container").offsetHeight,document.querySelector(".terminal-container").offsetWidth);
         return { rows: rows, cols, cols }
     }
 
@@ -82,12 +91,11 @@ export default class ConsoleView extends React.Component {
         var _this = this;
         let socket = io("/" + name);
         this.sockets[name] = socket;
-        let opts = this.getTermRowsAndCols();
-        opts.scrollback = 100;
-        opts.windowsMode = true;
-        opts.allowTransparency = true;
-        opts.theme = this.theme;
-        var term = new Terminal(opts);
+        let rowAndCols = this.getTermRowsAndCols();
+        this.opt.rows=rowAndCols.rows;
+        this.opt.cols=rowAndCols.cols;
+        //opts.scrollback = 100;
+        var term = new Terminal(this.opt);
         let terminalContainer = document.getElementById('terminal-container');
         term.open(terminalContainer, true);
         term.element.id = name;

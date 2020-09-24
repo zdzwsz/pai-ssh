@@ -33,11 +33,23 @@ export default class ResToolBarView extends React.Component {
         //this.socket.close();
     }
 
-    addFile() {
-        let path = this.props.selectValue.selected_path;
+    isNotFolderAndTip(path){
         if(!path){
             toastr.warning("先选择一个文件夹，再新建！");
+            return true;
         }
+        //console.log(this.state.data);
+        let node = this.searchTreeData(path);
+        if(!node.sub){
+            toastr.warning("当前目录不是文件夹,先选择一个文件夹，再新建！");
+            return true;
+        }
+        return false;
+    }
+
+    addFile() {
+        let path = this.props.selectValue.selected_path;
+        if(this.isNotFolderAndTip(path))return;
         let newFile = {
             "name": "",
             "status": "edit",
@@ -47,9 +59,8 @@ export default class ResToolBarView extends React.Component {
 
     addFolder() {
         let path = this.props.selectValue.selected_path;
-        if(!path){
-            toastr.warning("先选择一个文件夹，再新建！");
-        }
+        if(this.isNotFolderAndTip(path))return;
+
         let newFile = {
             "name": "",
             "status": "edit",
@@ -183,7 +194,7 @@ export default class ResToolBarView extends React.Component {
         //let name = this.props.selectValue.selected_name;
         let path = this.props.selectValue.selected_path;
         let node = this.searchTreeData(path);
-        console.log(JSON.stringify(node));
+        //console.log(JSON.stringify(node));
         if (node) {
             node.status = "edit";
             this.setState(this.state);

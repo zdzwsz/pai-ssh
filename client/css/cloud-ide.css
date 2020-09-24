@@ -185,6 +185,10 @@
     height:423px;
 }
 
+.space-container{
+    min-height: calc(100vh - 200px);
+}
+
 .terminal-container{
     padding: 0px;
     height:calc(100vh - 204px);
@@ -241,7 +245,7 @@ a:hover,a:visited {
 }
 
 .panel-default>.panel-heading {
-    background-image: linear-gradient(to bottom, #111 0, #111 100%);
+    background-image: linear-gradient(to bottom, #444 0, #424242 100%);
 }
 
 .panel-default>.panel-heading {
