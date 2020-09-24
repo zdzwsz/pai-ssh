@@ -39,7 +39,7 @@
             maxWindow();
         }
 
-        var downloadFiles = [];
+        
         function showNum() {
             var times = countDownloadFiles();
             if(times>0){
@@ -91,6 +91,8 @@
             return index;
         }
 
+        var downloadFiles = [];
+
         function downloadFile(name, sshid) {
             var socket = io('/download');
             var sid = createId();
@@ -113,6 +115,31 @@
                 }
             });
 
+        }
+
+        var uploadFiles = [];
+        function uploadFile(localFiles,remotePath,sshid){
+            var socket = io('/upload');
+            var sid = createId();
+            socket.emit('uploadFileOpt', { localFiles:localFiles,path: remotePath, sshid: sshid, sid: sid });
+
+            downloadFiles.push({ sid: sid, status: 0, name: name });
+            //showNum();
+            socket.on('transferred:'+sid, function (msg) {
+                if (msg) {
+                    //var porcess = Math.ceil((msg.transferred / msg.total) * 100);
+                    //changeDownloadFileStatus(msg.sid, porcess);
+                    //showProcess();
+                }
+            });
+            socket.on('over:'+sid, function (msg) {
+                if (msg) {
+                    //changeDownloadFileStatus(msg.sid, "over");
+                    //showNum();
+                    //showProcess();
+                    toastr.info(name+" 上传完成！");
+                }
+            });
         }
 
 

@@ -188,13 +188,17 @@ SshUtils.prototype.readFile = function (remotePath, then) {
 	});
 };
 
-SshUtils.prototype.uploadFile = function (localPath, remotePath, then) {
+SshUtils.prototype.uploadFile = function (localPath, remotePath, then, opt) {
 	this.conn.sftp(function (err, sftp) {
 		if (err) {
 			if (then)
 				then(err);
 		} else {
-			sftp.fastPut(localPath, remotePath, function (err, result) {
+			let step = {}
+			if (opt) {
+				step = opt;
+			}
+			sftp.fastPut(localPath, remotePath, step, function (err, result) {
 				sftp.end();
 				if (then)
 					then(err, result);

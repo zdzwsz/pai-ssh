@@ -148,7 +148,7 @@ var projectService = {
         });
     },
 
-    initIo(io) {
+    initDownloadIo(io) {
         let nsp = io.of("/download");
         nsp.on('connection', function (socket) {
             socket.on('filePath', function (data) {
@@ -191,8 +191,16 @@ var projectService = {
         })
     },
 
+    initUplaodIo(io){
+        let nsp = io.of("/upload");
+        nsp.on('connection', function (socket) {
+           
+        })
+    },
+
     init(app, io) {
-        this.initIo(io);
+        this.initDownloadIo(io);
+        this.initUplaodIo(io);
         _this = this;
         app.post('/sshProject', function (req, res, next) {
             var sshUtils = new SshUtils();

@@ -35,13 +35,13 @@ export default class ResToolBarView extends React.Component {
 
     isNotFolderAndTip(path){
         if(!path){
-            toastr.warning("先选择一个文件夹，再新建！");
+            toastr.warning("先选择一个文件夹，再操作！");
             return true;
         }
         //console.log(this.state.data);
         let node = this.searchTreeData(path);
         if(!node.sub){
-            toastr.warning("当前目录不是文件夹,先选择一个文件夹，再新建！");
+            toastr.warning("当前目录不是文件夹,先选择一个文件夹，再操作！");
             return true;
         }
         return false;
@@ -247,13 +247,14 @@ export default class ResToolBarView extends React.Component {
     paste() {
         if (this.state.clipboard) {
             let path = this.props.selectValue.selected_path;
-            if (path == null || path.length == 0) return;
+            //if (path == null || path.length == 0) return;
+            if(this.isNotFolderAndTip(path))return;
             let node = this.searchTreeData(this.state.clipboard.path);
             let isfolder = node && node.sub;
             if (isfolder) {//file can ，folder not can！
                 if (path.indexOf(this.state.clipboard.path) > -1) {
                     console.log("old:" + this.state.clipboard.path + " | new:" + path);
-                    toastr.warning("操作失败，请重新操作！");
+                    toastr.warning("粘贴操作失败，请重新操作！");
                     this.state.clipboard = null;
                     return;
                 }
@@ -292,6 +293,9 @@ export default class ResToolBarView extends React.Component {
                 this.state.clipboard = null;
             }
 
+        }
+        else{
+            toastr.warning("粘贴操作失败，请先进行复制或者剪切操作！");
         }
     }
 
@@ -392,6 +396,7 @@ export default class ResToolBarView extends React.Component {
             },
             onSelectFileBefore: function () {
                 if (_this.props.selectValue.selected_path) {
+                    
                     return true;
                 } else {
                     toastr.error("请选择上传的文件夹！");

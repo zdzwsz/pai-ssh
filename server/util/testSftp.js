@@ -13,9 +13,17 @@ sshUtils1.connect({
     };
     //sshUtils1.downloadFile("/root/Graph_Databases_2e_Neo4j.pdf","d:/data/Graph_Databases_2e_Neo4j.pdf", 
     //sshUtils1.downloadFile("/root/939.gif","d:/data/939.gif", 
-    sshUtils1.downloadFile("/root/中台.pdf","d:/data/中台.pdf", 
+    //sshUtils1.downloadFile("/root/中台.pdf","d:/data/中台.pdf", 
+    //function (error, ddata) {
+    //    sshUtils1.disconnect();
+    //},
+    //{"step":step});
+    sshUtils1.uploadFile("E:\\data\\1.pptx","/root/tool/1.pptx", 
     function (error, ddata) {
-        sshUtils1.disconnect();
+        if(error){
+            console.log(error);
+        }
+       sshUtils1.disconnect();
     },
     {"step":step});
 });
