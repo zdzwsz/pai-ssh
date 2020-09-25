@@ -39,17 +39,17 @@
             maxWindow();
         }
 
-        
+
         function showNum() {
             var times = countDownloadFiles();
-            if(times>0){
+            if (times > 0) {
                 var text = '<span class="badge">' + times + '</span>'
                 $("#download-num").empty();
                 $("#download-num").append(text);
-            }else{
+            } else {
                 $("#download-num").empty();
             }
- 
+
         }
         var tipString = 'data-toggle="tooltip" data-placement="bottom" title="';
         function showProcess() {
@@ -57,23 +57,35 @@
             downloadFiles.forEach(file => {
                 if (file.status != "over") {
                     var tip = tipString + file.name + '"';
-                    var text = '<span class="badge" '+ tip +'>' + file.status + '%</span>'
+                    var text = '<span class="badge" ' + tip + '>' + file.status + '%</span>'
                     $("#downloadprocesscss").append(text);
                 }
             });
+
+            uploadFiles.forEach(file => {
+                if (file.status != "over") {
+                    var tip = tipString + file.name + '"';
+                    var text = '<span class="badge" ' + tip + '>' + file.status + '%</span>'
+                    $("#downloadprocesscss").append(text);
+                }
+            });
+
             $(function () { $("[data-toggle='tooltip']").tooltip(); });
         }
 
-        function createId() {
+        function createId(id) {
             var times = new Date().getTime()
-            times += Math.ceil(Math.random() * 10);
+            times = times + "" + Math.ceil(Math.random() * 10);
+            if (id) {
+                times = times + id;
+            }
             return times;
         }
 
         function changeDownloadFileStatus(sid, stauts) {
             downloadFiles.forEach(file => {
                 if (file.sid == sid) {
-                    if(file.status !="over"){
+                    if (file.status != "over") {
                         file.status = stauts;
                     }
                     return;
@@ -81,9 +93,15 @@
             });
         }
 
+
         function countDownloadFiles() {
             var index = 0;
             downloadFiles.forEach(file => {
+                if (file.status != "over") {
+                    index++;
+                }
+            });
+            uploadFiles.forEach(file => {
                 if (file.status != "over") {
                     index++;
                 }
@@ -99,48 +117,103 @@
             socket.emit('filePath', { path: name, sshid: sshid, sid: sid });
             downloadFiles.push({ sid: sid, status: 0, name: name });
             showNum();
-            socket.on('transferred:'+sid, function (msg) {
+            socket.on('transferred:' + sid, function (msg) {
                 if (msg) {
                     var porcess = Math.ceil((msg.transferred / msg.total) * 100);
                     changeDownloadFileStatus(msg.sid, porcess);
                     showProcess();
                 }
             });
-            socket.on('over:'+sid, function (msg) {
+            socket.on('over:' + sid, function (msg) {
                 if (msg) {
                     changeDownloadFileStatus(msg.sid, "over");
                     showNum();
                     showProcess();
-                    toastr.info(name+" 下载完成！");
+                    toastr.info(name + " 下载完成！");
                 }
             });
 
         }
 
         var uploadFiles = [];
-        function uploadFile(localFiles,remotePath,sshid){
-            var socket = io('/upload');
-            var sid = createId();
-            socket.emit('uploadFileOpt', { localFiles:localFiles,path: remotePath, sshid: sshid, sid: sid });
 
-            downloadFiles.push({ sid: sid, status: 0, name: name });
-            //showNum();
-            socket.on('transferred:'+sid, function (msg) {
-                if (msg) {
-                    //var porcess = Math.ceil((msg.transferred / msg.total) * 100);
-                    //changeDownloadFileStatus(msg.sid, porcess);
-                    //showProcess();
-                }
-            });
-            socket.on('over:'+sid, function (msg) {
-                if (msg) {
-                    //changeDownloadFileStatus(msg.sid, "over");
-                    //showNum();
-                    //showProcess();
-                    toastr.info(name+" 上传完成！");
+        function changeUploadFileStatus(sid, stauts) {
+            uploadFiles.forEach(file => {
+                if (file.sid == sid) {
+                    if (file.status != "over") {
+                        file.status = stauts;
+                    }
+                    return;
                 }
             });
         }
+
+        function getUploadFile() {
+            for (let i = 0; i < uploadFiles.length; i++) {
+                if (uploadFiles[i].status != "over") {
+                    return uploadFiles[i];
+                    break;
+                }
+            }
+            return null;
+        }
+
+        function uploadFile(localFiles, remotePath, sshid) {
+            remotePath = remotePath.lastIndexOf("/") == remotePath.length ? remotePath : remotePath + "/";
+            for (let i = 0; i < localFiles.length; i++) {
+                var sid = createId(i);
+                let fileName = localFiles[i].substring(localFiles[i].lastIndexOf("\\") + 1);
+                uploadFiles.push({ sid: sid, status: 0, name: localFiles[i], remotePath: remotePath + fileName, sshid: sshid });
+            }
+            var socket = io('/upload');
+            uploading(getUploadFile(), socket);
+        }
+
+        function uploading(localFile, socket) {
+            if (localFile == null) {
+                socket.close();
+                $("#refresh_").click();//刷新目录
+                return;
+            }else{
+                showNum();
+            }
+            socket.emit('uploadFileOpt', { localFile });
+            socket.on('transferred:' + localFile.sid, function (msg) {
+                if (msg) {
+                    var porcess = Math.ceil((msg.transferred / msg.total) * 100);
+                    changeUploadFileStatus(msg.sid, porcess);
+                    //console.log(porcess);
+                    showProcess();
+                }
+            });
+            socket.on('over:' + localFile.sid, function (msg) {
+                if (msg) {
+                    toastr.info(localFile.name + " 上传完成！");
+                    changeUploadFileStatus(localFile.sid, "over");
+                    setTimeout(() => {
+                        showNum();
+                        showProcess();
+                        uploading(getUploadFile(), socket);
+                    }, 100);
+                }
+            });
+        }
+        var openSelectedItem = false;
+        function openSelectFiles(remotePath, sshid) {
+            if (typeof (ipcRenderer) != "undefined") {
+                ipcRenderer.send('open-directory-dialog',{remotePath:remotePath,sshid:sshid});
+                if (!openSelectedItem) {
+                    openSelectedItem = true;
+                    ipcRenderer.on('selectedItem', function (e, opts) {
+                        uploadFile(opts.filePaths, opts.remotePath, opts.sshid);
+                    });
+                }
+            }
+        }
+
+
+
+
 
 
     </script>

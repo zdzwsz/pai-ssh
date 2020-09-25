@@ -186,7 +186,7 @@ var projectService = {
                 });
             });
             socket.on("close", function (obj) {
-                console.log('SSH :: close');
+                console.log('download:: close');
             })
         })
     },
@@ -194,7 +194,38 @@ var projectService = {
     initUplaodIo(io){
         let nsp = io.of("/upload");
         nsp.on('connection', function (socket) {
-           
+            socket.on('uploadFileOpt', function (data) {
+                let localFile = data.localFile;
+                let localPath = localFile.name;
+                let remotePath = localFile.remotePath;
+                let sshid = localFile.sshid;
+                let sid = localFile.sid;
+                console.log(JSON.stringify(localFile));
+                let fileTimeOut = null;
+                const step = function (transferred, chunk, total) {
+                    if (fileTimeOut == null) {
+                        fileTimeOut = setTimeout(() => {
+                            nsp.emit("transferred:"+sid, { "sid":sid, "transferred": transferred, "total": total });
+                            fileTimeOut = null;
+                        }, 2000);
+                    }
+                };
+                const sshUtils = new SshUtils();
+                sshUtils.connect(servers[sshid], function () {
+                    sshUtils.uploadFile(localPath, remotePath, function (error, ddata) {
+                        sshUtils.disconnect();
+                        if (error) {
+                            console.log(error);
+                            nsp.emit("over:"+sid, { sid:sid, status: false });
+                        } else {
+                            nsp.emit("over:"+sid, { sid:sid, status: true });
+                        }
+                    }, { "step": step });
+                });
+            });
+            socket.on("close", function (obj) {
+                console.log('upload:: close');
+            })
         })
     },
 

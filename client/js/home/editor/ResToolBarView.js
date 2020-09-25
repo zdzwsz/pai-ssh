@@ -219,7 +219,31 @@ export default class ResToolBarView extends React.Component {
     }
 
     download() {
+        //全局方法
         downloadFile(this.props.selectValue.selected_path,this.props.id);
+    }
+
+    upload(){
+         let path = this.props.selectValue.selected_path;
+         if(this.isNotFolderAndTip(path))return;
+        // $("#file").click();
+        //全局方法 index.html
+         openSelectFiles(path,this.props.id);
+    }
+
+    //已经删除
+    onUpload(){
+        let path = $("#file").val();
+        console.log(path);
+        if(path){
+            path = path.substring(0, path.lastIndexOf("\\"));
+        }else{
+            return;
+        }
+        console.log(path);
+        let files = $("#file").prop('files');
+        //全局方法
+        uploadFile(files,path,this.props.selectValue.selected_path,this.props.id);
     }
     
     changeSameName(path, newName, code) {
@@ -298,6 +322,8 @@ export default class ResToolBarView extends React.Component {
             toastr.warning("粘贴操作失败，请先进行复制或者剪切操作！");
         }
     }
+
+
 
     searchTreeData(path, treeData, isParent, parent, index) {
         if (!treeData) {
@@ -378,36 +404,36 @@ export default class ResToolBarView extends React.Component {
                     name: '上传',
                     iconClass: "fa fa-upload",
                     onClick: function () {
-                        pekeUpload.selectfiles();
+                        //pekeUpload.selectfiles();
                     }
                 }
             }
         });
-        var pekeUpload = $("#file").pekeUpload({
-            ondata: function (data) {
-                data.path = _this.props.selectValue.selected_path;
-                data.id = _this.props.id;
-            },
-            onFileError: function (file, error) {
-                toastr.warning(file.name + "上传失败:" + error);
-            },
-            onFileSuccess: function (file, error) {
-                toastr.info(file.name + "上传成功！");
-            },
-            onSelectFileBefore: function () {
-                if (_this.props.selectValue.selected_path) {
+        // var pekeUpload = $("#file").pekeUpload({
+        //     ondata: function (data) {
+        //         data.path = _this.props.selectValue.selected_path;
+        //         data.id = _this.props.id;
+        //     },
+        //     onFileError: function (file, error) {
+        //         toastr.warning(file.name + "上传失败:" + error);
+        //     },
+        //     onFileSuccess: function (file, error) {
+        //         toastr.info(file.name + "上传成功！");
+        //     },
+        //     onSelectFileBefore: function () {
+        //         if (_this.props.selectValue.selected_path) {
                     
-                    return true;
-                } else {
-                    toastr.error("请选择上传的文件夹！");
-                    return false;
-                }
-            },
-            onFileUploadOver: function () {
-                _this.props.reflash();
-            }
-        });
-        $(function () { $("[data-toggle='tooltip']").tooltip(); });
+        //             return true;
+        //         } else {
+        //             toastr.error("请选择上传的文件夹！");
+        //             return false;
+        //         }
+        //     },
+        //     onFileUploadOver: function () {
+        //         _this.props.reflash();
+        //     }
+        // });
+        //$(function () { $("[data-toggle='tooltip']").tooltip(); });
     }
 
     render() {
@@ -415,13 +441,13 @@ export default class ResToolBarView extends React.Component {
             <div>
                 <div style={{height:"43px","background-color":"#121212","padding":"6px 2px 0 4px"}}>
                     <span style={{"line-height":"30px"}}>
-                        <i className="fa fa-server span-padding"></i>{this.props.name}
+                        <i className="fa fa-server span-padding"></i>{this.props.name}<input id="file" type="file" multiple="multiple" onChange={this.onUpload.bind(this)} name="file" style={{"display":"none"}}  />
                     </span>
                     <span className="btn-group toolbar" style={{float:"right"}}>
                         <button data-toggle="tooltip" data-placement="bottom" title="新增文件夹" onClick={this.addFolder.bind(this)} type="button" className="btn btn-default btn-sm"><span className="fa fa-folder-o"> </span></button>
                         <button data-toggle="tooltip" data-placement="bottom" title="新增文件" onClick={this.addFile.bind(this)} type="button" className="btn btn-default btn-sm"><span className="fa fa-file-o"> </span></button>
-                        <button data-toggle="tooltip" data-placement="bottom" title="刷新" onClick={this.props.reflash} type="button" className="btn btn-default btn-sm"><span className="fa fa-refresh"> </span></button>
-                        <input id="file" type="file" multiple="multiple" name="file" />
+                        <button id="refresh_" data-toggle="tooltip" data-placement="bottom" title="刷新" onClick={this.props.reflash} type="button" className="btn btn-default btn-sm"><span className="fa fa-refresh"> </span></button>
+                        <button data-toggle="tooltip" data-placement="bottom" title="上传"  onClick={this.upload.bind(this)} type="button" className="btn btn-default btn-sm"><span className="fa fa-upload"> </span></button>
                     </span>
                 </div>
                 <div className="tab-content">
