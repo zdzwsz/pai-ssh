@@ -364,3 +364,25 @@ a:hover,a:visited {
     color: #000;
     background-color: floralwhite;
 }
+
+.list-group-item{
+    background-color: #2e2e2e;
+    border: 1px solid #3e3e3e;
+}
+
+.list-group{
+    margin-bottom: 4px;
+}
+
+#fileListStatus{
+    display:block;
+    width: 500px;
+    top: 40px;
+    left: 25px;
+    position: absolute;
+    height: 350px;
+    overflow: auto;
+}
+.filelist-cursor{
+    cursor: pointer;
+}

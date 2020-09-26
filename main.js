@@ -93,8 +93,11 @@ ipcMain.on('window-close', function () {
   app.quit();
 })
 
-ipcMain.on('window-floder', function () {
-  shell.showItemInFolder(global.__path + "\\server\\download");
+ipcMain.on('window-floder', function (event,opts) {
+  if(opts && opts.fileName)
+    shell.showItemInFolder(global.__path + "\\server\\download\\"+ opts.fileName);
+  else
+    shell.showItemInFolder(global.__path + "\\server\\download");
 })
 
 function initPath() {

@@ -29,13 +29,18 @@
             }
         }
 
-        function openWindowFolder() {
+        function openWindowFolder(fileName) {
             if (typeof (ipcRenderer) != "undefined") {
-                ipcRenderer.send('window-floder');
+                if (fileName) {
+                    ipcRenderer.send('window-floder', { fileName: fileName });
+                } else {
+                    ipcRenderer.send('window-floder');
+                }
+
             }
         }
 
-        function openDevTools(){
+        function openDevTools() {
             if (typeof (ipcRenderer) != "undefined") {
                 ipcRenderer.send('openDevTools');
             }
@@ -47,7 +52,7 @@
 
 
         function showNum() {
-            var times = countDownloadFiles();
+            var times = countAllFilesList();
             if (times > 0) {
                 var text = '<span class="badge">' + times + '</span>'
                 $("#download-num").empty();
@@ -57,26 +62,63 @@
             }
 
         }
-        var tipString = 'data-toggle="tooltip" data-placement="bottom" title="';
+        var tipString = 'title="';
+        function getFileProcessHtml(name, type, status, istip) {
+            var tip = "";
+            if (istip) {
+                tip = tipString + name + '"';
+            }
+            var statusText = "";
+            if (status == "over") {
+                statusText = "完成";
+            } else if (status == 0) {
+                statusText = "准备";
+            }
+            else {
+                statusText = status + "%";
+            }
+            return '<span class="badge" ' + tip + '><i class="fa fa-arrow-circle-' + type + '" />' + statusText + '</span>'
+        }
+
+        function getFileListHtml(name, type, status) {
+            var className = "filelist-cursor";
+            if (type === "up") {
+                className = "";
+            }
+            return '<li class="list-group-item ' + className + '">' + getFileProcessHtml(name, type, status, true) + name + '</li>';
+        }
+
         function showProcess() {
             $("#downloadprocesscss").empty()
-            downloadFiles.forEach(file => {
+            allFileList.forEach(file => {
                 if (file.status != "over") {
-                    var tip = tipString + file.name + '"';
-                    var text = '<span class="badge" ' + tip + '><i class="fa fa-arrow-circle-down" />' + file.status + '%</span>'
-                    $("#downloadprocesscss").append(text);
+                    $("#downloadprocesscss").append(getFileProcessHtml(file.name, file.type, file.status, true));
                 }
             });
+           
+            //$(function () { $("[data-toggle='tooltip']").tooltip(); });
+        }
 
-            uploadFiles.forEach(file => {
-                if (file.status != "over") {
-                    var tip = tipString + file.name + '"';
-                    var text = '<span class="badge" ' + tip + '><i class="fa fa-arrow-circle-up" />' + file.status + '%</span>'
-                    $("#downloadprocesscss").append(text);
+        function buildFileList() {
+            $("#allFileList").empty()
+            let i = 0;
+            allFileList.forEach(file => {
+                var obj = $(getFileListHtml(file.name, file.type, file.status));
+                $("#allFileList").append(obj);
+                if (file.type == "down") {
+                    obj.click(function () {
+                        var fileName = file.name;
+                        fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
+                        openWindowFolder(fileName);
+                    });
                 }
+                i++;
             });
 
-            $(function () { $("[data-toggle='tooltip']").tooltip(); });
+            if (i == 0) {
+                $("#allFileList").append(getFileListHtml("空列表", 'down', 0));
+            }
+            //$(function () { $("[data-toggle='tooltip']").tooltip(); });
         }
 
         function createId(id) {
@@ -88,8 +130,8 @@
             return times;
         }
 
-        function changeDownloadFileStatus(sid, stauts) {
-            downloadFiles.forEach(file => {
+        function changeAllFileListStatus(sid, stauts) {
+            allFileList.forEach(file => {
                 if (file.sid == sid) {
                     if (file.status != "over") {
                         file.status = stauts;
@@ -100,14 +142,9 @@
         }
 
 
-        function countDownloadFiles() {
+        function countAllFilesList() {
             var index = 0;
-            downloadFiles.forEach(file => {
-                if (file.status != "over") {
-                    index++;
-                }
-            });
-            uploadFiles.forEach(file => {
+            allFileList.forEach(file => {
                 if (file.status != "over") {
                     index++;
                 }
@@ -115,24 +152,25 @@
             return index;
         }
 
-        var downloadFiles = [];
+        var allFileList = [];
+        //var downloadFiles = [];
 
         function downloadFile(name, sshid) {
             var socket = io('/download');
             var sid = createId();
             socket.emit('filePath', { path: name, sshid: sshid, sid: sid });
-            downloadFiles.push({ sid: sid, status: 0, name: name });
+            allFileList.unshift({ sid: sid, status: 0, name: name, type: "down" });
             showNum();
             socket.on('transferred:' + sid, function (msg) {
                 if (msg) {
                     var porcess = Math.ceil((msg.transferred / msg.total) * 100);
-                    changeDownloadFileStatus(msg.sid, porcess);
+                    changeAllFileListStatus(msg.sid, porcess);
                     showProcess();
                 }
             });
             socket.on('over:' + sid, function (msg) {
                 if (msg) {
-                    changeDownloadFileStatus(msg.sid, "over");
+                    changeAllFileListStatus(msg.sid, "over");
                     showNum();
                     showProcess();
                     toastr.info(name + " 下载完成！");
@@ -141,23 +179,12 @@
 
         }
 
-        var uploadFiles = [];
-
-        function changeUploadFileStatus(sid, stauts) {
-            uploadFiles.forEach(file => {
-                if (file.sid == sid) {
-                    if (file.status != "over") {
-                        file.status = stauts;
-                    }
-                    return;
-                }
-            });
-        }
+        //var uploadFiles = [];
 
         function getUploadFile() {
-            for (let i = 0; i < uploadFiles.length; i++) {
-                if (uploadFiles[i].status == 0 ) {
-                    return uploadFiles[i];
+            for (let i = 0; i < allFileList.length; i++) {
+                if (allFileList[i].status == 0 && allFileList[i].type == "up") {
+                    return allFileList[i];
                     break;
                 }
             }
@@ -169,7 +196,7 @@
             for (let i = 0; i < localFiles.length; i++) {
                 var sid = createId(i);
                 let fileName = localFiles[i].substring(localFiles[i].lastIndexOf("\\") + 1);
-                uploadFiles.push({ sid: sid, status: 0, name: localFiles[i], remotePath: remotePath + fileName, sshid: sshid });
+                allFileList.unshift({ sid: sid, status: 0, name: localFiles[i], remotePath: remotePath + fileName, sshid: sshid, type: "up" });
             }
             var socket = io('/upload');
             uploading(getUploadFile(), socket);
@@ -180,14 +207,14 @@
                 socket.close();
                 $("#refresh_").click();//刷新目录
                 return;
-            }else{
+            } else {
                 showNum();
             }
             socket.emit('uploadFileOpt', { localFile });
             socket.on('transferred:' + localFile.sid, function (msg) {
                 if (msg) {
                     var porcess = Math.ceil((msg.transferred / msg.total) * 100);
-                    changeUploadFileStatus(msg.sid, porcess);
+                    changeAllFileListStatus(msg.sid, porcess);
                     //console.log(porcess);
                     showProcess();
                 }
@@ -195,7 +222,7 @@
             socket.on('over:' + localFile.sid, function (msg) {
                 if (msg) {
                     toastr.info(localFile.name + " 上传完成！");
-                    changeUploadFileStatus(localFile.sid, "over");
+                    changeAllFileListStatus(localFile.sid, "over");
                     setTimeout(() => {
                         showNum();
                         showProcess();
@@ -207,7 +234,7 @@
         var openSelectedItem = false;
         function openSelectFiles(remotePath, sshid) {
             if (typeof (ipcRenderer) != "undefined") {
-                ipcRenderer.send('open-directory-dialog',{remotePath:remotePath,sshid:sshid});
+                ipcRenderer.send('open-directory-dialog', { remotePath: remotePath, sshid: sshid });
                 if (!openSelectedItem) {
                     openSelectedItem = true;
                     ipcRenderer.on('selectedItem', function (e, opts) {
@@ -216,12 +243,14 @@
                 }
             }
         }
-
-
-
-
-
-
+        function showFileListStatus(status) {
+            if (!status) {
+                $("#fileListStatus").hide();
+            } else {
+                buildFileList();
+                $("#fileListStatus").show();
+            }
+        }
     </script>
 </head>
 
@@ -229,7 +258,8 @@
     <div class="tool" style="-webkit-app-region: drag;-webkit-user-select: none;"><img src="/logo.png" width="28"
             height="28" style="padding:4px" />欢迎使用PAI-SSH工具</div>
     <div class="downloadcss">
-        <span style="cursor:pointer;width:75px" onclick="openWindowFolder()">传输列表</span>
+        <span style="cursor:pointer;width:75px" onclick="openWindowFolder()"
+            onmouseover="showFileListStatus(true)">传输列表</span>
         <span id="download-num"></span>
         <span id="downloadprocesscss"></span>
     </div>
@@ -249,6 +279,11 @@
     <script src="lib/common/jquery.base64.min.js"></script>
     <script src="lib/socket.io/socket.io.js"></script>
     <script src="bin/bundle.js"></script>
+
+    <!--弹出的传输框-->
+    <div id="fileListStatus">
+        <ul id="allFileList" class="list-group"></ul>
+    </div>
     <script>
         $(function () {
             toastr.options = {
@@ -258,6 +293,10 @@
             };
         })
         $(function () { $("[data-toggle='tooltip']").tooltip(); });
+        showFileListStatus(false);
+        $(window).click(function () {
+            showFileListStatus(false);
+        })
     </script>
 </body>
 
