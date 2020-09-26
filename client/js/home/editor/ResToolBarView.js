@@ -404,7 +404,7 @@ export default class ResToolBarView extends React.Component {
                     name: '上传',
                     iconClass: "fa fa-upload",
                     onClick: function () {
-                        //pekeUpload.selectfiles();
+                        _this.upload();
                     }
                 }
             }

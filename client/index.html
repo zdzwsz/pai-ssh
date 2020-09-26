@@ -35,6 +35,12 @@
             }
         }
 
+        function openDevTools(){
+            if (typeof (ipcRenderer) != "undefined") {
+                ipcRenderer.send('openDevTools');
+            }
+        }
+
         if (typeof (ipcRenderer) != "undefined") {
             maxWindow();
         }
@@ -57,7 +63,7 @@
             downloadFiles.forEach(file => {
                 if (file.status != "over") {
                     var tip = tipString + file.name + '"';
-                    var text = '<span class="badge" ' + tip + '>' + file.status + '%</span>'
+                    var text = '<span class="badge" ' + tip + '><i class="fa fa-arrow-circle-down" />' + file.status + '%</span>'
                     $("#downloadprocesscss").append(text);
                 }
             });
@@ -65,7 +71,7 @@
             uploadFiles.forEach(file => {
                 if (file.status != "over") {
                     var tip = tipString + file.name + '"';
-                    var text = '<span class="badge" ' + tip + '>' + file.status + '%</span>'
+                    var text = '<span class="badge" ' + tip + '><i class="fa fa-arrow-circle-up" />' + file.status + '%</span>'
                     $("#downloadprocesscss").append(text);
                 }
             });
@@ -150,7 +156,7 @@
 
         function getUploadFile() {
             for (let i = 0; i < uploadFiles.length; i++) {
-                if (uploadFiles[i].status != "over") {
+                if (uploadFiles[i].status == 0 ) {
                     return uploadFiles[i];
                     break;
                 }
@@ -223,7 +229,7 @@
     <div class="tool" style="-webkit-app-region: drag;-webkit-user-select: none;"><img src="/logo.png" width="28"
             height="28" style="padding:4px" />欢迎使用PAI-SSH工具</div>
     <div class="downloadcss">
-        <span class="fa fa-cloud-download" style="cursor:pointer;width:75px" onclick="openWindowFolder()">传输列表</span>
+        <span style="cursor:pointer;width:75px" onclick="openWindowFolder()">传输列表</span>
         <span id="download-num"></span>
         <span id="downloadprocesscss"></span>
     </div>

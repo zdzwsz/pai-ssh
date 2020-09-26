@@ -28,7 +28,7 @@ app.on('ready', async () => {
   mainWindow.show();
   const url = join(__dirname, '/index.htm');
   mainWindow.loadURL(url)
-  mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
   Menu.setApplicationMenu(null);
 })
 
@@ -40,6 +40,15 @@ app.on('window-all-closed', function () {
 
 ipcMain.on('message', (event, message) => {
   event.sender.send('message', message)
+})
+
+ipcMain.on('openDevTools', () => {
+  if(mainWindow.webContents.isDevToolsOpened())
+  {
+    mainWindow.webContents.closeDevTools();
+  }else{
+    mainWindow.webContents.openDevTools();
+  }
 })
 
 

@@ -349,13 +349,14 @@ a:hover,a:visited {
     position: absolute;
     top: 6px;
     left: 35px;
-    width: 300px;
+    width: 400px;
     height: 26px;
     font-size: 14px;
     padding-top: 5px;
     padding-left: 4px;
     -webkit-app-region: no-drag;
-    display: none;
+    overflow: hidden;
+    display: block;
 }
 
 .badge{
