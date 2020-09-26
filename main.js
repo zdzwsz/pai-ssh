@@ -13,7 +13,7 @@ app.on('ready', async () => {
   initPath();
   server = require(appCmd);
   mainWindow = new BrowserWindow({
-    minWidth: 750,
+    minWidth: 1300,
     minHeight: 400,
     show: false,
     frame: false,
@@ -23,13 +23,11 @@ app.on('ready', async () => {
       preload: join(__dirname, 'preload.js'),
     },
   })
-  mainWindow.center();
-  //mainWindow.maximize();
-  mainWindow.show();
   const url = join(__dirname, '/index.htm');
   mainWindow.loadURL(url)
-  //mainWindow.webContents.openDevTools();
   Menu.setApplicationMenu(null);
+  mainWindow.show();
+  mainWindow.center();
 })
 
 

@@ -77,9 +77,9 @@ export default class ConsoleView extends React.Component {
     }
 
     getTermRowsAndCols() {
-        let rows = Math.floor(document.querySelector(".terminal-container").offsetHeight / 18.6585);
+        let rows = Math.floor(document.querySelector(".terminal-container").offsetHeight / 18);
         let cols = Math.floor(document.querySelector(".terminal-container").offsetWidth / 9.1);
-        console.log(document.querySelector(".terminal-container").offsetHeight,document.querySelector(".terminal-container").offsetWidth);
+        console.log(document.querySelector(".terminal-container").offsetHeight,rows);
         return { rows: rows, cols, cols }
     }
 

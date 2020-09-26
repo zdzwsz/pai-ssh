@@ -47,6 +47,20 @@ export default class ResToolBarView extends React.Component {
         return false;
     }
 
+    isNotFileAndTip(path){
+        if(!path){
+            toastr.warning("先选择一个文件，再操作！");
+            return true;
+        }
+        //console.log(this.state.data);
+        let node = this.searchTreeData(path);
+        if(node.sub){
+            toastr.warning("当前选择是目录,先选择一个文件，再操作！");
+            return true;
+        }
+        return false;
+    }
+
     addFile() {
         let path = this.props.selectValue.selected_path;
         if(this.isNotFolderAndTip(path))return;
@@ -219,6 +233,8 @@ export default class ResToolBarView extends React.Component {
     }
 
     download() {
+        let path = this.props.selectValue.selected_path;
+        if(this.isNotFileAndTip(path))return;
         //全局方法
         downloadFile(this.props.selectValue.selected_path,this.props.id);
     }
@@ -447,6 +463,7 @@ export default class ResToolBarView extends React.Component {
                         <button data-toggle="tooltip" data-placement="bottom" title="新增文件夹" onClick={this.addFolder.bind(this)} type="button" className="btn btn-default btn-sm"><span className="fa fa-folder-o"> </span></button>
                         <button data-toggle="tooltip" data-placement="bottom" title="新增文件" onClick={this.addFile.bind(this)} type="button" className="btn btn-default btn-sm"><span className="fa fa-file-o"> </span></button>
                         <button id="refresh_" data-toggle="tooltip" data-placement="bottom" title="刷新" onClick={this.props.reflash} type="button" className="btn btn-default btn-sm"><span className="fa fa-refresh"> </span></button>
+                        <button data-toggle="tooltip" data-placement="bottom" title="下载"  onClick={this.download.bind(this)} type="button" className="btn btn-default btn-sm"><span className="fa fa-download"> </span></button>
                         <button data-toggle="tooltip" data-placement="bottom" title="上传"  onClick={this.upload.bind(this)} type="button" className="btn btn-default btn-sm"><span className="fa fa-upload"> </span></button>
                     </span>
                 </div>

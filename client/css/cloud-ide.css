@@ -206,7 +206,7 @@ body {
 a {
     color: #eee;
 }
-a:hover,a:visited {
+a:hover,a:visited,a:focus {
     color: #eee;
     text-decoration:none;
 }

@@ -84,6 +84,8 @@
             var className = "filelist-cursor";
             if (type === "up") {
                 className = "";
+            }else if(type === "no"){
+                return '<li class="list-group-item">'+ name +'</li>';
             }
             return '<li class="list-group-item ' + className + '">' + getFileProcessHtml(name, type, status, true) + name + '</li>';
         }
@@ -116,7 +118,7 @@
             });
 
             if (i == 0) {
-                $("#allFileList").append(getFileListHtml("空列表", 'down', 0));
+                $("#allFileList").append(getFileListHtml("空列表", 'no', 0));
             }
             //$(function () { $("[data-toggle='tooltip']").tooltip(); });
         }
@@ -248,6 +250,7 @@
                 $("#fileListStatus").hide();
             } else {
                 buildFileList();
+                $("#user_logout").focus();
                 $("#fileListStatus").show();
             }
         }
@@ -289,7 +292,7 @@
             toastr.options = {
                 "closeButton": true,
                 "positionClass": "toast-bottom-right",
-                "timeOut": "4000"
+                "timeOut": "3000"
             };
         })
         $(function () { $("[data-toggle='tooltip']").tooltip(); });
