@@ -14,7 +14,7 @@ export default class ConsoleView extends React.Component {
                 //foreground: 'white', //字体
                 background: '#212121' //背景色
               },
-              fontSize: 14,
+              fontSize: 15,
               lineHeight:1.1,
               //allowTransparency :true,
               windowsMode:true,
@@ -77,7 +77,7 @@ export default class ConsoleView extends React.Component {
     }
 
     getTermRowsAndCols() {
-        let rows = Math.floor(document.querySelector(".terminal-container").offsetHeight / 17.6744);
+        let rows = Math.floor(document.querySelector(".terminal-container").offsetHeight / 18);
         let cols = Math.floor(document.querySelector(".terminal-container").offsetWidth / 9.1);
         console.log(document.querySelector(".terminal-container").offsetHeight,rows);
         return { rows: rows, cols, cols }
