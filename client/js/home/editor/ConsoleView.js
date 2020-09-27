@@ -10,6 +10,8 @@ export default class ConsoleView extends React.Component {
         this.host = props.host;
         this.name = props.name;
         this.opt={
+            rows:40,
+            cols:80,
             theme:{
                 //foreground: 'white', //字体
                 background: '#212121' //背景色
@@ -76,30 +78,36 @@ export default class ConsoleView extends React.Component {
         $("#termName option[value='" + value + "']").remove();
     }
 
-    getTermRowsAndCols() {
-        let rows = Math.floor(document.querySelector(".terminal-container").offsetHeight / 18);
-        let cols = Math.floor(document.querySelector(".terminal-container").offsetWidth / 9.1);
-        console.log(document.querySelector(".terminal-container").offsetHeight,rows);
-        return { rows: rows, cols, cols }
+    calculateTermRowsAndCols() {
+        this.opt.rows = Math.floor(document.querySelector(".terminal-container").offsetHeight / 18);
+        this.opt.cols = Math.floor((document.querySelector(".terminal-container").offsetWidth-20) / 9);
+        //console.log(document.querySelector(".terminal-container").offsetHeight,rows);
     }
 
     setTermRowsAndCols(socket, key) {
-        socket.emit(key, this.getTermRowsAndCols());
+        socket.emit(key, {rows:this.opt.rows,cols:this.opt.cols});
+    }
+
+    fit(term){
+        if(!term)return;
+        if(term._core._renderService.dimensions.actualCellWidth === 0 || term._core._renderService.dimensions.actualCellHeight=== 0 )return;
+        this.opt.rows = Math.floor(document.querySelector(".terminal-container").offsetHeight / term._core._renderService.dimensions.actualCellHeight);
+        this.opt.cols = Math.floor((document.querySelector(".terminal-container").offsetWidth-20) / term._core._renderService.dimensions.actualCellWidth);
+        term.resize(this.opt.cols,this.opt.rows);
     }
 
     initTerm(name) {
+       
         var _this = this;
         let socket = io("/" + name);
         this.sockets[name] = socket;
-        let rowAndCols = this.getTermRowsAndCols();
-        this.opt.rows=rowAndCols.rows;
-        this.opt.cols=rowAndCols.cols;
+        this.calculateTermRowsAndCols();
         //opts.scrollback = 100;
         var term = new Terminal(this.opt);
         let terminalContainer = document.getElementById('terminal-container');
         term.open(terminalContainer, true);
         term.element.id = name;
-
+        this.fit(term);
         this.setTermRowsAndCols(socket, "init");//准备
         socket.on("init-over", function () {
             socket.emit('connectionssh'); //正式连接
