@@ -50,7 +50,7 @@
     height:26px;
     display: inline-block;
     text-overflow: ellipsis;
-    width: 160px;
+    width: calc(100% - 80px );
     color: #d3d3d3;
     padding-top: 3px;
 }

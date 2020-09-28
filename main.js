@@ -1,5 +1,5 @@
 // Packages
-const { BrowserWindow, app, ipcMain, Menu } = require('electron')
+const { BrowserWindow, app, ipcMain, Menu,clipboard  } = require('electron')
 const { join } = require('path')
 const apppath = join(__dirname, "/server");
 const appCmd = apppath + "/app.js";
@@ -49,6 +49,13 @@ ipcMain.on('openDevTools', () => {
   }
 })
 
+ipcMain.handle('clipboard.read', function () {
+    return clipboard.readText();
+})
+
+ipcMain.on('clipboard.write', function (event,text) {
+    clipboard.writeText(text);
+})
 
 ipcMain.on('window-max', function () {
   //console.log("window-max");
