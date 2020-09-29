@@ -99,7 +99,10 @@ ipcMain.on('window-close', function () {
 })
 
 ipcMain.on('window-floder', function (event,opts) {
-  if(opts && opts.fileName)
+  if(opts && opts.isPath){
+    shell.showItemInFolder(opts.fileName);
+  }
+  else if(opts && opts.fileName)
     shell.showItemInFolder(global.__path + "\\server\\download\\"+ opts.fileName);
   else
     shell.showItemInFolder(global.__path + "\\server\\download");

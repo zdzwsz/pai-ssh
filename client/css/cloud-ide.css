@@ -375,13 +375,14 @@ a:hover,a:visited,a:focus {
 }
 
 #fileListStatus{
-    display:block;
+    display:none;
     width: 500px;
     top: 40px;
     left: 25px;
     position: absolute;
-    height: 350px;
+    max-height: 350px;
     overflow: auto;
+    z-index: 1000;
 }
 .filelist-cursor{
     cursor: pointer;

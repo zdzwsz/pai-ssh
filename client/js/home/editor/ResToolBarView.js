@@ -54,6 +54,7 @@ export default class ResToolBarView extends React.Component {
         }
         //console.log(this.state.data);
         let node = this.searchTreeData(path);
+        //console.log(node);
         if(node.sub){
             toastr.warning("当前选择是目录,先选择一个文件，再操作！");
             return true;
@@ -84,8 +85,10 @@ export default class ResToolBarView extends React.Component {
     }
 
     setFileName(treeData, path, newFile) {
+        //console.log(JSON.stringify(treeData),path,JSON.stringify(newFile))
         if (treeData.path == path) {
             this.replacePath(newFile, path);
+            //console.log(JSON.stringify(newFile))
             treeData.sub.push(newFile);
             treeData.open = true;
             this.setState(this.state);
@@ -110,7 +113,7 @@ export default class ResToolBarView extends React.Component {
                 this.replacePath(sub[i], newFile.path);
             }
         } else {
-            newFile.path = path;
+            newFile.path = path + "/" + newFile.name;
         }
     }
 
@@ -221,7 +224,7 @@ export default class ResToolBarView extends React.Component {
             "name": this.props.selectValue.selected_name,
             "path": this.props.selectValue.selected_path
         }
-        console.log("copy success!");
+        //console.log("copy success!");
     }
 
     cut() {
@@ -264,14 +267,14 @@ export default class ResToolBarView extends React.Component {
     
     changeSameName(path, newName, code) {
         if (!code) code = 0;
-        console.log("path:" + path + " newName:" + newName);
+        //console.log("path:" + path + " newName:" + newName);
         //let index = path.lastIndexOf("/");
         //let fileName = path.substring(index + 1);
         // let parentPath = path.substring(0, index);
         let parent = this.searchTreeData(path);
         for (let i = 0; i < parent.sub.length; i++) {
             let p = parent.sub[i];
-            console.log(p.name + "|" + newName);
+            //console.log(p.name + "|" + newName);
             if (p.name === newName) {
                 if (newName.indexOf("copy") > -1) {
                     newName = newName.substring(6);
@@ -302,6 +305,7 @@ export default class ResToolBarView extends React.Component {
             if (this.state.clipboard.op == "copy") {
                 if (node) {
                     let newObject = JSON.parse(JSON.stringify(node));
+                    //console.log(JSON.stringify(newObject));
                     //判断是否重名，重名需要重新命名，再执行
                     let newName = this.changeSameName(path, newObject.name);
                     newObject.name = newName;

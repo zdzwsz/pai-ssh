@@ -16,7 +16,7 @@ export default class HeadView extends React.Component {
             if(this.timeout == null){
                 this.timeout = setTimeout(function () {
                     $("#userListStatus").fadeOut(100);
-                }, 400);
+                }, 300);
             }
         } else {
             if (this.timeout != null) {
