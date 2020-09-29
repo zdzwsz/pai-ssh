@@ -386,3 +386,14 @@ a:hover,a:visited,a:focus {
 .filelist-cursor{
     cursor: pointer;
 }
+
+#userListStatus{
+    display:none;
+    width: 120px;
+    top: 80px;
+    left: calc(100% - 270px );
+    position: absolute;
+    height: 125px;
+    overflow: hidden;
+    z-index: 1000;
+}
