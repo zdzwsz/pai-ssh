@@ -398,3 +398,16 @@ a:hover,a:visited,a:focus {
     overflow: hidden;
     z-index: 1000;
 }
+
+.modalstyle-header{
+    background-color: #3e3e3e;
+    border-bottom: 1px solid #3e3e3e;
+}
+.modalstyle-body{
+    background-color: #2e2e2e;
+    min-height: 200px;
+}
+.modalstyle-footer{
+    border-top: 1px solid #363636;
+    background-color: #3e3e3e;
+}

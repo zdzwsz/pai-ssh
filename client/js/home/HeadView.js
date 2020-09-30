@@ -1,3 +1,4 @@
+import Modal from './ModalView';
 var Link = ReactRouterDOM.Link;
 export default class HeadView extends React.Component {
 
@@ -13,7 +14,7 @@ export default class HeadView extends React.Component {
 
     showUserListStatus(status) {
         if (!status) {
-            if(this.timeout == null){
+            if (this.timeout == null) {
                 this.timeout = setTimeout(function () {
                     $("#userListStatus").fadeOut(100);
                 }, 300);
@@ -21,10 +22,20 @@ export default class HeadView extends React.Component {
         } else {
             if (this.timeout != null) {
                 clearTimeout(this.timeout);
-                this.timeout =null;
+                this.timeout = null;
             }
             $("#userListStatus").fadeIn(200);
         }
+    }
+
+    openModalModifyPassword() {
+        $("#passwordModal").css("top", "200px")
+        $("#passwordModal").modal("show");
+    }
+
+    openModalAbout() {
+        $("#aboutModal").css("top", "200px")
+        $("#aboutModal").modal("show");
     }
 
     openDebugDevTools() {
@@ -41,11 +52,26 @@ export default class HeadView extends React.Component {
                 </div>
                 <div id="userListStatus" onMouseOver={this.showUserListStatus.bind(this, true)} onMouseOut={this.showUserListStatus.bind(this, false)} >
                     <ul className="list-group">
-                        <li className="list-group-item">系统配置</li>
-                        <li className="list-group-item">修改密码</li>
+                        <li className="list-group-item" style={{ "cursor": "pointer" }} onClick={this.openModalModifyPassword.bind(this)}>修改密码</li>
                         <li className="list-group-item"><Link id="user_logout" to="/" title="重新登陆">重新登录</Link></li>
+                        <li className="list-group-item" style={{ "cursor": "pointer" }} onClick={this.openModalAbout.bind(this)}>关于</li>
                     </ul>
                 </div>
+                <Modal id="passwordModal" title="修改密码" icon="fa fa-key">
+                    <div className="form-group">
+                        <input type="password" ref='oldpwd' className="form-control" placeholder="请输入旧密码" />
+                    </div>
+                    <div className="form-group">
+                        <input type="password" ref='newpwd' className="form-control" placeholder="请输入新密码" />
+                    </div>
+                    <div className="form-group">
+                        <input type="password" ref='renpwd' className="form-control" placeholder="请重复新密码" />
+                    </div>
+                </Modal>
+                <Modal id="aboutModal" title="关于PAI-SSH" icon="fa fa-book">
+                   <div>PAI-SSH 是一款好用又好玩，还免费，开源的SSH工具，由一个有点固执又好色的老程序员开发，关键代码写的还很烂，希望大家喜欢！</div>
+                   <div>项目github地址：<a target="_blank" href="https://github.com/zdzwsz/pai-ssh">https://github.com/zdzwsz/pai-ssh</a></div>
+                </Modal>
             </div>
         )
     }
