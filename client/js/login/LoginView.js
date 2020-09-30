@@ -1,4 +1,5 @@
 import Store from './LoginStore'
+import Modal from '../ModalView';
 var Redirect = ReactRouterDOM.Redirect;
 export default class LoginView extends React.Component {
 
@@ -10,11 +11,16 @@ export default class LoginView extends React.Component {
             redirectToReferrer: false
         };
         this.store = new Store(this);
-        
+
     }
 
-    componentDidMount(){
+    componentDidMount() {
         $(".downloadcss").hide();
+    }
+
+    openModalAddUser() {
+        $("#userModal").css("top", "200px")
+        $("#userModal").modal("show");
     }
 
     login(e) {
@@ -23,6 +29,18 @@ export default class LoginView extends React.Component {
         let pass = this.refs.pass.value;
         this.store.login(name, pass);
     }
+
+    addUser() {
+        let name = this.refs.user.value;
+        let newpwd = this.refs.newpwd.value;
+        let renpwd = this.refs.renpwd.value;
+        this.store.addUser(name, newpwd, renpwd);
+        $("#userModal").modal("hide");
+        this.refs.user.value = "";
+        this.refs.newpwd.value = "";
+        this.refs.renpwd.value = "";
+    }
+
     render() {
         if (this.state.redirectToReferrer) {
             $(".downloadcss").show();
@@ -55,13 +73,26 @@ export default class LoginView extends React.Component {
                                 </div>
                                 <div className="form-group">
                                     <span className="span-padding span-padding-right span-padding-left"><input type="submit" className="btn btn-default" value="用户登录" /></span>
-                                    <span className="span-padding span-padding-left"><input type="button" className="btn btn-default" value="注册用户" /></span>
+                                    <span className="span-padding span-padding-left"><input type="button" className="btn btn-default" onClick={this.openModalAddUser.bind(this)} value="注册用户" /></span>
                                 </div>
                                 {errorMsg}
                             </form>
                         </div>
                     </div>
                 </div>
+                <Modal id="userModal" title="注册用户" icon="fa fa-key" saveButton={this.addUser.bind(this)}>
+                    <div style={{ "padding": "30px 50px 10px 50px" }}>
+                        <div className="form-group">
+                            <input type="text" ref='user' className="form-control" placeholder="请输入用户名" />
+                        </div>
+                        <div className="form-group">
+                            <input type="password" ref='newpwd' className="form-control" placeholder="请输入密码" />
+                        </div>
+                        <div className="form-group">
+                            <input type="password" ref='renpwd' className="form-control" placeholder="请重复密码" />
+                        </div>
+                    </div>
+                </Modal>
             </div>
         );
     }

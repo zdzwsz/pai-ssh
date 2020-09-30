@@ -12,6 +12,38 @@ export default class Store {
         //console.log($.cookie('token')); 
     }
 
+    addUser(name,pwd,rpwd){
+        if (name == '' || pwd == '' ||rpwd=="") {
+            toastr.info("请输入用户信息！");
+            return;
+        } 
+        if(pwd !== rpwd){
+            toastr.info(" 密码输入不对，请重新输入！");
+            return;
+        }else{
+            $.ajax({
+                type: "POST",
+                url: "/newuser",
+                dataType: "json",
+                data: {
+                    "newpwd": pwd,
+                    "userName": name
+                },
+                success: function (msg) {
+                    const status = msg.status;
+                    if (status == true) {
+                        toastr.info(" 新增用户成功！");
+                    } else {
+                        toastr.error(msg.message," 新增用户失败！");
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+    }
+
     login(name, pass) {
         if (name == '' || pass == '') {
             this.view.setState({

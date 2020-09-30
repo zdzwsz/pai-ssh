@@ -30,7 +30,9 @@ export default class Store {
             type: "POST",
             url: "/db/getAll",
             dataType: "json",
-            data: {},
+            data: {
+                name:this.user
+            },
             success: function (msg) {
                 const status = msg.status;
                 if (status == true) {

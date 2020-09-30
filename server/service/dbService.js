@@ -29,7 +29,9 @@ var dbService = {
         });
 
         app.post('/db/getAll', function (req, res, next) {
-            db.find({}, function (err, docs) {
+            let user = req.body.name;
+           //console.log(name)
+            db.find({own:user.username}, function (err, docs) {
                 if (err) {
                     res.send({ 'status': false,data:err });
                 }
