@@ -15,7 +15,7 @@ function CreateJavaHeadKeywork() {
             documentation: "",
             insertText: 'import'
         }
-    ];
+    ]
 }
 
 function loadPackageDataByName(packageName) {
@@ -62,29 +62,31 @@ function loadCompletWord(key, word, returnValue) {
 }
 
 var JavaHeadCompletionItemProvider = {
-    triggerCharacters: [".", " "],
+    triggerCharacters: ['.',' '],
     provideCompletionItems: function (model, position) {
         var textUntilPosition = model.getValueInRange({ startLineNumber: 1, startColumn: 1, endLineNumber: position.lineNumber, endColumn: position.column });
         if (textUntilPosition.indexOf("{") < 0) {
             var textLinePosition = model.getValueInRange({ startLineNumber: position.lineNumber, startColumn: 1, endLineNumber: position.lineNumber, endColumn: position.column });
             var index = textLinePosition.indexOf("import");
             if (index > -1) {
-                return CreateJavaHeadImport(trim(textLinePosition.substring(index + 6)));
+                return {"suggestions":CreateJavaHeadImport(trim(textLinePosition.substring(index + 6)))};
             } else {
-                return CreateJavaHeadKeywork();
+                return {"suggestions":CreateJavaHeadKeywork()};
             }
         }
-        return [];
+        
+        return {"suggestions":[]};
     }
 }
 
 var JavaBodyCompletionItemProvider = {
     triggerCharacters: ["."],
     provideCompletionItems: function (model, position) {
+        //console.log(headTypeIndex);
         var textUntilPosition = model.getValueInRange({ startLineNumber: 1, startColumn: 1, endLineNumber: position.lineNumber, endColumn: position.column });
-        if (textUntilPosition.lastIndexOf(".") != textUntilPosition.length - 1) return [];
+        if (textUntilPosition.lastIndexOf(".") != textUntilPosition.length - 1) return {"suggestions":[]};
         var headTypeIndex = textUntilPosition.indexOf("{");
-
+        
         if (headTypeIndex > 0) {
             var head = textUntilPosition.substring(0, headTypeIndex);
             if (headTypeIndex != java_import_index) {
@@ -93,7 +95,7 @@ var JavaBodyCompletionItemProvider = {
             }
             textUntilPosition = textUntilPosition.substring(headTypeIndex);
             var textLinePosition = trim(model.getValueInRange({ startLineNumber: position.lineNumber, startColumn: 1, endLineNumber: position.lineNumber, endColumn: position.column }));
-            if (textLinePosition.indexOf("\"") > 0 || isIgnore(textLinePosition)) { return []; }//字符串
+            if (textLinePosition.indexOf("\"") > 0 || isIgnore(textLinePosition)) { return {"suggestions":[]}; }//字符串
             var pattern = /[a-zA-Z0-9_]/;
             var i = textLinePosition.length - 2;
             var variableEnd = textLinePosition.length - 1;
@@ -101,7 +103,7 @@ var JavaBodyCompletionItemProvider = {
             var arrayModel = 0;//数组模式
             var variableStatus = 0;
             for (; i >= 0; i--) {
-                //console.log(textLinePosition.charAt(i));
+                console.log(textLinePosition.charAt(i));
                 if (textLinePosition.charAt(i) == "]") {
                     arrayModel = 1;
                 }
@@ -124,7 +126,7 @@ var JavaBodyCompletionItemProvider = {
             if (variableName == null && arrayModel != 1) {
                 var variableName = textLinePosition.substring(i, variableEnd);
             }
-            //console.log("v:" + variableName);
+            console.log("v:" + variableName);
             var type = null;
             if (variableName != null && variableName != "") {
                 var isIgnoreLine = [];
@@ -178,7 +180,7 @@ var JavaBodyCompletionItemProvider = {
                                 }
                             }
                             if (isAyyay == 2 && arrayModel < 2) {
-                                return CreateJavaMethod("Array");
+                                return {"suggestions":CreateJavaMethod("Array")};
                             }
                             if (isMatching == true) {
                                 var ii = index - 1;
@@ -202,7 +204,7 @@ var JavaBodyCompletionItemProvider = {
                                         continue;
                                     } else if (astLinePosition.charAt(ii) == "[") {
                                         if (isAyyay == 1 && arrayModel < 2) {
-                                            return CreateJavaMethod("Array");
+                                            return {"suggestions":CreateJavaMethod("Array")};
                                         }
                                         index = ii;
                                         continue;
@@ -236,12 +238,12 @@ var JavaBodyCompletionItemProvider = {
                         }
                     }
                     if (type != null) {
-                        return CreateJavaMethod(type);
+                        return {"suggestions":CreateJavaMethod(type)};
                     }
                 }
 
             }
-            return [];
+            return {"suggestions":[]};
         }
     }
 }
