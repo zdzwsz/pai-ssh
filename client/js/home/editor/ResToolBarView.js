@@ -69,7 +69,7 @@ export default class ResToolBarView extends React.Component {
             "name": "",
             "status": "edit",
         }
-        this.setFileName(this.state.data, path, newFile);
+        this.setNewFileName(this.state.data, path, newFile);
     }
 
     addFolder() {
@@ -81,7 +81,26 @@ export default class ResToolBarView extends React.Component {
             "status": "edit",
             "sub": []
         }
-        this.setFileName(this.state.data, path, newFile);
+        this.setNewFileName(this.state.data, path, newFile);
+    }
+
+    setNewFileName(treeData, path, newFile) {
+        if (treeData.path == path) {
+            newFile.path = path;
+            treeData.sub.push(newFile);
+            treeData.open = true;
+            this.setState(this.state);
+            return true;
+        } else {
+            let sub = treeData.sub;
+            if (sub) {
+                for (let i = 0; i < sub.length; i++) {
+                    if (this.setFileName(sub[i], path, newFile)) {
+                        return;
+                    }
+                }
+            }
+        }
     }
 
     setFileName(treeData, path, newFile) {
@@ -165,7 +184,7 @@ export default class ResToolBarView extends React.Component {
     }
 
     checkSameName(path) {
-        //console.log("path:" + path);
+        console.log("path:" + path);
         if (path == null || path == "") return null;
         let index = path.lastIndexOf("/");
         if (index < 0) return null;
@@ -173,7 +192,7 @@ export default class ResToolBarView extends React.Component {
         path = path.substring(0, index);
         if (path == "") path = "/";
         let parent = this.searchTreeData(path);
-
+        console.log(parent);
         let isSame = 0;
         for (let i = 0; i < parent.sub.length; i++) {
             let p = parent.sub[i];

@@ -166,6 +166,7 @@ export default class TreeView extends React.Component {
         if (!name) {
             name = this.state.data.name;
         }
+        //console.log("name:",name);
         if (name == "") {//new,no new
             this.props.onDelete(name, this.state.data.path);
         } else if (name == this.state.data.name) {
@@ -180,6 +181,7 @@ export default class TreeView extends React.Component {
             if (this.state.data.name == "") {//new
                 let oldPath = this.state.data.path;
                 this.state.data.name = name;
+                console.log("oldPath",oldPath);
                 if (this.state.data.sub) {
                     actionStatus = this.props.onAddFolder(this.state.data.path + "/" + name);
                 } else {

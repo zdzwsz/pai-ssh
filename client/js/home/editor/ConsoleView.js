@@ -91,7 +91,7 @@ export default class ConsoleView extends React.Component {
     fit(term) {
         if (!term) return;
         if (term._core._renderService.dimensions.actualCellWidth === 0 || term._core._renderService.dimensions.actualCellHeight === 0) return;
-        this.opt.rows = Math.floor(document.querySelector(".terminal-container").offsetHeight / term._core._renderService.dimensions.actualCellHeight);
+        this.opt.rows = Math.floor((document.querySelector(".terminal-container").offsetHeight-10) / term._core._renderService.dimensions.actualCellHeight);
         this.opt.cols = Math.floor((document.querySelector(".terminal-container").offsetWidth - 20) / term._core._renderService.dimensions.actualCellWidth);
         term.resize(this.opt.cols, this.opt.rows);
     }

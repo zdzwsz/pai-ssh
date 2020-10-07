@@ -1,6 +1,7 @@
 export default class Store {
     constructor(view) {
         this.view = view;
+        this.saveStatus=true;
     }
 
     loadProject() {
@@ -65,6 +66,15 @@ export default class Store {
 
     saveFileCode(path, name,code){
         var _this = this;
+        if(this.saveStatus == false) {
+            toastr.info(name + "正在保存文件......");
+            return;
+        }
+        this.saveStatus = false;
+        setTimeout(() => {
+            _this.saveStatus = true; //防止重复提交
+        }, 2000);
+        
         $.ajax({
             type: "POST",
             url: "/sshProject/save",

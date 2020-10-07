@@ -77,6 +77,7 @@ var projectService = {
                 } else {
                     res.send({ 'status': true });
                 }
+                sshUtils.disconnect();
             });
         });
     },
@@ -88,6 +89,7 @@ var projectService = {
                 } else {
                     res.send({ 'status': true });
                 }
+                sshUtils.disconnect();
             });
         });
     },
