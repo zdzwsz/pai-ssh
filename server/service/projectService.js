@@ -74,10 +74,23 @@ var projectService = {
             sshUtils.writeFile(path, code, function (error) {
                 if (error) {
                     res.send({ 'status': false });
+                    sshUtils.disconnect();
                 } else {
-                    res.send({ 'status': true });
+                    //chmod u+x test.sh
+                    if (path.lastIndexOf(".sh") == path.length - 3) {
+                        sshUtils.exec("chmod u+x " + path, function (err, data) {
+                            if (err) {
+                                res.send({ 'status': false });
+                            } else {
+                                res.send({ 'status': true });
+                            }
+                            sshUtils.disconnect();
+                        });
+                    } else {
+                        res.send({ 'status': true });
+                        sshUtils.disconnect();
+                    }
                 }
-                sshUtils.disconnect();
             });
         });
     },
@@ -155,7 +168,7 @@ var projectService = {
         nsp.on('connection', function (socket) {
             socket.on('filePath', function (data) {
                 const sid = data.sid;
-                if(sid == null || sid == undefined)return;
+                if (sid == null || sid == undefined) return;
                 const path = data.path;
                 const index = path.lastIndexOf("/");
                 if (index < 0) return;
@@ -170,7 +183,7 @@ var projectService = {
                     if (fileTimeOut == null) {
                         fileTimeOut = setTimeout(() => {
                             //console.log("transferred:" + transferred, "chunk:" + chunk, "total:" + total);
-                            nsp.emit("transferred:"+sid, { "sid":sid, "transferred": transferred, "total": total });
+                            nsp.emit("transferred:" + sid, { "sid": sid, "transferred": transferred, "total": total });
                             fileTimeOut = null;
                         }, 2000);
                     }
@@ -179,9 +192,9 @@ var projectService = {
                     sshUtils.downloadFile(remotePath, localPath, function (error, ddata) {
                         sshUtils.disconnect();
                         if (error) {
-                            nsp.emit("over:"+sid, { sid:sid, status: false });
+                            nsp.emit("over:" + sid, { sid: sid, status: false });
                         } else {
-                            nsp.emit("over:"+sid, { sid:sid, status: true });
+                            nsp.emit("over:" + sid, { sid: sid, status: true });
                         }
                         //socket.close();
                     }, { "step": step });
@@ -193,7 +206,7 @@ var projectService = {
         })
     },
 
-    initUplaodIo(io){
+    initUplaodIo(io) {
         let nsp = io.of("/upload");
         nsp.on('connection', function (socket) {
             socket.on('uploadFileOpt', function (data) {
@@ -207,7 +220,7 @@ var projectService = {
                 const step = function (transferred, chunk, total) {
                     if (fileTimeOut == null) {
                         fileTimeOut = setTimeout(() => {
-                            nsp.emit("transferred:"+sid, { "sid":sid, "transferred": transferred, "total": total });
+                            nsp.emit("transferred:" + sid, { "sid": sid, "transferred": transferred, "total": total });
                             fileTimeOut = null;
                         }, 2000);
                     }
@@ -218,9 +231,9 @@ var projectService = {
                         sshUtils.disconnect();
                         if (error) {
                             console.log(error);
-                            nsp.emit("over:"+sid, { sid:sid, status: false });
+                            nsp.emit("over:" + sid, { sid: sid, status: false });
                         } else {
-                            nsp.emit("over:"+sid, { sid:sid, status: true });
+                            nsp.emit("over:" + sid, { sid: sid, status: true });
                         }
                     }, { "step": step });
                 });
