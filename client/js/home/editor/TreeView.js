@@ -1,5 +1,5 @@
 
-var openFileType = ["js","ts","txt","yaml","html","htm","xml","xhtml","java","py","c","php","ini","properties","md","vue","jsp","json","css","sh","bat"];
+var openFileType = ["js","ts","txt","yaml","html","htm","xml","xhtml","java","py","drl","c","php","ini","properties","md","vue","jsp","json","css","sh","bat"];
 function isOpenFileType(fileName){
     if(fileName== null)return false;
     let i = fileName.lastIndexOf(".");

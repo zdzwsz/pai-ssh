@@ -20,6 +20,7 @@ export default class TabPanelView extends React.Component {
         this.type["go"] = "go";
         this.type["sh"] = "shell";
         this.type["bash"] = "shell";
+        this.type["drl"] = "drl";
         this.language = this.getLanguage();
     }
 

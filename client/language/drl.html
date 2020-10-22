@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<style type="text/css">
+		html,
+		body {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			padding-top: 1px;
+			overflow: hidden;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="container" style="width:100%;height:100%"></div>
+	<script src="../lib/monaco-editor/min/vs/loader.js"></script>
+	<script>
+		var keywords=["package","rule","when","then","end","insert","update",
+					  "retract","modify","salience","activation-group","import","global","function",
+					  "no-loop","lock-on-active","date-expires","date-effective","duration","eval","contains",
+					  "memberOf","matches","declare","insertLogical"];
+		var editor = null;
+		var monaco_editor = null;
+		require.config({
+			paths: { 'vs': '../lib/monaco-editor/min/vs' },
+			'vs/nls': {
+				availableLanguages: {
+					'*': 'zh-cn'
+				}
+			}
+		});
+		require(['vs/editor/editor.main'], function () {
+
+			monaco.languages.register({ id: 'drl' });
+
+			// Register a tokens provider for the language
+			monaco.languages.setMonarchTokensProvider('drl', {
+				tokenizer: {
+					root: [
+						[/\bpackage\b|\brule\b|\bwhen\b|\bthen\b|\bend\b/, "keyword"],
+						[/\binsert\b|\bupdate\b|\bretract\b|\bmodify\b|\bsalience\b/, "keyword"],
+						[/\bimport\b|\bglobal\b|\bfunction\b|\bduration\b|\beval\b/, "keyword"],
+						[/\bcontains\b|\bmemberOf\b|\bmatches\b|\bdeclare\b|\binsertLogical\b/, "keyword"]
+					]
+				}
+			});
+
+			// Define a new theme that contains only rules that match this language
+			monaco.editor.defineTheme('drlTheme', {
+				base: 'vs-dark',
+				inherit: true,
+				rules: [
+					{ token: 'keyword', foreground: '888800' }
+				]
+			});
+
+			// Register a completion item provider for the new language
+			monaco.languages.registerCompletionItemProvider('drl', {
+				provideCompletionItems: () => {
+					var suggestions = [{
+						label: 'rule Statement',
+						kind: monaco.languages.CompletionItemKind.Snippet,
+						insertText: [
+							'rule <ruleName>',
+							'\t\t<attributes>',
+							'\twhen',
+							'\t\t<condition>',
+							'\tthen',
+							'\t\t<action>',
+							"end"
+						].join('\n'),
+						insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+						documentation: 'rule Statement'
+					}];
+					keywords.forEach(key => {
+						var tip = {
+							label: key,
+							kind: monaco.languages.CompletionItemKind.Snippet,
+							insertText: key
+						}
+						suggestions.push(tip);
+					});
+					return { suggestions: suggestions };
+				}
+			});
+
+			monaco_editor = monaco.editor;
+			editor = monaco_editor.create(document.getElementById('container'), {
+				value: "",
+				theme: "drlTheme",
+				language: 'drl'
+			});
+
+			window.onresize = function () {
+				editor.layout();
+			};
+		});
+	</script>
+</body>
+
+</html>

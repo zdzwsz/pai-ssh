@@ -81,6 +81,7 @@ fileTypeMap.set("php", code);
 fileTypeMap.set("vue", code);
 fileTypeMap.set("c", code);
 fileTypeMap.set("jsp", code);
+fileTypeMap.set("drl", code);
 
 var defaultCss = fileTypeMap.get("file");
 
