@@ -21,10 +21,11 @@
 	<div id="container" style="width:100%;height:100%"></div>
 	<script src="../lib/monaco-editor/min/vs/loader.js"></script>
 	<script>
-		var keywords=["package","rule","when","then","end","insert","update",
-					  "retract","modify","salience","activation-group","import","global","function",
-					  "no-loop","lock-on-active","date-expires","date-effective","duration","eval","contains",
-					  "memberOf","matches","declare","insertLogical"];
+		var keywords1 = ["package", "rule", "when", "then", "end", "declare"];
+		var keywords2 = ["insert", "update","retract", "modify", "insertLogical"];
+		var keywords3 = ["salience", "activation-group", "import", "global", "function",
+			"no-loop", "lock-on-active", "date-expires", "date-effective", "duration", "eval", "contains",
+			"memberOf", "matches"];
 		var editor = null;
 		var monaco_editor = null;
 		require.config({
@@ -38,15 +39,28 @@
 		require(['vs/editor/editor.main'], function () {
 
 			monaco.languages.register({ id: 'drl' });
-
+			var tokenizerStr1 = "";
+			var tokenizerStr2 = "";
+			var tokenizerStr3 = "";
+			keywords1.forEach(key => {
+				tokenizerStr1 += "\\b" + key + "\\b|"
+			});
+			keywords2.forEach(key => {
+				tokenizerStr2 += "\\b" + key + "\\b|"
+			});
+			keywords3.forEach(key => {
+				tokenizerStr3 += "\\b" + key + "\\b|"
+			});
+			tokenizerStr1 = tokenizerStr1.substring(0, tokenizerStr1.length - 1)
+			tokenizerStr2 = tokenizerStr2.substring(0, tokenizerStr2.length - 1)
+			tokenizerStr3 = tokenizerStr3.substring(0, tokenizerStr3.length - 1)
 			// Register a tokens provider for the language
 			monaco.languages.setMonarchTokensProvider('drl', {
 				tokenizer: {
 					root: [
-						[/\bpackage\b|\brule\b|\bwhen\b|\bthen\b|\bend\b/, "keyword"],
-						[/\binsert\b|\bupdate\b|\bretract\b|\bmodify\b|\bsalience\b/, "keyword"],
-						[/\bimport\b|\bglobal\b|\bfunction\b|\bduration\b|\beval\b/, "keyword"],
-						[/\bcontains\b|\bmemberOf\b|\bmatches\b|\bdeclare\b|\binsertLogical\b/, "keyword"]
+						[new RegExp(tokenizerStr1, "ig"), "keyword"],
+						[new RegExp(tokenizerStr2, "ig"), "action"],
+						[new RegExp(tokenizerStr3, "ig"), "function"]
 					]
 				}
 			});
@@ -56,7 +70,9 @@
 				base: 'vs-dark',
 				inherit: true,
 				rules: [
-					{ token: 'keyword', foreground: '888800' }
+					{ token: 'keyword', foreground: 'eeee00' },
+					{ token: 'action', foreground: '00ee00' },
+					{ token: 'function', foreground: 'ee00ee' }
 				]
 			});
 
@@ -68,7 +84,7 @@
 						kind: monaco.languages.CompletionItemKind.Snippet,
 						insertText: [
 							'rule <ruleName>',
-							'\t\t<attributes>',
+							'\t<attributes>',
 							'\twhen',
 							'\t\t<condition>',
 							'\tthen',
@@ -77,7 +93,19 @@
 						].join('\n'),
 						insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
 						documentation: 'rule Statement'
+					},{
+						label: 'declare Statement',
+						kind: monaco.languages.CompletionItemKind.Snippet,
+						insertText: [
+							'declare <ObjectName>',
+							'\t<attributename1>:String',
+							'\t<attributename2>:String',
+							"end"
+						].join('\n'),
+						insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+						documentation: 'declare Statement'
 					}];
+					var keywords=keywords1.concat(keywords2).concat(keywords3)
 					keywords.forEach(key => {
 						var tip = {
 							label: key,
