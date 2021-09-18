@@ -1,0 +1,330 @@
+[
+    {
+        "name": "find",
+        "detail": "find [路径] [-选项] [参数] 搜索文件；例：find ~ -name '*' 说明：在$HOME目录及子目录查找文件；find . -size +100M  查找当前目录大于100M的文件",
+        "specific":"-path|ipath p : 路径名称符合 p 的文件，ipath 会忽略大小写<br>-name|iname name : 文件名称符合 name 的文件。iname 忽略大小写 <br>-size n : 文件大小 是 n 单位(b,k,M)<br>-type c : 文件类型是 c 的文件。<br>-amin|atime n : 在过去 n 分钟|天内被读取过；<br># find . -ctime -20 当前目录及其子目录下所有最近 20 天内更新过的文件<br>-cmin|ctime n : 在过去 n 分钟|天内被修改过<br># find . -iname '*.c' 当前目录及其子目录下所有文件后缀为 .c 的文件<br>-anewer|cnewer file : 比文件 file 更晚被读取过的文件|比文件 file 更新的文件<br># find ~ -atime +30 -exec rm -f {} \\; 删除当前30天内没用过的文件"
+    },
+    {
+        "name": "grep",
+        "detail": "grep [-abcEFGhHilLnqrsvVwxy][-A<显示行数>][-B<显示列数>][文件或目录...] 文本搜索工具,例：grep test *file 查找后缀有 file 字样的文件中包含 test 字符串的文件；ps -ef | grep sshd -c 查找指定进程个数",
+        "specific":"-c  只输出匹配行的计数<br># grep linuxtechi /etc/passwd 在/etc/passwd文件中查找单词 linuxtechi<br>-i   不区分大小写（只适用于单字符）<br># grep -v linuxtechi /etc/passwd /etc/passwd文件中所有不含单词“linuxtechi”的行<br>-n   显示匹配行及行号<br># grep -e \"linuxtech\" -e \"root\" /etc/passwd 查找‘linuxtechi’和‘root’单词<br>-s   不显示不存在或无匹配文本的错误信息<br># grep 'this' demo_* 从多个文件(demo_1,demo_2...)中查找指定的字符串<br>-v   显示不包含匹配文本的所有行<br># grep \"user|USER\" /etc/passwd 查找两个字符串"
+    },
+    {
+        "name": "whereis",
+        "detail": "whereis [-bfmsu][-B <目录>...][-M <目录>...][-S <目录>...][文件...] 定位可执行文件、源代码文件、帮助文件； 例：whereis ls 将和ls文件相关的文件都查找出来",
+        "specific":"-B 　只在设置的目录下查找二进制文件<br>-f 　不显示文件名前的路径名称<br>-m 　只查找说明文件<br>-M 　只在设置的目录下查找说明文件<br>-s 　只查找原始代码文件<br># whereis -b cp 只搜索cp的二进制文件<br>-S 　只在设置的目录下查找原始代码文件<br># whereis -B /usr/bin/ -f cp 在 /usr/bin 搜索cp二进制文件<br>-u 　查找不包含指定类型的文件<br># whereis -l 查看 whereis 的搜索路径"
+    },
+    {
+        "name": "which",
+        "detail": "which [文件...] 在PATH变量指定的路径中，搜索某个系统命令的位置；例：which java  查找path中java的路径"
+    },
+    {
+        "name": "su",
+        "detail": "su [-fmp] [-c command] [-s shell] [-] [USER [ARG]] 变更为其他使用者身份，除roo 外，需要键入使用者密码；例：su test:切换到test用户，但是路径还是/root目录"
+    },
+    {
+        "name": "sudo",
+        "detail": "sudo [-bhHpV][-s ][-u <用户>][指令] 让普通用户具有临时使用root权限的权利；例：sudo -u uggc vi ~www/index.html 以uggc用户身份编辑home目录下www目录中的index.html 文件 "
+    },
+    {
+        "name": "service",
+        "detail": "service [服务名] [option] 控制系统服务（打开、关闭、重启）；例：service iptables start|stop|status 启动|停止|查看iptables服务"
+    },
+    {
+        "name": "systemctl",
+        "detail": "systemctl [option] command 用于管理系统；例：sudo systemctl reboot 重启系统；systemctl enable etcd.service 安装etcd服务；systemctl start|stop|restart|status httpd.service"
+    },
+    {
+        "name": "pwd",
+        "detail": "pwd 查看当前目录路径"
+    },
+    {
+        "name": "ps",
+        "detail": "ps [options] 查看所有正在运行的进程；例：ps -u root 显示root进程用户信息；ps -ef | grep php 显示 php 的进程"
+    },
+    {
+        "name": "kill",
+        "detail": "kill pid 或者 kill -9 pid(强制杀死进程) pid:进程号"
+    },
+    {
+        "name": "ifconfig",
+        "detail": "ifconfig  查看网卡信息,ifconfig 或 ifconfig | more"
+    },
+    {
+        "name": "ping",
+        "detail": "ping [-dfnqrRv][-c<完成次数>][-i<间隔秒数>][-s<包大小>][-t<存活数值>][主机或IP] 查看连接情况；例：ping -i 3 -s 1024 -t 255 g.cn ping主机 -i 3 发送周期为 3秒 -s 设置发送包的大小 -t 设置TTL值为 255"
+    },
+    {
+        "name": "netstat",
+        "detail": "netstat [-acCeFghilMnNoprstuvVwx][-A<网络类型>][--ip] 查看网络状态,netstat -an | grep 8080 查看8080端口；netstat -nu 当前户籍UDP连接状况"
+    },
+    {
+        "name": "chmod",
+        "detail": "chmod [-cfvR] mode file 修改文件权限,chmod ugo+r file1.txt 将file1.txt设为所有人可读；chmod -R a+r * 将目前目录所有文件与子目录设为任何人可读",
+        "specific":"-c，--changes 只输出被改变文件的信息<br># chmod u+x file 给file增加执行权限<br>-f，--silent，--quiet 当chmod不能改变文件模式时，不通知文件的用户<br># chmod 751 file   给file分配读、写、执行的权限<br>-R，--recursive 可递归遍历子目录，把修改应到目录下所有文件和子目录<br># chmod u=rwx,g=rx,o=x file   上例的另一种形式<br>--reference=filename 参照filename的权限来设置权限<br># chmod =r file    为所有用户分配读权限<br>-v，--verbose 无论修改是否成功，输出每个文件的信息<br># chmod -R u+r directory   递归地给directory目录下所有文件和子目录分配读的权限"
+    },
+    {
+        "name": "shutdown",
+        "detail": "shutdown 关机和重启,例:shutdown -h now 立刻关机；shutdown -h 5  5分钟后关机；shutdown -r now  立刻重启；shutdown -r 5  5分钟后重启"
+    },
+    {
+        "name": "man",
+        "detail": "man 命令说明书,man shutdown 打开命令说明书之后，使用按键q退出"
+    },
+    {
+        "name": "cd",
+        "detail": "cd 目录切换, cd /usr 切换到根目录下的usr目录；cd ~  切换到home目录；cd ../ 切换到上一级目录 或者  cd .."
+    },
+    {
+        "name": "ls",
+        "detail": "ls [-al] 查看当前目录下的所有目录和文件；例：ls -a 查看当前目录下的所有目录和文件；ls /usr 查看指定目录下的所有目录和文件"
+    },
+    {
+        "name": "mkdir",
+        "detail": "mkdir 创建目录，例：mkdir log 在当前目录创建一个log目录；mkdir /usr/log  在指定目录创建log的目录"
+    },
+    {
+        "name": "rm",
+        "detail": "rm [-rf] 目录|文件 , 删除目录或文件；rm -rf aaa 递归删除当前目录下的aaa目录（不询问）"
+    },
+    {
+        "name": "mv",
+        "detail": "mv 当前目录 新目录；(目录修改),mv af bf  将目录af改为bf； mv /usr/tmp/af /usr 将/usr/tmp目录下的af目录剪切到 /usr目录下面"
+    },
+    {
+        "name": "cp",
+        "detail": "cp -r 目录名称 目录拷贝的目标位置   -r代表递归；cp /usr/tmp/aaa  /usr 将/usr/tmp目录下的aaa目录复制到 /usr目录下面"
+    },
+    {
+        "name": "touch",
+        "detail": "touch 文件名 新建文件；touch aa.txt 在当前目录创建一个名为aa.txt的文件"
+    },
+    {
+        "name": "vi",
+        "detail": "vi 文件名；i 切换到输入模式；: 切换到底线命令模式；q 退出程序；w 保存文件；x 删除光标所在字符"
+    },
+    {
+        "name": "vim",
+        "detail": "vim 文件名；i 切换到输入模式；: 切换到底线命令模式；q 退出程序；w 保存文件；x 删除光标所在字符"
+    },
+    {
+        "name": "tar",
+        "detail": "tar 打包和压缩,tar -zcvf ab.tar  * 打包并压缩当前目录下的所有文件，压缩包名称为ab.tar，tar -zxvf ab.tar ab.tar解压到当前目录下[-c代表压缩，-x代表解压]",
+        "specific":"-x 从压缩的文件中提取文件<br>-c 建立新的压缩文件<br>-t 显示压缩文件的内容<br>-v 显示操作过程<br>-f 指定压缩文件<br># tar xvf FileName.tar 解包文件FileName.tar<br>-z 支持gzip解压文件<br># tar cvf FileName.tar DirName 打包文件DirName为FileName.tar<br>-j 支持bzip2解压文件<br># tar -zcvf log.tar.bz2 log2012.log  打包后，以 bzip2 压缩"
+    },
+    {
+        "name": "chown",
+        "detail": "chown [-cfhvR] user[:group] file... 改变文件所有者,例：chown -R liu /usr/meng 将目录/usr/meng及其下面的所有文件、子目录的文件主改成 liu",
+        "specific":"-c 显示更改的部分的信息<br># chown root newfile.txt 将newfile.txt所有权更改为root用户<br>-f 忽略错误信息<br># chown james:james newfile.txt 用户和组都更改为 james用户<br>-h 修复符号链接<br># chown root:root newfile.txt -v 使用-v选项显示更改权限时在终端进行的操作<br>-R 处理指定目录以及其子目录下的所有文件<br># chown -R root:root ./directory-name/ 递归更改目录的文件权限<br>-v 显示详细的处理信息<br># chown 1000:1000 newfile.txt 将newfile.txt更改为uid 1000和gid 1000"
+    },
+    {
+        "name": "ll",
+        "detail": "ll 是显示当前目录下文件详细信息,与ls -l”的功能是相同的"
+    },
+    {
+        "name": "alias",
+        "detail": "alias 别名=’原命令 -选项/参数'"
+    },
+    {
+        "name": "unalias",
+        "detail": "unalias 别名 删除别名"
+    },
+    {
+        "name": "cat",
+        "detail": "cat [-AbeEnstTuv] fileName 连接文件并打印标准输出设备，例：cat -b file1 file2 >> file3 把 file1 和 file2 的文档内容加上行号（空白行不加）附加到 file3 里"
+    },
+    {
+        "name": "chattr",
+        "detail": "chattr [-RV] [+/-/=<属性>] [文件或目录...] 改变文件属性，例：chattr +i /etc/resolv.conf 防止系统中某个关键文件被修改"
+    },
+    {
+        "name": "chgrp",
+        "detail": "chgrp [-cfhRv][所属群组][文件或目录...] 变更文件或目录的所属群组，例：chgrp -v bin log.log 'log.log' 所属组更改为 bin"
+    },
+    {
+        "name": "cksum",
+        "detail": "cksum [文件...] 检查文件的CRC是否正确,例：cksum testfile1"
+    },
+    {
+        "name": "diff",
+        "detail": "diff [-abBcdefHilnNpPqrstTuvwy] [文件1] [文件2] ,例：diff log2.log log3.log"
+    },
+    {
+        "name": "ln",
+        "detail": "ln [参数][源文件或目录][目标文件或目录] 文件在其他位置建立同步链接,例：ln -s log.log lo 为log.log文件创建软链接lo；ln log.log lo 为log.log创建硬链接lo"
+    },
+    {
+        "name": "cmp",
+        "detail": "cmp [-clsv][-i <字符数目>] [第一个文件] [第二个文件],例：cmp prog.o.bak prog.o 比较 prog.o.bak 和 prog.o"
+    },
+    {
+        "name": "ftp",
+        "detail": "ftp [-dignv] [主机名称或IP地址] 登录FTP服务器，例：ftp ftp.kernel.org",
+        "specific": "-d 详细显示指令执行过程，便于排错或分析程序执行的情形<br>ftp> ascii|binary  改为ascii|binary的传输模式<br>-i 关闭互动模式，不询问任何问题<br>ftp> get image1.jpg 下载远程服务器的image1.jpg文件到本地服务器<br>-g 关闭本地主机文件名称支持特殊字符的扩充特性<br>ftp> put image2.jpg 上传本地服务器的image2.jpg文件到远程服务器<br>-n 不使用自动登陆<br>ftp> mdelete *.jpg 删除远程服务器的”jpg”文件<br>-v 显示指令执行过程<br>ftp> quit 退出FTP程序"
+    },
+    {
+        "name": "scp",
+        "detail": "scp [可选参数] file_source file_target Linux 之间复制文件和目录,例：scp /home/1.mp3 root@www.noob.com:/root/music 复制到远程；scp root@www.noob.com:/root/music /home/1.mp3 复制到本地",
+        "specific": "-1|2|4|6：强制scp命令使用协议ssh1|ssh2|IPv4寻址|IPv6寻址<br>-B|C：使用批处理模式（不询问传输口令或短语）| 允许压缩<br>-r： 递归复制整个目录<br>-F ssh_config： 指定一个替代的ssh配置文件，此参数直接传递给ssh<br>-i identity_file： 从指定文件中读取传输时使用的密钥文件，此参数直接传递给ssh<br>-P port：注意是大写的P, port是指定数据传输用到的端口号<br>#scp -pv messages.log mrarianto@202.10.10.1:.  采用压缩模式复制本地文件到服务器<br>#scp root@192.168.120.204:/opt/soft/nginx.tar.gz /opt/soft/ 从远处复制文件到本地目录<br>#scp -r local_folder remote_username@remote_ip:remote_folder 复制目录到服务器<br>#scp -P 4588 remote@www.abc.com:/usr/local/sin.sh /home/admin 指定端口"
+    },
+    {
+        "name": "stat",
+        "detail": "stat [option] [文件或目录] 显示索引节点内容，例：stat testfile 查看testfile文件的元信息"
+    },
+    {
+        "name": "mount",
+        "detail": "mount [-fnrsvw] [-o options [,...]] device | dir 挂载Linux系统外的文件,例：mount /dev/hda1 /mnt 将 /dev/hda1 挂在 /mnt 之下"
+    },
+    {
+        "name": "umount",
+        "detail": "umount [-ahnrvV][-t <文件系统类型>][文件系统] 卸除文件系统,例：umount -v /dev/sda1 通过设备名卸载"
+    },
+    {
+        "name": "du",
+        "detail": "du [目录或文件] 显示指定的目录或文件所占用的磁盘空间,例：du -h test 显示test目录所占空间情况"
+    },
+    {
+        "name": "edquota",
+        "detail": "edquota [-p <源用户名称>][-ug][用户或群组名称...] 编辑用户或群组的磁盘配额"
+    },
+    {
+        "name": "du",
+        "detail": "du [目录或文件] 显示指定的目录或文件所占用的磁盘空间,例：du -h test 显示test目录所占空间情况"
+    },
+    {
+        "name": "clear",
+        "detail": "clear命令用于清除屏幕"
+    },
+    {
+        "name": "chroot",
+        "detail": "chroot [目的目录][执行指令...],例：chroot /mnt/ls 改变根目录"
+    },
+    {
+        "name": "clock",
+        "detail": "clock [--adjust][--debug][--directisa][--getepoch][--hctosys][--set --date=\"<日期时间>\"],例：clock -utc 显示UTC时间"
+    },
+    {
+        "name": "crontab",
+        "detail": "crontab [ -u user ] file 让使用者在固定时间或固定间隔执行程序"
+    },
+    {
+        "name": "declare",
+        "detail": "declare [+/-][rxi][变量名称＝设置值] 声明 shell 变量,例：declare -i ab  声明ab整数型变量"
+    },
+    {
+        "name": "export",
+        "detail": "export [-fnp][变量名称]=[变量设置值],例：export -p 列出当前的环境变量值；export MYENV=7 定义环境变量并赋值"
+    },
+    {
+        "name": "nohup",
+        "detail": "nohup Command [ Arg … ] [　& ],例：nohup /root/runoob.sh & 在后台执行 root 目录下的 runoob.sh 脚本",
+        "specific":"nohup command > myout.file 2>&1 &<br>-- /dev/null 表示空设备文件<br>-- 0 表示stdin标准输入<br>-- 1 表示stdout标准输出<br>-- 2 表示stderr标准错误<br>> file 表示将标准输出输出到file中，也就相当于 1>file<br>2>&1 也就表示将错误重定向到标准输出上<br>2>&1 >file ：错误输出到终端，标准输出重定向到文件file，等于 > file 2>&1"
+    },
+    {
+        "name": "gzip",
+        "detail": "gzip [-acdfhlLnNqrtvV][--best/fast][文件...],例：gzip * 压缩目录所有文件；gzip -dv * 解压文件，并列出详细信息"
+    },
+    {
+        "name": "zip",
+        "detail": "zip [-AcdDfFghjJKlLmoqrSTuvVwXyz$][-b <工作目录>][压缩文件][文件...],例：zip -q -r html.zip /home/html 将/home/html/ 目录所有文件和文件夹打包为html.zip"
+    },
+    {
+        "name": "unzip",
+        "detail": "unzip [-cflptuvz][-agCjLMnoqsVX][-P <密码>][.zip文件][文件][-d <目录>][-x <文件>] 解压缩zip文件,例：unzip filename.zip -d /directory 将 ZIP 文件解压缩到/directory"
+    },
+    {
+        "name": "dump",
+        "detail": "dump 命令用于备份文件系统,例：dump -0 -u /dev/tape /home/ 备份文件到磁带"
+    },
+    {
+        "name": "passwd",
+        "detail": "passwd [-k] [-l] [-u [-f]] [-d] [-S] [username] 更改使用者密码,例：passwd runoob 设置runoob用户密码"
+    },
+    {
+        "name": "free",
+        "detail": "free [-bkmotV][-s <间隔秒数>] 显示内存状态,例：free -t 以总和的形式查询内存的使用信息；free -s 10 每10s 执行一次命令"
+    },
+    {
+        "name": "top",
+        "detail": "top [-] [d delay] [q] [c] [S] [s] [i] [n] [b] 实时显示 process 的动态,例：top -S 以累积模式显示程序信息"
+    },
+    {
+        "name": "reboot",
+        "detail": "reboot [-n] [-w] [-d] [-f] [-i] 重新启动计算机; -f : 强迫重开机"
+    },
+    {
+        "name": "login",
+        "detail": "login命令用于登入系统"
+    },
+    {
+        "name": "finger",
+        "detail": "finger [options] user[@address] 查询一些其他使用者的资料,例：finger -m hnlinux 显示指定用户信息；finger -m root@192.168.1.13 显示远程用户信息"
+    },
+    {
+        "name": "fwhios",
+        "detail": "fwhios [帐号名称] 查找并显示用户信息"
+    },
+    {
+        "name": "tail",
+        "detail": "tail [参数] [文件] 查看文件的内容,例：tail -f notes.log 跟踪名为 notes.log 的文件的增长情况，按下（Ctrl-C）组合键停止显示"
+    },
+    {
+        "name": "head",
+        "detail": "head [参数] [文件] 查看文件的开头部分的内容,例：head -n 5 notes.log 显示notes.log 文件的开头5行"
+    },
+    {
+        "name": "join",
+        "detail": "join [-i][-a<1或2>][-e<字符串>][-o<格式>][文件1][文件2] 将两个文件中，指定栏位内容相同的行连接起来,例：join testfile_1 testfile_2"
+    },
+    {
+        "name": "df",
+        "detail": "df [选项]... [FILE]... 显示目前在 Linux 系统上的文件系统磁盘使用情况统计,例：df test 显示磁盘使用的test文件系统信息"
+    },
+    {
+        "name": "who",
+        "detail": "who - [husfV] [user]. 显示系统中使用者信息,例：who -u -H 显示用户登录来源"
+    },
+    {
+        "name": "whoami",
+        "detail": "whoami命令用于显示自身用户名称,例：whoami"
+    },
+    {
+        "name": "id",
+        "detail": "id命令用于显示用户的ID，以及所属群组的ID,例：id -g 显示用户群组的ID"
+    },
+    {
+        "name": "rsh",
+        "detail": "rsh [-dn][-l <用户名称>][主机名称或IP地址][执行指令] 远端登入的Shell,例：rsh -l hnlinux 192.168.1.88 /bin/ls 远程执行ls命令"
+    },
+    {
+        "name": "nice",
+        "detail": "nice [-n adjustment] [-adjustment] [--adjustment=adjustment] [command [arg...]],例：nice -n 1 ls 将 ls 的优先序加 1 并执行"
+    },
+    {
+        "name": "locate",
+        "detail": "locate [-d ][--help][--version][范本样式...] 快速的搜寻某个路径；例：locate /etc/sh 搜索et 目录以sh开头的文件；locate -i ~/r 忽略大小写搜索当前用户目录以 r 开头文件"
+    },
+    {
+        "name": "useradd",
+        "detail": "useradd [-c 备注][-d 目录][-e 期限][-f 天数][-g 群组][-G 群组][-s shell][-u uid][帐号] 新建用户；例：useradd -g root tt 添加tt用户到相应root组；useradd -d /home/myd tt 新添加用户指定home目录"
+    },
+    {
+        "name": "usermod",
+        "detail": "usermod [-c 备注][-d 目录][-e 期限][-f 天数][-g 群组][-G 群组][-l 名称][-s shell][-u uid][帐号]；例：usermod -l uu(新名) tt(原名) 修改用户名；usermod -aG user test 把test用户加入user组"
+    },
+    {
+        "name": "userdel",
+        "detail": "userdel [-r] 登录名 删除用户帐号与相关的文件。若不加参数，则仅删除用户帐号，而不删除相关文件"
+    },
+    {
+        "name": "yum",
+        "detail": "yum [options] [command] [package]；例：yum check-update 可更新软件；yum update 更新所有软件；yum install package 安装指定软件；yum remove package 删除软件；yum search key 查找软件包",
+        "specific":"# yum install PACKAGE_NAME 安装yum包<br># yum remove PACKAGE_NAME 删除yum包装<br># yum reinstall PACKAGE_NAME 重新安装一个yum包<br># yum search PACKAGE_NAME 搜索yum包<br># yum info PACKAGE_NAME 显示yum包的信息<br># yum update 更新安装的yum包<br># yum update PACKAGE_NAME 更新具体的yum包<br># yum history 显示yum历史<br># yum repolist 显示已启用的yum存储库的列表<br># yum clean all 清除yum缓存"
+    },
+    {
+        "name": "apt",
+        "detail": "apt [options] [command] [package]；例：sudo apt update 列出所有可更新软件；sudo apt install package_1 package_2 安装多个软件包；sudo apt remove package 删除软件包；sudo apt search key 查找软件包",
+        "specific":"# sudo apt update && sudo apt upgrade -y  查看一些可更新的包 ,并升级安装包<br># apt list --all-versions 列出所有已安装的包的版本信息<br># sudo apt search keyword 查找软件包命令<br># sudo apt install package_name 安装指定的软件命令<br># sudo apt install package_1 package_2 package_3 安装多个软件包<br># sudo apt update package_name 更新指定的软件命令<br># sudo apt show package_name 显示软件包具体信息,例如：版本号，安装大小，依赖关系等等<br># sudo apt remove package_name 删除软件包命令<br># sudo apt autoremove 清理不再使用的依赖和库文件<br># sudo apt purge package_name 移除软件包及配置文件<br>"
+        
+    }
+]

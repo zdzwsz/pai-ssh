@@ -16,6 +16,18 @@ export default class LoginView extends React.Component {
 
     componentDidMount() {
         $(".downloadcss").hide();
+        var localUserName = localStorage.getItem("localUserName");
+        if(localUserName){
+            this.refs.rname.checked = true;
+            this.refs.name.value = localUserName;
+        }
+
+        var localUserPass = localStorage.getItem("localUserPass");
+        if(localUserPass){
+            this.refs.rpass.checked = true;
+            this.refs.pass.value = localUserPass;
+        }
+        
     }
 
     openModalAddUser() {
@@ -27,6 +39,16 @@ export default class LoginView extends React.Component {
         e.preventDefault();
         let name = this.refs.name.value;
         let pass = this.refs.pass.value;
+        if(this.refs.rname.checked == true){
+            localStorage.setItem("localUserName" , name);
+        }else{
+            localStorage.setItem("localUserName" , "");
+        }
+        if(this.refs.rpass.checked == true){
+            localStorage.setItem("localUserPass" , pass);
+        }else{
+            localStorage.setItem("localUserPass" , "");
+        }
         this.store.login(name, pass);
     }
 
@@ -70,6 +92,14 @@ export default class LoginView extends React.Component {
                                 </div>
                                 <div className="form-group">
                                     <input type="password" ref='pass' className="form-control" placeholder="请输入密码" />
+                                </div>
+                                <div className="form-group">
+                                    <label className="span-padding span-padding-right check-font-color">
+                                        <input type="checkbox" ref='rname' /> 记住用户名
+                                    </label>
+                                    <label className="span-padding check-font-color">
+                                        <input type="checkbox" ref='rpass' /> 记住密码
+                                    </label>
                                 </div>
                                 <div className="form-group">
                                     <span className="span-padding span-padding-right span-padding-left"><input type="submit" className="btn btn-default" value="用户登录" /></span>

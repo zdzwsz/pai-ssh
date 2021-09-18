@@ -1,5 +1,6 @@
 var Client = require('ssh2').Client;
 var dbService = require('./dbService.js');
+var commandUtil = require('../util/CommandUtil.js');
 var timeoutSec = 1000 * 60 * 10;
 
 var timeoutwarn = 1000 * 60;
@@ -79,6 +80,7 @@ var sshService = {
                 nsp.emit('init-over');
             });
             socket.on("connectionssh", function (obj) {
+                command = ""
                 conn = new Client();
                 conn.on('ready', function () {
                     conn.shell({ rows: rows, cols: cols,term:"xterm" }, function (err, stream) {
@@ -98,23 +100,32 @@ var sshService = {
                             if (timeout != null)
                                 clearTimeout(timeout);
                         }).on('data', function (data) {
-                            //console.log(initTime);
-                            //if (initTime >= 3 || initTime == 0) {
-                            //nsp.emit('sshdata', data.toString());
                             nsp.emit('sshdata', Buffer.from(data));
-                            
-                           // }
-                            //initTime++;
                             nowTime = new Date().getTime();
-                            //console.log('STDOUT: ' + data);
                         }).stderr.on('data', function (data) {
                             console.log('STDERR: ' + data);
                         });
                         //========================================================
-                        socket.on('sshdata', function (data) {
-                            //console.log(data);
+                        socket.on('sshdata', function (data) {//客户端发送数据到web服务器，服务器再将数据发送到ssh服务器
                             stream.write(data);
                         });
+
+                        socket.on('prompt',function(data){//根据客户端发送的命令，查询服务端提供命令帮助
+                            prompt = commandUtil.getPrompt(data);
+                            if(prompt){
+                                nsp.emit('prompt', prompt);
+                            }else{
+                                nsp.emit('prompt', data);
+                            }
+                        })
+                        socket.on('prompt_specific',function(data){//根据客户端发送的命令，查询服务端提供命令帮助
+                            prompt = commandUtil.getSpecific(data);
+                            if(prompt){
+                                nsp.emit('prompt_specific', prompt);
+                            }else{
+                                nsp.emit('prompt_specific', "没有配置命令详解");
+                            }
+                        })
                     });
                 }).connect(spaceInfo);
 

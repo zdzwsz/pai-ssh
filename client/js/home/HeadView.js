@@ -115,7 +115,7 @@ export default class HeadView extends React.Component {
                     </div>
                 </Modal>
                 <Modal id="aboutModal" title="关于PAI-SSH" icon="fa fa-book">
-                    <div>PAI-SSH 是一款好用又好玩，还免费，开源的SSH工具，由一个有点固执又好色的老程序员开发，关键代码写的还很烂，希望大家喜欢！</div>
+                    <div>PAI-SSH 是一款好用又好玩，还免费，开源的SSH工具，由一个有点固执又落魄的老程序员开发，关键代码写的还很烂，希望大家喜欢！</div>
                     <div>项目github地址：<a target="_blank" href="https://github.com/zdzwsz/pai-ssh">https://github.com/zdzwsz/pai-ssh</a></div>
                 </Modal>
             </div>

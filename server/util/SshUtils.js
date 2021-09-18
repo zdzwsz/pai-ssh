@@ -83,7 +83,7 @@ SshUtils.prototype.getFileList = function (remotePath, then) {
 		arr = data.split("\n");
 		//arr.sort(sortFolder);
 		let root = {};
-		root.name = "根目录";
+		root.name = "工作目录";
 		root.path = fullPath;
 		let sub = []
 		arr.forEach(function (dir) {

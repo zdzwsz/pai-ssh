@@ -28,6 +28,15 @@
 			"memberOf", "matches"];
 		var editor = null;
 		var monaco_editor = null;
+
+		function createTokenizerStr(keywordArray){
+			var tokenizerStr1 = "";
+			keywordArray.forEach(key => {
+				tokenizerStr1 += "\\b" + key + "\\b|"
+			});
+			return tokenizerStr1.substring(0, tokenizerStr1.length - 1)
+		}
+
 		require.config({
 			paths: { 'vs': '../lib/monaco-editor/min/vs' },
 			'vs/nls': {
@@ -39,28 +48,13 @@
 		require(['vs/editor/editor.main'], function () {
 
 			monaco.languages.register({ id: 'drl' });
-			var tokenizerStr1 = "";
-			var tokenizerStr2 = "";
-			var tokenizerStr3 = "";
-			keywords1.forEach(key => {
-				tokenizerStr1 += "\\b" + key + "\\b|"
-			});
-			keywords2.forEach(key => {
-				tokenizerStr2 += "\\b" + key + "\\b|"
-			});
-			keywords3.forEach(key => {
-				tokenizerStr3 += "\\b" + key + "\\b|"
-			});
-			tokenizerStr1 = tokenizerStr1.substring(0, tokenizerStr1.length - 1)
-			tokenizerStr2 = tokenizerStr2.substring(0, tokenizerStr2.length - 1)
-			tokenizerStr3 = tokenizerStr3.substring(0, tokenizerStr3.length - 1)
-			// Register a tokens provider for the language
+			
 			monaco.languages.setMonarchTokensProvider('drl', {
 				tokenizer: {
 					root: [
-						[new RegExp(tokenizerStr1, "ig"), "keyword"],
-						[new RegExp(tokenizerStr2, "ig"), "action"],
-						[new RegExp(tokenizerStr3, "ig"), "function"]
+						[new RegExp(createTokenizerStr(keywords1), "ig"), "keyword"],
+						[new RegExp(createTokenizerStr(keywords2), "ig"), "action"],
+						[new RegExp(createTokenizerStr(keywords3), "ig"), "function"]
 					]
 				}
 			});

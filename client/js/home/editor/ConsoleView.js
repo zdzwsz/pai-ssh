@@ -91,7 +91,7 @@ export default class ConsoleView extends React.Component {
     fit(term) {
         if (!term) return;
         if (term._core._renderService.dimensions.actualCellWidth === 0 || term._core._renderService.dimensions.actualCellHeight === 0) return;
-        this.opt.rows = Math.floor((document.querySelector(".terminal-container").offsetHeight-10) / term._core._renderService.dimensions.actualCellHeight);
+        this.opt.rows = Math.floor((document.querySelector(".terminal-container").offsetHeight - 10) / term._core._renderService.dimensions.actualCellHeight);
         this.opt.cols = Math.floor((document.querySelector(".terminal-container").offsetWidth - 20) / term._core._renderService.dimensions.actualCellWidth);
         term.resize(this.opt.cols, this.opt.rows);
     }
@@ -99,7 +99,7 @@ export default class ConsoleView extends React.Component {
     createPopMenu(term) {
         if (typeof (ipcRenderer) != "undefined") {
             let _this = this;
-            var menu = new BootstrapMenu('#'+term.element.id, {
+            var menu = new BootstrapMenu('#' + term.element.id, {
                 actionsGroups: [
                     ['clear'],
                     ['select']
@@ -109,7 +109,7 @@ export default class ConsoleView extends React.Component {
                         name: '复制',
                         iconClass: "fa fa-copy",
                         onClick: function () {
-                            ipcRenderer.send('clipboard.write',term.getSelection());
+                            ipcRenderer.send('clipboard.write', term.getSelection());
                         }
                     },
                     paste: {
@@ -144,6 +144,10 @@ export default class ConsoleView extends React.Component {
 
     initTerm(name) {
         var _this = this;
+        var command_prefix = "";
+        var command = "";
+        var command_start = false;
+        var command_model = 0;
         let socket = io("/" + name);
         this.sockets[name] = socket;
         this.calculateTermRowsAndCols();
@@ -160,23 +164,54 @@ export default class ConsoleView extends React.Component {
             socket.emit('connectionssh'); //正式连接
         })
         term.onData(function (data) {
-            //console.log(data);
             socket.emit('sshdata', data);
         });
+        term.onKey(function (data) {
+            command_start = true;
+            if (command_prefix.length == 0) {
+                var buffer = term.buffer.normal;
+                command_prefix = buffer.getLine(buffer.cursorY + buffer.baseY).translateToString(true);
+            }
+            if (command_model == 1 && data.key && data.key.charCodeAt(0) == 27) {
+                if ($("#promptPanel").css('display') != 'none' && $("#promptPanel").css('top') == "50px") {
+                    $("#promptPanel").css({ "top": "-86px", "height": "178px" });
+                    socket.emit('prompt_specific', command);
+                } else {
+                    $("#promptPanel").css({ "top": "50px", "height": "42px" });
+                    $("#promptContext").html("");
+                }
+            }
+        })
+        term.onLineFeed(function () {
+            setTimeout(function () {
+                //console.log("modes:"+term.modes)
+                var buffer = term.buffer.normal;
+                command_prefix = buffer.getLine(buffer.cursorY + buffer.baseY).translateToString(true);
+                $("#promptPanel").hide();
+            }, 500)
+        })
 
         term.focus();
-
-        term.onResize(function () {
-
-        });
+        term.onResize(function () { });
 
         socket.on('sshdata', function (msg) {
             if (typeof msg === 'string') {
-                return term.write(msg)
+                term.write(msg)
             } else {
                 msg = new Uint8Array(msg)
                 term.write(msg)
             }
+            if (command_start) {
+                setTimeout(function () {
+                    var buffer = term.buffer.normal;
+                    var command_str = buffer.getLine(buffer.cursorY + buffer.baseY).translateToString(true);
+                    command = command_str.substring(command_prefix.length);
+                    command = command.replace(/^\s*|\s*$/g, "");
+                    //console.log("cmd:" + command + "\nstr:" + command_str + "\npre:"+ command_prefix.length+"\nbaseY:"+buffer.baseY);
+                    socket.emit('prompt', command);
+                }, 100)
+            }
+
         });
         socket.on('disconnect', function (msg) {
             term.dispose();
@@ -184,11 +219,52 @@ export default class ConsoleView extends React.Component {
             $("#termName option[value='" + name + "']").remove();
             _this.timeout = "";
             _this.setState(_this.state);
+            $("#promptPanel").hide();
+            command_model = 0;
         });
         socket.on('timeout', function (msg) {
             console.log("msg:" + msg);
             toastr.warning(Math.round(msg / 1000) + "秒", "控制终端(" + name.substring(0, 8) + ")倒计时：");
         });
+
+        socket.on('prompt', function (msg) {
+            if (msg && msg == "close") {
+                $("#promptPanel").hide();
+            }
+            else if (msg.length > 0) {
+                let code = msg.substring(0, 1);
+                if (code == ":") {
+                    $("#promptTitle").html(msg.substring(1))
+                    $("#promptPanel").show();
+                    command_model = 1;
+                } else {
+                    $("#promptTitle").html(msg)
+                    $("#promptPanel").css({ "top": "50px", "height": "42px" }).show();
+                    $("#promptContext").html("");
+                    command_model = 0;
+                }
+
+            }
+            else {
+                $("#promptPanel").hide();
+            }
+        });
+        socket.on('prompt_specific', function (msg) {
+            let msgArray = msg.split("<br>")
+            let msgStrs = ["",""]
+            let styles = ["prompt_white","prompt_white","prompt_black","prompt_black"]
+            for (let i = 0; i < 10; i++) {
+                if(msgArray.length > i){
+                    msgStrs[i%2] += "<p id='"+styles[i%4]+"'>" + msgArray[i] + "</p>";
+                }else{
+                    msgStrs[i%2] += "<p id='"+styles[i%4]+"'>&nbsp</p>";
+                }
+                
+            }
+            $("#promptContext_left").html(msgStrs[0])
+            $("#promptContext_right").html(msgStrs[1])
+        })
+
 
     }
 
@@ -223,7 +299,7 @@ export default class ConsoleView extends React.Component {
 
         return (
             <div>
-                <div>
+                <div className="row">
                     <div className="btn-toolbar toolbar" style={{ padding: 8 }}>
                         <div className="btn-group toolbar" >
                             <select onChange={this.onChangeSelectTerm.bind(this)} id="termName" className="form-control" style={{ width: 200 }}>
@@ -232,6 +308,15 @@ export default class ConsoleView extends React.Component {
                         <div className="btn-group toolbar">
                             <button onClick={this.openTerm.bind(this)} type="button" className="btn btn-default">打开终端</button>
                             <button onClick={this.closeTerm.bind(this)} type="button" className="btn btn-default">关闭终端</button>
+                        </div>
+                    </div>
+                    <div>
+                        <div id="promptPanel">
+                            <div id="promptTitle"></div>
+                            <div className="row">
+                            <div className="col-md-6" id="promptContext_left"></div>
+                            <div className="col-md-6" id="promptContext_right"></div>
+                            </div>
                         </div>
                     </div>
                 </div>

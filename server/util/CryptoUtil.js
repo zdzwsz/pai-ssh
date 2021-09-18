@@ -17,7 +17,7 @@ var CryptoUtil = {
     },
 
     getDecAse192: function (str, secret) {
-        var decipher = crypto.createDecipher(algorithm, secret,this.iv);
+        var decipher = crypto.createCipheriv(algorithm, secret,this.iv);
         var dec = decipher.update(str, "hex", "utf8");//编码方式从hex转为utf-8;
         dec += decipher.final("utf8");//编码方式从utf-8;
         return dec;
