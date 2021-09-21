@@ -2,160 +2,192 @@
     {
         "name": "find",
         "detail": "find [路径] [-选项] [参数] 搜索文件；例：find ~ -name '*' 说明：在$HOME目录及子目录查找文件；find . -size +100M  查找当前目录大于100M的文件",
-        "specific":"-path|ipath p : 路径名称符合 p 的文件，ipath 会忽略大小写<br>-name|iname name : 文件名称符合 name 的文件。iname 忽略大小写 <br>-size n : 文件大小 是 n 单位(b,k,M)<br>-type c : 文件类型是 c 的文件。<br>-amin|atime n : 在过去 n 分钟|天内被读取过；<br># find . -ctime -20 当前目录及其子目录下所有最近 20 天内更新过的文件<br>-cmin|ctime n : 在过去 n 分钟|天内被修改过<br># find . -iname '*.c' 当前目录及其子目录下所有文件后缀为 .c 的文件<br>-anewer|cnewer file : 比文件 file 更晚被读取过的文件|比文件 file 更新的文件<br># find ~ -atime +30 -exec rm -f {} \\; 删除当前30天内没用过的文件"
+        "specific": "-path|ipath p : 路径名称符合 p 的文件，ipath 会忽略大小写<br>-name|iname name : 文件名称符合 name 的文件。iname 忽略大小写 <br>-size n : 文件大小 是 n 单位(b,k,M)<br>-type c : 文件类型是 c 的文件。<br>-amin|atime n : 在过去 n 分钟|天内被读取过；<br># find . -ctime -20 当前目录及其子目录下所有最近 20 天内更新过的文件<br>-cmin|ctime n : 在过去 n 分钟|天内被修改过<br># find . -iname '*.c' 当前目录及其子目录下所有文件后缀为 .c 的文件<br>-anewer|cnewer file : 比文件 file 更晚被读取过的文件|比文件 file 更新的文件<br># find ~ -atime +30 -exec rm -f {} \\; 删除当前30天内没用过的文件"
     },
     {
         "name": "grep",
         "detail": "grep [-abcEFGhHilLnqrsvVwxy][-A<显示行数>][-B<显示列数>][文件或目录...] 文本搜索工具,例：grep test *file 查找后缀有 file 字样的文件中包含 test 字符串的文件；ps -ef | grep sshd -c 查找指定进程个数",
-        "specific":"-c  只输出匹配行的计数<br># grep linuxtechi /etc/passwd 在/etc/passwd文件中查找单词 linuxtechi<br>-i   不区分大小写（只适用于单字符）<br># grep -v linuxtechi /etc/passwd /etc/passwd文件中所有不含单词“linuxtechi”的行<br>-n   显示匹配行及行号<br># grep -e \"linuxtech\" -e \"root\" /etc/passwd 查找‘linuxtechi’和‘root’单词<br>-s   不显示不存在或无匹配文本的错误信息<br># grep 'this' demo_* 从多个文件(demo_1,demo_2...)中查找指定的字符串<br>-v   显示不包含匹配文本的所有行<br># grep \"user|USER\" /etc/passwd 查找两个字符串"
+        "specific": "-c  只输出匹配行的计数<br># grep linuxtechi /etc/passwd 在/etc/passwd文件中查找单词 linuxtechi<br>-i   不区分大小写（只适用于单字符）<br># grep -v linuxtechi /etc/passwd /etc/passwd文件中所有不含单词“linuxtechi”的行<br>-n   显示匹配行及行号<br># grep -e \"linuxtech\" -e \"root\" /etc/passwd 查找‘linuxtechi’和‘root’单词<br>-s   不显示不存在或无匹配文本的错误信息<br># grep 'this' demo_* 从多个文件(demo_1,demo_2...)中查找指定的字符串<br>-v   显示不包含匹配文本的所有行<br># grep \"user|USER\" /etc/passwd 查找两个字符串"
     },
     {
         "name": "whereis",
         "detail": "whereis [-bfmsu][-B <目录>...][-M <目录>...][-S <目录>...][文件...] 定位可执行文件、源代码文件、帮助文件； 例：whereis ls 将和ls文件相关的文件都查找出来",
-        "specific":"-B 　只在设置的目录下查找二进制文件<br>-f 　不显示文件名前的路径名称<br>-m 　只查找说明文件<br>-M 　只在设置的目录下查找说明文件<br>-s 　只查找原始代码文件<br># whereis -b cp 只搜索cp的二进制文件<br>-S 　只在设置的目录下查找原始代码文件<br># whereis -B /usr/bin/ -f cp 在 /usr/bin 搜索cp二进制文件<br>-u 　查找不包含指定类型的文件<br># whereis -l 查看 whereis 的搜索路径"
+        "specific": "-B 　只在设置的目录下查找二进制文件<br>-f 　不显示文件名前的路径名称<br>-m 　只查找说明文件<br>-M 　只在设置的目录下查找说明文件<br>-s 　只查找原始代码文件<br># whereis -b cp 只搜索cp的二进制文件<br>-S 　只在设置的目录下查找原始代码文件<br># whereis -B /usr/bin/ -f cp 在 /usr/bin 搜索cp二进制文件<br>-u 　查找不包含指定类型的文件<br># whereis -l 查看 whereis 的搜索路径"
     },
     {
         "name": "which",
-        "detail": "which [文件...] 在PATH变量指定的路径中，搜索某个系统命令的位置；例：which java  查找path中java的路径"
+        "detail": "which [文件...] 在PATH变量指定的路径中，搜索某个系统命令的位置；例：which java 查找path中java的路径",
+        "specific": "-n 指定文件名长度，指定的长度必须大于或等于所有文件中最长的文件名<br>-p 与-n参数相同，但此处的包括了文件的路径<br>-w 指定输出时栏位的宽度<br>-V 显示版本信息<br>#which cd 找不到，因为cd是bash 内建的命令<br>#which which 有两个 which ，其中一个是 alias"
     },
     {
         "name": "su",
-        "detail": "su [-fmp] [-c command] [-s shell] [-] [USER [ARG]] 变更为其他使用者身份，除roo 外，需要键入使用者密码；例：su test:切换到test用户，但是路径还是/root目录"
+        "detail": "su [-fmp] [-c command] [-s shell] [-] [USER [ARG]] 变更其他使用者，除roo外，需键入密码；例：su test 切换到test用户，但是路径是/root目录",
+        "specific": "-, -l, --login  使用登录用户shell成为登录shell<br>#su - root -c  \"ifconfig\" 使用root的身份执行ifconfig，需要输入密码<br>-f 或 --fast 不必读启动档（如 csh.cshrc 等），仅用于 csh 或 tcsh<br>#su – omd  root切换其他用户不用输密码，普通用户切换需用户登录密码<br>-m -p 或 --preserve-environment 执行 su 时不改变环境变量<br>su和sudo的区别:<br>-c command 或 --command=cmd 变更为 USER 执行指令再变回<br>su 对切换到超级权限用户root后，权限的无限制性<br>-s shell 或 --shell=shell 指定执行shell(bash csh tcsh等)<br>通过sudo，能把超级权限有针对性下放，并且不需要知道root密码"
     },
     {
         "name": "sudo",
-        "detail": "sudo [-bhHpV][-s ][-u <用户>][指令] 让普通用户具有临时使用root权限的权利；例：sudo -u uggc vi ~www/index.html 以uggc用户身份编辑home目录下www目录中的index.html 文件 "
+        "detail": "sudo [-bhHpV][-s][-u <用户>][指令] 让普通用户具有临时root权限；例：sudo -u uggc vi ~www/in.htm 以uggc用户身份编辑home目录下www中的in.htm文件",
+        "specific": "-l 显示出自己（执行 sudo 的使用者）的权限<br>-v sudo 第一次执行时或是在 N 分钟内没有执行（N 预设为5）会问密码，这个参数是重新做一次确认<br>-k 将会强迫使用者在下一次执行 sudo 时问密码（不论有没有超过 N 分钟）<br>-b 将要执行的指令放在背景执行<br>-p prompt 可以更改问密码的提示语，其中 %u 为使用者名称， %h 显示主机名称<br>-u username/uid 以 username 的身份执行指令<br>-s 执行环境变量中的 SHELL 所指定的 shell ，或是 /etc/passwd 里所指定的 shell<br>-H 将环境变量中的 HOME 指定为要变更身份的目录（不加 -u 参数是系统管理者 root ）<br># sudo -u userb ls -l 指定userb用户执行ls命令<br># sudo !! 以root权限执行上一条命令"
     },
     {
         "name": "service",
-        "detail": "service [服务名] [option] 控制系统服务（打开、关闭、重启）；例：service iptables start|stop|status 启动|停止|查看iptables服务"
+        "detail": "service [服务名] [option] 控制系统服务（打开、关闭、重启）；例：service iptables start|stop|status 启动|停止|查看iptables服务",
+        "specific": "声明：这个命令不是在所有的linux发行版本中都有<br>#service network status 启动network 服务<br>#service network restart 重启network服务<br>#service list 列出本机所有正在运行的service<br>#service check \"service name\" 检查service是否存在<br>#service httpd start 开启httpd服务器<br>#service mysqld stop 关闭mysql服务器<br>#service oracle reload 重新加载oracle"
     },
     {
         "name": "systemctl",
-        "detail": "systemctl [option] command 用于管理系统；例：sudo systemctl reboot 重启系统；systemctl enable etcd.service 安装etcd服务；systemctl start|stop|restart|status httpd.service"
+        "detail": "systemctl [option] command 用于管理系统；例：sudo systemctl reboot 重启系统；systemctl enable etcd.service 安装etcd服务",
+        "specific": "start：立刻启动后面接的 unit<br>stop：立刻关闭后面接的 unit<br>restart：立刻关闭后启动后面接的 unit，即执行 stop 再 start <br>reload：不关闭 unit 的情况下，重新载入配置文件，让设置生效<br>enable：设置下次开机时，后面接的 unit 会被启动<br>disable：设置下次开机时，后面接的 unit 不会被启动<br>status：列出unit状态，有没有正在执行、开机时是否启动等信息<br>is-active：目前有没有正在运行中<br>is-enable：开机时有没有默认要启用这个 unit<br>show：列出 unit 的配置"
     },
     {
         "name": "pwd",
-        "detail": "pwd 查看当前目录路径"
+        "detail": "pwd 查看当前目录路径",
+        "specific": "-L：--logical，显示当前路径，有连接文件直接显示连接文件路径(默认此方式)<br>-P：--physical，显示当前路径，有连接文件时，直接显示连接文件所指向的文件<br>--help：显示帮助信息<br>--version：显示版本信息<br># pwd  查看当前所在路径，相当于 pwd -L<br># pwd -P    #不使用逻辑路径，连接文件最终指向的文件"
     },
     {
         "name": "ps",
-        "detail": "ps [options] 查看所有正在运行的进程；例：ps -u root 显示root进程用户信息；ps -ef | grep php 显示 php 的进程"
+        "detail": "ps [options] 查看所有正在运行的进程；例：ps -u root 显示root进程用户信息；ps -ef | grep php 显示 php 的进程",
+        "specific": "# ps -u root 显示指定root用户进程<br># ps -ef 显示所有进程信息，连同命令行<br># ps -l 这次登入的 PID 与相关信息列示出来<br># ps aux 列出目前所有的正在内存当中的程序<br># ps -axjf 列出类似程序树的程序显示<br># ps -ef|grep ssh 与grep 组合用法，查找特定进程<br># ps aux | egrep '(cron|syslog)'  找出cron与syslog服务的PID号码<br># ps -aux |more 用 | 管道和 more 连接起来分页查看<br># ps -aux > ps001.txt 把所有进程显示，并输到ps001.txt文件<br># ps -o pid,ppid,pgrp,session,tpgid,comm 输出指定的字段"
     },
     {
         "name": "kill",
-        "detail": "kill pid 或者 kill -9 pid(强制杀死进程) pid:进程号"
+        "detail": "kill pid 或者 kill -9 pid(强制杀死进程) pid:进程号",
+        "specific": "只有第9种信号(SIGKILL)才可以无条件终止进程，常用的信号:<br>HUP    1    终端断线 | INT     2    中断（同 Ctrl + C）<br>QUIT    3    退出（同 Ctrl + \\）<br>TERM   15    终止(默认信号) |  KILL    9    强制终止 <br>CONT   18    继续（与STOP相反）<br>STOP    19    暂停（同 Ctrl + Z）<br># kill -l 列出所有信号名称<br># kill -l KILL 得到指定信号的数值<br># kill –9 3268  彻底杀死进程<br># kill -9 $(ps -ef | grep peidalinux) 杀死指定用户所有进程"
     },
     {
         "name": "ifconfig",
-        "detail": "ifconfig  查看网卡信息,ifconfig 或 ifconfig | more"
+        "detail": "ifconfig  查看网卡信息,例：ifconfig 或 ifconfig | more",
+        "specific": "ifconfig命令来源于net-tools<br>如果执行不了，需 yum install  net-tools.x86_64  -y<br># ifconfig 显示网络设备信息(激活状态的)<br># ifconfig -a|-s 查看所有网络接口|短格式显示ifconfig输出<br># ifconfig eth0 up|down  启动|关闭指定网卡<br># ifconfig eth0 add|del 33ffe:3240:800:1005::2/64 为网卡配置|删除IPv6地址<br># ifconfig eth0 hw ether 00:AA:BB:CC:DD:EE 修改MAC地址<br># ifconfig eth0 192.168.12.56 netmask 255.255.255.0<br># ifconfig eth0 arp|-arp 启用和关闭ARP协议<br># ifconfig eth0 mtu 1500 设置通过最大数据包大小为 1500 bytes"
     },
     {
         "name": "ping",
-        "detail": "ping [-dfnqrRv][-c<完成次数>][-i<间隔秒数>][-s<包大小>][-t<存活数值>][主机或IP] 查看连接情况；例：ping -i 3 -s 1024 -t 255 g.cn ping主机 -i 3 发送周期为 3秒 -s 设置发送包的大小 -t 设置TTL值为 255"
+        "detail": "ping [-c<完成次数>][-i<间隔秒数>][-s<包大小>][-t<存活数值>][主机或IP] 查看连接情况；例：ping -i 3 -t 255 g.cn ping主机 -i 3 发送周期为3秒 -t 设置TTL值为 255",
+        "specific": "-b 允许ping网关地址<br>-c count 发送count次ECHO_REQUEST（回传请求）数据包<br>-f 大量ping，极限ping,会将间隔设置为0<br>-i interval 发送每个数据包等待间隔，默认等待一秒，极限模式不等待<br>-s packetsize 指定要发送的数据字节数，默认56<br># ping -c 2 www.runoob.com 指定接收包的次数2<br>-t ttl 设置IP生存时间值（TTL）<br># ping -i 3 -s 1024 -t 255 g.cn -i 发送周期 -s 设置发送包大小 -t 设置TTL值<br>-w deadline 指定以秒为单位的退出时间，不管ping发送或接收多少数据包<br># ping -b 192.168.128.255 ping网关"
     },
     {
         "name": "netstat",
-        "detail": "netstat [-acCeFghilMnNoprstuvVwx][-A<网络类型>][--ip] 查看网络状态,netstat -an | grep 8080 查看8080端口；netstat -nu 当前户籍UDP连接状况"
+        "detail": "netstat [参数][-A<网络类型>][--ip] 查看网络状态,例：netstat -an | grep 8080 查看8080端口；netstat -nu 当前户籍UDP连接状况",
+        "specific": "-a (all)显示所有选项，默认不显示LISTEN相关<br># netstat -lt 只列出所有监听 tcp 端口<br>-t (tcp) | -u (udp) 仅显示tcp|udp相关选项<br># netstat -au 列出所有 udp 端口 <br>-p 显示建立相关链接的程序名 | -r 显示路由信息，路由表<br># netstat -st | -su 显示 TCP 或 UDP 端口的统计信息<br>-e 显示扩展信息，例如uid等 | -s 按各个协议进行统计<br># netstat -pt 输出中显示 PID 和进程名称<br>-c 每隔一个固定时间，执行该netstat命令<br># netstat -c netstat 将每隔一秒输出网络信息"
     },
     {
         "name": "chmod",
         "detail": "chmod [-cfvR] mode file 修改文件权限,chmod ugo+r file1.txt 将file1.txt设为所有人可读；chmod -R a+r * 将目前目录所有文件与子目录设为任何人可读",
-        "specific":"-c，--changes 只输出被改变文件的信息<br># chmod u+x file 给file增加执行权限<br>-f，--silent，--quiet 当chmod不能改变文件模式时，不通知文件的用户<br># chmod 751 file   给file分配读、写、执行的权限<br>-R，--recursive 可递归遍历子目录，把修改应到目录下所有文件和子目录<br># chmod u=rwx,g=rx,o=x file   上例的另一种形式<br>--reference=filename 参照filename的权限来设置权限<br># chmod =r file    为所有用户分配读权限<br>-v，--verbose 无论修改是否成功，输出每个文件的信息<br># chmod -R u+r directory   递归地给directory目录下所有文件和子目录分配读的权限"
+        "specific": "-c，--changes 只输出被改变文件的信息<br># chmod u+x file 给file增加执行权限<br>-f，--silent，--quiet 当chmod不能改变文件模式时，不通知文件的用户<br># chmod 751 file   给file分配读、写、执行的权限<br>-R，--recursive 可递归遍历子目录，把修改应到目录下所有文件和子目录<br># chmod u=rwx,g=rx,o=x file   上例的另一种形式<br>--reference=filename 参照filename的权限来设置权限<br># chmod =r file    为所有用户分配读权限<br>-v，--verbose 无论修改是否成功，输出每个文件的信息<br># chmod -R u+r directory   递归地给directory目录下所有文件和子目录分配读的权限"
     },
     {
         "name": "shutdown",
-        "detail": "shutdown 关机和重启,例:shutdown -h now 立刻关机；shutdown -h 5  5分钟后关机；shutdown -r now  立刻重启；shutdown -r 5  5分钟后重启"
+        "detail": "shutdown 关机和重启,例:shutdown -h now 立刻关机；shutdown -h 5  5分钟后关机；shutdown -r now  立刻重启；shutdown -r 5  5分钟后重启",
+        "specific": "-r|-h|-k 重启计算机 | 关机后关闭电源 | 并不关机，送警告信号登录者<br>now代表立刻； +m代表m分钟后；23:00代表晚上11点<br>-c 取消目前正在执行的关机程序<br># shutdown -h now 立即关闭系统和电源<br>-f|-F 在重启计算器〔reboot〕时忽略|强迫系统检查与修复<br># shutdown -h +10 10分钟之后关闭系统和电源<br>-t 在改变到其它runlevel之前﹐告诉init多久以后关机<br># shutdown -r now 立即重启电脑<br>-time 设定关机〔shutdown〕前的时间<br># shutdown -r 10:00 10点钟重启"
     },
     {
         "name": "man",
-        "detail": "man 命令说明书,man shutdown 打开命令说明书之后，使用按键q退出"
+        "detail": "man 命令说明书,man shutdown 打开命令说明书之后，使用按键q退出",
+        "specific": "-a --all   寻找所有匹配的手册页<br>1|2|3|4|5  系统命令|接口|函数库|设备|文件格式<br>6|7|8|9|n  游戏|杂项|系统指令|内核|Tcl或TK指令<br># man 5 passwd   查看/etc/passwd文件的帮助<br># man 1 passwd   查看passwd命令的帮助，1可以省略<br>Page down 向下翻一页 | Page up 向上翻一页<br>home 直接前往首页 | end 直接前往尾页<br>/ 从上至下搜索，如“/linux”| ? 从下至上搜索，如“?linux”<br>n 定位下一个搜索关键词 | N 定位上一个搜索关键词<br>q 退出帮助文档<br>"
     },
     {
         "name": "cd",
-        "detail": "cd 目录切换, cd /usr 切换到根目录下的usr目录；cd ~  切换到home目录；cd ../ 切换到上一级目录 或者  cd .."
+        "detail": "cd 目录切换, cd /usr 切换到根目录下的usr目录；cd ~  切换到home目录；cd ../ 切换到上一级目录 或者  cd ..",
+        "specific": "Shell使用当前工作目录作为相对路径的基本目录<br># cd /usr/lib/firefox/ 更改为/usr/lib/firefox/所在的目录 <br>使用CDPATH环境变量将另一个位置设置为相对路径的基本目录<br># cd ~ 快速返回到主目录<br># export CDPATH=/home/dave/work/dev<br># cd ../.. 上移目录树中的两个目录<br># cd forth 切换到/home/dave/work/dev/forth<br># cd / 是跳转到根目录<br># cd /usr  不受CDPATH环境变量影响"
     },
     {
         "name": "ls",
-        "detail": "ls [-al] 查看当前目录下的所有目录和文件；例：ls -a 查看当前目录下的所有目录和文件；ls /usr 查看指定目录下的所有目录和文件"
+        "detail": "ls [-al] 查看当前目录下的所有目录和文件；例：ls -a 查看当前目录下的所有目录和文件；ls /usr 查看指定目录下的所有目录和文件",
+        "specific": "# ls -a 列出文件下所有的文件，包括以“.“开头的隐藏文件<br># ls -l 列出文件的详细信息，如创建者，创建时间<br># ls -F 文件末尾加字符说明类型。'@':链接、'|':FIFOS、'/':目录、'=':套接字<br># ls -s 在每个文件的后面打印出文件的大小<br># ls -t|-S 按时间|大小进行文件的排序<br># ls -A 列出除了'.'和'..'以外的文件<br># ls -R 将目录下所有的子目录的文件都列出来<br># ls -L 列出文件的链接名<br># ls -|*|grep '^-'| wc -|  计算当前目录下的文件数量<br>绿色-执行,红色-压缩,深蓝色-目录,浅蓝色-链接,灰色-其它"
     },
     {
         "name": "mkdir",
-        "detail": "mkdir 创建目录，例：mkdir log 在当前目录创建一个log目录；mkdir /usr/log  在指定目录创建log的目录"
+        "detail": "mkdir 创建目录，例：mkdir log 在当前目录创建一个log目录；mkdir /usr/log  在指定目录创建log的目录",
+        "specific": "-p 确保目录名称存在，不存在的就建一个<br># mkdir -p runoob2/test 在目录runoob2 中，建立名为 test 的子目录<br>-m, --mode=模式，设定权限<模式> (类似 chmod)<br># mkdir -m 777 test3 创建权限为777的目录 <br>-v, --verbose  每次创建新目录都显示信息<br># mkdir -vp test5/test5-1 创建新目录都显示信息"
     },
     {
         "name": "rm",
-        "detail": "rm [-rf] 目录|文件 , 删除目录或文件；rm -rf aaa 递归删除当前目录下的aaa目录（不询问）"
+        "detail": "rm [-rf] 目录|文件 , 删除目录或文件；rm -rf aaa 递归删除当前目录下的aaa目录（不询问）",
+        "specific": "-d  --directory    删除仍有数据的目录 (限超级用户)<br># rm -i *.rb 删除所有rb语言程序档；删除前询问确认<br>-f   --force          略过不存在的文件，不显示任何信息，强制删除<br># rm -r finished 将 finished 子目录及子目录中所有档案删除<br>-i   --interactive 进行任何删除操作前必须先确认<br># rm  -rf   test/  直接删除目录 test，不管是否有子目录或文件<br>-r/R --recursive  同时删除该目录下的所有目录<br># rm -d linuxidc 删除一个或多个空目录<br>-v   --verbose  详细显示进行的步骤"
     },
     {
         "name": "mv",
-        "detail": "mv 当前目录 新目录；(目录修改),mv af bf  将目录af改为bf； mv /usr/tmp/af /usr 将/usr/tmp目录下的af目录剪切到 /usr目录下面"
+        "detail": "mv 当前目录 新目录；(目录修改),mv af bf  将目录af改为bf； mv /usr/tmp/af /usr 将/usr/tmp目录下的af目录剪切到 /usr目录下面",
+        "specific": "-b 当目标文件或目录存在时，在执行覆盖前，为其创建备份<br># mv /usr/runoob/*  .  将 /usr/runoob 所有文件和目录移到当前目录下<br>-i  如果移动的源目录或文件与目标同名，则询问是否覆盖<br># mv  /home/ffxhd/a.txt   /home/ffxhd/b.txt 目标与原文件一致，就是重命名<br>-f  如果指定的源目录或文件与目标同名，不会询问，直接覆盖旧文件<br># mv  /home/a.txt   /home/test  效果就是仅仅移动<br>-n 不要覆盖任何已存在的文件或目录<br># mv  /home/a.txt   /home/test/c.txt  移动 + 重命名<br>-u 当源文件比目标文件新或者目标文件不存在时，才执行移动操作<br># mv  /home/test/tp5/*  /home/PHP5 将目录所有文件(夹)移到/home/PHP5"
     },
     {
         "name": "cp",
-        "detail": "cp -r 目录名称 目录拷贝的目标位置   -r代表递归；cp /usr/tmp/aaa  /usr 将/usr/tmp目录下的aaa目录复制到 /usr目录下面"
+        "detail": "cp -r 目录名称 目录拷贝的目标位置   -r代表递归；cp /usr/tmp/aaa  /usr 将/usr/tmp目录下的aaa目录复制到 /usr目录下面",
+        "specific": "-a 此选项在复制目录时使用，保留链接、文件属性，并复制目录所有内容<br># cp cangls /tmp/ 把源文件不改名复制到 /tmp/ 目录下<br>-d 复制时保留链接,否则是复制源文件<br># cp cangls /tmp/ 把源文件不改名复制到 /tmp/ 目录下<br>-f | -i 覆盖已经存在的目标文件而不给出提示|给出提示<br># cp cangls /tmp/bols 改名复制<br>-p 除复制文件外，还把修改时间和访问权限也复制到新文件中<br># cp -d /tmp/cangls_ln 复制软链接文件，加入\"-d\"选项<br>-r 若给出的源文件是一个目录文件，复制该目录下所有的子目录和文件<br># cp -p /var/lib/m.db /tmp/m.db2 源和目标文件所有属性一致<br>-l，-s 不复制文件，只是生成软链接|硬链接文件<br># cp -l /root/bols /tmp/bols_s  /tmp/bols_s 为源文件的软链接文件"
     },
     {
         "name": "touch",
-        "detail": "touch 文件名 新建文件；touch aa.txt 在当前目录创建一个名为aa.txt的文件"
+        "detail": "touch 文件名 新建文件或者修改文件时间戳；touch aa.txt 在当前目录创建一个名为aa.txt的文件",
+        "specific": "-a|-m 只修改文件的access(访问)|Modify(修改)时间<br>-c 或--no-create 　不创建不存在的文件<br>-d 使用指定的日期时间，而非现在的时间<br>-r file 使用指定file文件的时间戳更新文件的时间戳<br>-t 将时间修改为指定的日期，如：07081556代表7月8号15点56分<br>access|modify|change: 访问时间|修改时间属性改变时间<br># touch -a westoslinux 修改文件的access（访问）时间<br># touch -m westoslinux 修改文件的modify（修改）时间<br># touch -at 201207150830.30 wlin 修改时间2012-07-15 08:30:30<br># touch -r test1.c test.c 指定文件的时间设置与参考文件的时间一致"
     },
     {
         "name": "vi",
-        "detail": "vi 文件名；i 切换到输入模式；: 切换到底线命令模式；q 退出程序；w 保存文件；x 删除光标所在字符"
+        "detail": "vi 文件名；'i' 切换到输入模式；':' 切换到底线命令模式；'q' 退出程序；'w' 保存文件；'x' 删除光标所在字符",
+        "specific": "vi filename :打开或新建文档，并将光标置于文档行首<br>vi -r filename ：在上次正用vi编辑发生系统崩溃，恢复filename<br>k、j、h、l：上、下、左、右光标移动命令<br>i、a、r：在光标前|后|所在处插入字符(i=insert、a=append、r=replace)<br>dd |  dw | x   删除 光标所在行|一个字|当前字符<br>yy、p：拷贝一行到剪贴板或取出剪贴板中内容<br>o | O ：在当前行之下|上新加一行，并进入插入模式<br>:wq ：命令模式下，保存修改并退出<br>:q    ：命令模式下，退出，如果对缓冲区进行过修改，则会提示<br>:q!   ：命令模式下，强制退出，放弃修改"
     },
     {
         "name": "vim",
-        "detail": "vim 文件名；i 切换到输入模式；: 切换到底线命令模式；q 退出程序；w 保存文件；x 删除光标所在字符"
+        "detail": "vim 文件名；i 切换到输入模式；: 切换到底线命令模式；q 退出程序；w 保存文件；x 删除光标所在字符",
+        "specific": "vim filename :打开或新建文档，并将光标置于文档行首<br>vim -r filename ：在上次正用vi编辑发生系统崩溃，恢复filename<br>k、j、h、l：上、下、左、右光标移动命令<br>i、a、r：在光标前|后|所在处插入字符(i=insert、a=append、r=replace)<br>dd |  dw | x   删除 光标所在行|一个字|当前字符<br>yy、p：拷贝一行到剪贴板或取出剪贴板中内容<br>o | O ：在当前行之下|上新加一行，并进入插入模式<br>:wq ：命令模式下，保存修改并退出<br>:q    ：命令模式下，退出，如果对缓冲区进行过修改，则会提示<br>:q!   ：命令模式下，强制退出，放弃修改"
     },
     {
         "name": "tar",
         "detail": "tar 打包和压缩,tar -zcvf ab.tar  * 打包并压缩当前目录下的所有文件，压缩包名称为ab.tar，tar -zxvf ab.tar ab.tar解压到当前目录下[-c代表压缩，-x代表解压]",
-        "specific":"-x 从压缩的文件中提取文件<br>-c 建立新的压缩文件<br>-t 显示压缩文件的内容<br>-v 显示操作过程<br>-f 指定压缩文件<br># tar xvf FileName.tar 解包文件FileName.tar<br>-z 支持gzip解压文件<br># tar cvf FileName.tar DirName 打包文件DirName为FileName.tar<br>-j 支持bzip2解压文件<br># tar -zcvf log.tar.bz2 log2012.log  打包后，以 bzip2 压缩"
+        "specific": "-x 从压缩的文件中提取文件<br>-c 建立新的压缩文件<br>-t 显示压缩文件的内容<br>-v 显示操作过程<br>-f 指定压缩文件<br># tar xvf FileName.tar 解包文件FileName.tar<br>-z 支持gzip解压文件<br># tar cvf FileName.tar DirName 打包文件DirName为FileName.tar<br>-j 支持bzip2解压文件<br># tar -zcvf log.tar.bz2 log2012.log  打包后，以 bzip2 压缩"
     },
     {
         "name": "chown",
         "detail": "chown [-cfhvR] user[:group] file... 改变文件所有者,例：chown -R liu /usr/meng 将目录/usr/meng及其下面的所有文件、子目录的文件主改成 liu",
-        "specific":"-c 显示更改的部分的信息<br># chown root newfile.txt 将newfile.txt所有权更改为root用户<br>-f 忽略错误信息<br># chown james:james newfile.txt 用户和组都更改为 james用户<br>-h 修复符号链接<br># chown root:root newfile.txt -v 使用-v选项显示更改权限时在终端进行的操作<br>-R 处理指定目录以及其子目录下的所有文件<br># chown -R root:root ./directory-name/ 递归更改目录的文件权限<br>-v 显示详细的处理信息<br># chown 1000:1000 newfile.txt 将newfile.txt更改为uid 1000和gid 1000"
+        "specific": "-c 显示更改的部分的信息<br># chown root newfile.txt 将newfile.txt所有权更改为root用户<br>-f 忽略错误信息<br># chown james:james newfile.txt 用户和组都更改为 james用户<br>-h 修复符号链接<br># chown root:root newfile.txt -v 使用-v选项显示更改权限时在终端进行的操作<br>-R 处理指定目录以及其子目录下的所有文件<br># chown -R root:root ./directory-name/ 递归更改目录的文件权限<br>-v 显示详细的处理信息<br># chown 1000:1000 newfile.txt 将newfile.txt更改为uid 1000和gid 1000"
     },
     {
         "name": "ll",
-        "detail": "ll 是显示当前目录下文件详细信息,与ls -l”的功能是相同的"
+        "detail": "ll 是显示当前目录下文件详细信息,与ls -l”的功能是相同的",
+        "specific": "drwxr-xr-x 2 root root 48 2013-11-27 16:34 test/<br>d：文件类型，‘-’普通文件，‘d’目录，‘|’链接，‘b’块设备，‘c’字符设备<br>rwxr-xr-x ：对owner、group、others文件读（r）、写（w）、执行（x）权限<br>2：文件个数，对于目录，表示该目录中的文件个数<br>root ： 文件拥有者<br>root ：所属的组（group）<br>48：文件大小，用byte表示<br>2013-11-27：修改时间<br>test/：文件名"
     },
     {
         "name": "alias",
-        "detail": "alias 别名=’原命令 -选项/参数'"
+        "detail": "alias 别名=’原命令 -选项/参数'",
+        "specific": "永久生效，针对root用户：<br>临时设置:<br>vi /root/.bashrc<br>alias cp='cp –i'<br>增加一行 alias cp='cp -i'<br>unalias cp<br>source /root/.bashrc"
     },
     {
         "name": "unalias",
-        "detail": "unalias 别名 删除别名"
+        "detail": "unalias 别名 删除别名",
+        "specific": "见alias,无更多技巧！"
     },
     {
         "name": "cat",
-        "detail": "cat [-AbeEnstTuv] fileName 连接文件并打印标准输出设备，例：cat -b file1 file2 >> file3 把 file1 和 file2 的文档内容加上行号（空白行不加）附加到 file3 里"
+        "detail": "cat [-AbeEnstTuv] fileName 连接文件并打印标准输出设备，例：cat -b file1 file2 >> file3 把 file1 和 file2 的文档内容加上行号（空白行不加）附加到 file3 里",
+        "specific": "# cat > filename 从键盘创建文件(不能编辑已有文件),键盘Ctrl+D结束输入<br># cat -n l12.log l13.log 把 l12.log 文件内容加上行号输入 l13.log 文件<br># cat file1 file2 > file 将几个文件合并为一个文件<br># cat file1 file2 >> file3 追加到 file3中,文件不存在时,创建文件<br># cat -A /etc/hosts 将/etc/hosts 的内容显示出来（包含特殊字符）<br># cat << EOF >> test.sh 将内容追加到 test.sh 后面，不会覆盖原内容<br># cat -ns t1.txt > py.txt t1.txt加上行号输入py.txt文件，多行空行合成一行"
     },
     {
         "name": "chattr",
-        "detail": "chattr [-RV] [+/-/=<属性>] [文件或目录...] 改变文件属性，例：chattr +i /etc/resolv.conf 防止系统中某个关键文件被修改"
+        "detail": "chattr [-RV] [+/-/=<属性>] [文件或目录...] 改变文件属性，例：chattr +i /etc/resolv.conf 防止系统中某个关键文件被修改",
+        "specific": "+：在原有参数设定基础上，追加参数<br>a：即Append Only，系统只允许在这个文件之后追加数据，不允许任何进程覆盖或截断这个文件<br>- ：在原有参数设定基础上，移除参数<br>i：即Immutable，系统不允许对这个文件进行任何的修改<br>=：更新为指定参数设定<br>s：彻底删除文件，不可恢复，因为是从磁盘上删除，然后用0填充文件所在区域<br># chattr +a aaa 锁定文件，不能删除，不能更改,只能给文件添加内容<br>u：当应用程序请求删除文件，系统保留其数据块以便能够恢复这个文件，防止意外删除<br># chattr +i  /etc/passwd   文件不能删除，不能更改，不能移动<br># chattr  -i  /etc/passwd   表示解除加锁"
     },
     {
         "name": "chgrp",
-        "detail": "chgrp [-cfhRv][所属群组][文件或目录...] 变更文件或目录的所属群组，例：chgrp -v bin log.log 'log.log' 所属组更改为 bin"
+        "detail": "chgrp [-cfhRv][所属群组][文件或目录...] 变更文件或目录的所属群组，例：chgrp -v bin log.log 'log.log' 所属组更改为 bin",
+        "specific": "-f或–quiet或–silent  不显示错误信息<br>-h或–no-dereference 只对符号连接的文件作修改，而不更动其他任何相关文件<br>-R或–recursive 　递归处理，将指定目录下的所有文件及子目录一并处理<br>–reference=参考文件或目录  把指定文件或目录设成和参考文件或目录的所属群组相同<br>-v或–verbose 　显示指令执行过程<br>-c或–changes 效果类似”-v”参数，但仅回报更改的部分<br># chgrp -v bin log2012.log “log2012.log”所属组已更改为 bin<br># chgrp --reference=log2012.log log2013.log 根据指定文件改变文件群组属性"
     },
     {
         "name": "cksum",
-        "detail": "cksum [文件...] 检查文件的CRC是否正确,例：cksum testfile1"
+        "detail": "cksum [文件...] 检查文件的CRC是否正确,例：cksum testfile1",
+        "specific": "cksum命令是检查文件的CRC是否正确，确保文件传输过程中不被损坏<br>#cksum testfile1 对指定文件进行CRC校验<br>CRC是指一种排错检查方法，即循环冗余校验法<br>1263453430 78 testfile1   命令后输出信息<br>如果校验和相等，则该文件被认为是正确传输了<br>\"1263453430\"表示校验码，\"78\"表示字节数"
     },
     {
         "name": "diff",
-        "detail": "diff [-abBcdefHilnNpPqrstTuvwy] [文件1] [文件2] ,例：diff log2.log log3.log"
+        "detail": "diff [-abBcdefHilnNpPqrstTuvwy] [文件1] [文件2] ,例：diff log2.log log3.log",
+        "specific": "-a,--text 把所有文件当做文本文件逐行比较<br>-b,--ignore-space-change 忽略空格产生的变化<br>-B,--ignore-blank-lines 忽略空白行的变化<br>-i,--ignore-case 忽略大小写的区别<br>-r,--recursive 当比较目录时，递归比较所有找到的子目录<br>-w,--ignore-all-space 比较时忽略所有空格<br>-y,--side-by-side 使用并列输出格式<br># diff t1.txt t2.txt  对比文件t1.txt和t2.txt<br># diff dir1 dir2 > dir.log  对比文件夹时，相同文件名时自动比较<br>输出3,5c3，文件1第3行到第5行（3,5）改为（c）文件2第3行（3）"
     },
     {
         "name": "ln",
-        "detail": "ln [参数][源文件或目录][目标文件或目录] 文件在其他位置建立同步链接,例：ln -s log.log lo 为log.log文件创建软链接lo；ln log.log lo 为log.log创建硬链接lo"
+        "detail": "ln [参数][源文件或目录][目标文件或目录] 文件在其他位置建立同步链接,例：ln -s log.log lo 为log.log文件创建软链接lo；ln log.log lo 为log.log创建硬链接lo",
+        "specific": "软链接类似于 Win快捷方式，即产生一个文件指向另一个文件，此方式适用于目录<br>硬链接给文件的 inode 分配多个文件名，通过任何文件名，都可以找到文件inode<br>-s 软链接(符号链接)<br>-b 覆盖以前建立的链接<br>-d 允许超级用户制作目录的硬链接<br>-f 强制执行<br>-i 交互模式，文件存在则提示用户是否覆盖<br>-n 把符号链接视为一般目录<br>-v 显示详细的处理过程"
     },
     {
         "name": "cmp",
-        "detail": "cmp [-clsv][-i <字符数目>] [第一个文件] [第二个文件],例：cmp prog.o.bak prog.o 比较 prog.o.bak 和 prog.o"
+        "detail": "cmp [-clsv][-i <字符数目>] [第一个文件] [第二个文件] 逐字节比较,例：cmp prog.o.bak prog.o 比较两文件",
+        "specific": "一般用cmp命令比较二进制文件，diff命令比较文本文件<br># cmp -l file1 file2<br>-l --verbose 显示不同点字节号（10进制）和不同点的字节内容（8进制）<br>输出1：34 75 53 在34个字节处开始不同，一个是75，另一个是53 [八进制]<br>-b  --print-bytes  显示文件不同的字节<br>输出2：cmp: EOF on file1 说明file2前半部分与file1相同，但file2中还有其他数据<br>-i NUM --ignore-initial=NUM 越过开始的NUM个字节开始比较<br>-i NUM:NUM2  第一个文件开始NUM1个字节，第二个文件开始NUM2个字节<br>-n NUM  --bytes=NUM 设定比较的上限，最多比较 NUM 个字节<br>-s  抑制所有的默认输出。文件相同返回0；文件不同返回1；发生错误返回2"
     },
     {
         "name": "ftp",
@@ -169,92 +201,108 @@
     },
     {
         "name": "stat",
-        "detail": "stat [option] [文件或目录] 显示索引节点内容，例：stat testfile 查看testfile文件的元信息"
+        "detail": "stat [option] [文件或目录] 显示索引节点内容，例：stat testfile 查看testfile文件的元信息",
+        "specific": "stat命令显示出来的文件信息说明：<br>&nbsp;<br>- File：显示文件名 <br>- Size：显示文件大小 <br>- Blocks：文件使用的数据块总数 <br>- IO Block：IO块大小 <br>- regular file：文件类型（常规文件） - Device：设备编号 <br>- Inode：Inode号  - Links：链接数，即指向inode的链接数<br>- Access：文件的权限 <br>- Gid、Uid：文件所有权的Gid和Uid"
     },
     {
         "name": "mount",
-        "detail": "mount [-fnrsvw] [-o options [,...]] device | dir 挂载Linux系统外的文件,例：mount /dev/hda1 /mnt 将 /dev/hda1 挂在 /mnt 之下"
+        "detail": "mount [-fnrsvw] [-o options [,...]] device | dir 挂载Linux系统外的文件,例：mount /dev/hda1 /mnt 将 /dev/hda1 挂在 /mnt 之下",
+        "specific": "根目录以外文件要被访问，需将其关联到根目录的某个目录中，这操作就是“挂载”<br>这个目录就是“挂载点”，解除次关联关系的过程称之为“卸载”<br>-o ro  用唯读模式挂上<br>-o rw 用可读写模式挂上<br>-o loop loop 模式用来将档案当成硬盘分割挂上系统<br># mount -t auto /dev/cdrom /mnt/cdrom 挂载cdrom<br># mount -o ro /dev/hda1 /mnt  将 /dev/hda1 只读模式挂在 /mnt 下<br># mount -o loop image.iso /mnt/cdrom 将image.iso镜像挂在/mnt/cdrom下"
     },
     {
         "name": "umount",
-        "detail": "umount [-ahnrvV][-t <文件系统类型>][文件系统] 卸除文件系统,例：umount -v /dev/sda1 通过设备名卸载"
+        "detail": "umount [-ahnrvV][-t <文件系统类型>][文件系统] 卸除文件系统,例：umount -v /dev/sda1 通过设备名卸载",
+        "specific": "-a：卸除/etc/mtab中记录的所有文件系统<br>-n：卸除时不要将信息存入/etc/mtab文件中<br> -r：若无法成功卸除，则尝试以只读的方式重新挂入文件系统<br>-t<文件系统类型>：仅卸除选项中所指定的文件系统<br>-v：执行时显示详细的信息<br># umount -v /dev/sda1  通过设备名卸载<br># umount -v /mnt/cdrom/  通过挂载点卸载<br># umount -vl  /mnt/cdrom/ 延迟卸载"
     },
     {
         "name": "du",
-        "detail": "du [目录或文件] 显示指定的目录或文件所占用的磁盘空间,例：du -h test 显示test目录所占空间情况"
+        "detail": "du [目录或文件] 显示指定的目录或文件所占用的磁盘空间,例：du -h test 显示test目录所占空间情况",
+        "specific": "-a, --all  输出所有文件的磁盘用量，不仅仅是目录<br># du -a   统计目录和文件的容量大小<br>-h  以可读性较好的方式显示尺寸(例如：1K 23M 2G)<br># du -c /home/test/   最下面显示总大小total<br>-s, --summarize    只分别计算命令列中每个参数所占的总用量<br># du -sh * | sort -rh 查看目录下所有文件的大小并按照大小排序<br>-c 除了列出文件和目录的容量大小外，列出总的容量大小<br># du -sh cache/ 查看某一个文件的大小"
     },
     {
         "name": "edquota",
-        "detail": "edquota [-p <源用户名称>][-ug][用户或群组名称...] 编辑用户或群组的磁盘配额"
-    },
-    {
-        "name": "du",
-        "detail": "du [目录或文件] 显示指定的目录或文件所占用的磁盘空间,例：du -h test 显示test目录所占空间情况"
+        "detail": "edquota [-p <源用户名称>][-ug][用户或群组名称...] 编辑用户或群组的磁盘配额",
+        "specific": "-u 设置用户的磁盘配额，这是预设的参数<br># edquota -u lanf 为用户分配磁盘配额<br>-g 设置群组的磁盘配额<br># edquota -p lanf -u Jack Tom Chen 用户被赋予和lanf一样磁盘配额<br>-p<源用户名称> 将源用户的磁盘配额设置套用至其他用户或群组<br># edquota -g webterm  为webterm组分配磁盘配额<br>-t 设置宽限期限<br># edquota -t 对用户的软限制设定宽限期"
     },
     {
         "name": "clear",
-        "detail": "clear命令用于清除屏幕"
+        "detail": "clear命令用于清除屏幕",
+        "specific": "# clear 用于清除屏幕"
     },
     {
         "name": "chroot",
-        "detail": "chroot [目的目录][执行指令...],例：chroot /mnt/ls 改变根目录"
+        "detail": "chroot [目的目录][执行指令...],例：chroot /mnt/ls 改变根目录",
+        "specific": "chroot 的主要用途集中在系统救援、维护等特殊场景<br>&nbsp<br>如通过 chroot 命令重新设置 centos7 中的 root 密码<br>&nbsp<br>详细请查阅：https://www.jb51.net/article/136556.htm<br>&nbsp<br># chroot target /bin/sh 以target 作为根目录运行/bin/sh<br>&nbsp<br>运行 exit 退出该 shell 又返回原来的本机环境了<br>&nbsp<br>"
     },
     {
         "name": "clock",
-        "detail": "clock [--adjust][--debug][--directisa][--getepoch][--hctosys][--set --date=\"<日期时间>\"],例：clock -utc 显示UTC时间"
+        "detail": "clock [--adjust][--debug][--directisa][--getepoch][--hctosys][--set --date=\"<日期时间>\"],例：clock -utc 显示UTC时间",
+        "specific": "--adjust：自动调整硬件时钟时间<br>--hctosys：时钟同步，使系统时钟和硬件时钟同步<br>--se--date：设置硬件时间<br>--show：显示硬件时钟到标准输出<br>--systohc：系统时间写入硬件时钟<br># clock --set--date=\"02/25/2018 14:30:01\" 设置硬件时钟<br>--utc：将硬件时钟的时间设置为UTC<br># clock --utc 显示utc硬件时钟时间<br>-setepoch-epoch=年份：设置硬件时钟的年份<br># clock 显示硬件时钟时间"
     },
     {
         "name": "crontab",
-        "detail": "crontab [ -u user ] file 让使用者在固定时间或固定间隔执行程序"
+        "detail": "crontab [ -u user ] file 让使用者在固定时间或固定间隔执行程序",
+        "specific": "crontab的使用需要创建cron脚本，crontab -e 直接编辑定时文件<br>-u user：用来设定某个用户的crontab服务<br>编辑完成后，可以使用crontab安装，查看，删除定时文件<br>-e：编辑某个用户的crontab文件内容<br>所有用户定义的crontab 文件被保存在 /var/spool/cron目录<br>-l：显示某个用户的crontab文件内容<br># crontab -l 列出crontab文件<br>-r：从/var/spool/cron目录中删除某个用户的crontab文件<br># crontab <filename> 安装filename定时器<br>-i：在删除用户的crontab文件时给确认提示"
     },
     {
         "name": "declare",
-        "detail": "declare [+/-][rxi][变量名称＝设置值] 声明 shell 变量,例：declare -i ab  声明ab整数型变量"
+        "detail": "declare [+/-][rxi][变量名称＝设置值] 声明 shell 变量,例：declare -i ab  声明ab整数型变量",
+        "specific": "+/- ：\"-\"用来指定变量属性，\"+\"则取消变量所设属性<br># declare -a cd='([0]=\"a\" [1]=\"b\")'  声明数组变量<br>r：将变量设置为只读<br># declare -r ab 设置变量为只读,更改ab会报错<br>i：定义为整数integer<br># declare -i ef  声明整数型变量，当ef = 'we',会变成0<br>a：将变量声明为数组型<br># declare +i ef 取消ef的整数类型，可以赋值为其他类型<br>f ：仅显示函数<br>"
     },
     {
         "name": "export",
-        "detail": "export [-fnp][变量名称]=[变量设置值],例：export -p 列出当前的环境变量值；export MYENV=7 定义环境变量并赋值"
+        "detail": "export [-fnp][变量名称]=[变量设置值],例：export -p 列出当前的环境变量值；export MYENV=7 定义环境变量并赋值",
+        "specific": "export的作用就是将变量设置成环境变量<br>&nbsp;<br>-f：代表[变量名称]中为函数名称<br># export -p 列出当前的环境变量值<br>-n：删除指定的变量。变量实际并未删除，只是不会输出后续指令环境中<br># export MYENV=7 定义环境变量并赋值<br>-p：列出所有的shell赋予程序的环境变量<br># export PATH=\"$PATH:/opt/tools/bin\" 在系统路径中，增加新路径"
     },
     {
         "name": "nohup",
         "detail": "nohup Command [ Arg … ] [　& ],例：nohup /root/runoob.sh & 在后台执行 root 目录下的 runoob.sh 脚本",
-        "specific":"nohup command > myout.file 2>&1 &<br>-- /dev/null 表示空设备文件<br>-- 0 表示stdin标准输入<br>-- 1 表示stdout标准输出<br>-- 2 表示stderr标准错误<br>> file 表示将标准输出输出到file中，也就相当于 1>file<br>2>&1 也就表示将错误重定向到标准输出上<br>2>&1 >file ：错误输出到终端，标准输出重定向到文件file，等于 > file 2>&1"
+        "specific": "nohup command > myout.file 2>&1 &<br>-- /dev/null 表示空设备文件<br>-- 0 表示stdin标准输入<br>-- 1 表示stdout标准输出<br>-- 2 表示stderr标准错误<br>> file 表示将标准输出输出到file中，也就相当于 1>file<br>2>&1 也就表示将错误重定向到标准输出上<br>2>&1 >file ：错误输出到终端，标准输出重定向到文件file，等于 > file 2>&1"
     },
     {
         "name": "gzip",
-        "detail": "gzip [-acdfhlLnNqrtvV][--best/fast][文件...],例：gzip * 压缩目录所有文件；gzip -dv * 解压文件，并列出详细信息"
+        "detail": "gzip [-acdfhlLnNqrtvV][--best/fast][文件...],例：gzip * 压缩目录所有文件；gzip -dv * 解压文件，并列出详细信息",
+        "specific": "-c：将输出写到标准输出上，并保留原有文件<br>-d：将压缩文件解压<br>-l：压缩文件显示下列字段： 压缩文件大小,未压缩文件大小,压缩比,未压缩文件<br>-r：递归式地查找指定目录并压缩其中的所有文件或者是解压缩<br>-t：测试，检查压缩文件是否完整<br>-v：对每一个压缩和解压的文件，显示文件名和压缩比<br>-num：数字num调整压缩速度，-1最快低压缩，-9最慢高压缩,缺省值 6<br># gzip -r log.tar 压缩tar备份文件，压缩文件的扩展名为.tar.gz<br># gzip -dv * 对当前目录每个压缩的文件解压，并列出详细的信息<br># gzip -c 待压缩文件 > 带压缩文件.gz 压缩文件并保留源文件"
     },
     {
         "name": "zip",
-        "detail": "zip [-AcdDfFghjJKlLmoqrSTuvVwXyz$][-b <工作目录>][压缩文件][文件...],例：zip -q -r html.zip /home/html 将/home/html/ 目录所有文件和文件夹打包为html.zip"
+        "detail": "zip [option][-b <工作目录>][压缩文件][文件...],例：zip -q -r html.zip /home/html 将/home/html/ 目录所有文件和文件夹打包为html.zip",
+        "specific":"-r：递归压缩目录，及将目录下的所有文件以及子目录全部压缩<br># zip -r mydata.zip mydata 把目录下的mydata目录压缩为mydata.zip<br>-m：将文件压缩之后，删除原始文件<br># zip -r a3.zip abc 123.txt 把目录下的abc文件夹和123.txt压缩为a3.zip<br>-v|-q：显示|不显示详细的压缩过程信息<br># zip -dv cp.zip a.c 从压缩文件 cp.zip 中删除文件 a.c<br>-num：压缩级别，-1 代表压缩速度更快，-9 代表压缩效果更好<br># zip n1.zip my1*.doc 把文件夹所有 my1*.doc 文件打包成n1.zip 文件<br>-u|-g：更新|增加文件到压缩文件，u是更改过的才更新到压缩<br># zip -g new1.zip my32.doc 把 my32.doc 压在 new1.zip 里面"
     },
     {
         "name": "unzip",
-        "detail": "unzip [-cflptuvz][-agCjLMnoqsVX][-P <密码>][.zip文件][文件][-d <目录>][-x <文件>] 解压缩zip文件,例：unzip filename.zip -d /directory 将 ZIP 文件解压缩到/directory"
+        "detail": "unzip [option][-P <密码>][.zip文件][文件][-d <目录>][-x <文件>] 解压缩zip文件,例：unzip file.zip -d /directory 将 ZIP 文件解压缩到/directory",
+        "specific":"-d<目录>：指定文件解压缩后所要存储的目录<br># unzip test.zip 将test.zip解压到当前文件下<br>-x<文件>：指定不要处理.zip压缩文件中的哪些文件<br># unzip -n test.zip -d /tmp 将test.zip解压到/tmp目录，并且不要覆盖文件<br>-P<密码>：使用zip的密码选项<br># unzip -v test.zip 查看test.zip内容，但不解压<br>-n： 解压缩时不要覆盖原有的文件<br># unzip -o test.zip -d tmp/ 将test.zip解压到/tmp目录，并且覆盖已有文件<br>-q：执行时不显示任何信息<br># unzip -t test.zip 检查 zip 文件是否损坏"
     },
     {
         "name": "dump",
-        "detail": "dump 命令用于备份文件系统,例：dump -0 -u /dev/tape /home/ 备份文件到磁带"
+        "detail": "dump 命令用于备份文件系统,例：dump -0 -u /dev/tape /home/ 备份文件到磁带",
+        "specific":"-level：就是我们说的 0～9 共 10 个备份级别<br># dump -0u -f /b.bak /home 将/home内容备份到/b.bak文件中，层级为0并记录<br>-f  文件名：指定备份之后的文件名<br># dump -0uj -f /root/boot.bak.bz2 /boot/ 先执行一次完全备份,并压缩和更新备份时间<br>-u：备份成功之后，把备份时间、级别、文件系统等信息，记录在 /etc/dumpdates 中<br># dump -1uj -f /root/boot.bak1.bz2 /boot/  增量备份/boot分区，并压缩<br>-v：显示备份过程中更多的输出信息<br>-j：调用 bzlib 库压缩备份文件，把备份文件压缩为 .bz2 格式，默认压缩等级是 2<br># dump -0j -f /root/etc.dump.bz2 /etc/ 完全备份/etc/目录<br>-W：显示允许被 dump 的分区的备份等级及备份时间<br># dump -1j -f /root/etc.dump1.bz2 /etc/  备份失败，目录备份只能使用0级        "
     },
     {
         "name": "passwd",
-        "detail": "passwd [-k] [-l] [-u [-f]] [-d] [-S] [username] 更改使用者密码,例：passwd runoob 设置runoob用户密码"
+        "detail": "passwd [option] [username] 更改使用者密码,例：passwd runoob 设置runoob用户密码",
+        "specific":"-d | -S |  ：删除密码 | 显示密码信息<br>-f：强迫用户下次登录时必须修改口令<br>-w：口令要到期提前警告的天数<br>-k：更新只能发送在过期之后<br>-u | -l：启用已被停止的账户 | 停止账号使用<br>-x：指定口令最长存活期<br>-i：口令过期后多少天停用账户<br># passwd runoob  设置runoob用户的密码<br># passwd -S runoob 显示runoob账号密码信息<br># passwd -d lx138  删除lx138用户密码"
     },
     {
         "name": "free",
-        "detail": "free [-bkmotV][-s <间隔秒数>] 显示内存状态,例：free -t 以总和的形式查询内存的使用信息；free -s 10 每10s 执行一次命令"
+        "detail": "free [-bkmotV][-s <间隔秒数>] 显示内存状态,例：free -t 以总和的形式查询内存的使用信息；free -s 10 每10s 执行一次命令",
+        "specific":"-b|-k|-m|-g：以Byte|KB|MB|GB为单位显示内存使用情况<br>-h：以合适的单位显示内存使用情况，最大为三位数，自动计算单位值<br>-o：不显示缓冲区调节列。<br>-s<间隔秒数>：持续观察内存使用状况,Ctrl+c中断<br>-t：显示内存总和列<br>free 显示物理内存、交互区内存（swap）和内核缓冲区内存<br>-l：显示高低内存的利用率<br># free -m 按照M的计数方式来显示内存信息<br>-c N, --count N     重复打印N次，然后退出<br># free -s 2 -c 4 每隔2秒统计一次，统计4次内存信息"
     },
     {
         "name": "top",
-        "detail": "top [-] [d delay] [q] [c] [S] [s] [i] [n] [b] 实时显示 process 的动态,例：top -S 以累积模式显示程序信息"
+        "detail": "top [-] [d delay] [q] [c] [S] [s] [i] [n] [b] 实时显示 process 的动态,例：top -S 以累积模式显示程序信息",
+        "specific":"-b：以批处理模式操作<br>-c：显示整个命令行而不只是显示命令名<br>-d num：屏幕刷新间隔时间；<br>-s|-S：保密模式 | 累积模式；<br>-i<时间>|-n<次数>：设置间隔时间 | 循环显示的次数<br>-u<用户名>| -p<进程号>：指定用户名 | 指定进程<br># top -d 2 每两秒钟更新一次 top<br># top -b -n 2 > /top.txt 将top进行 2 次，将结果输出到/top.txt<br># top -d 2 -p 9999 用top命令仅观察指定pid（9999）的程序<br>top命令运行的过程中按下键盘的q键/ctrl+c可以退出"
     },
     {
         "name": "reboot",
-        "detail": "reboot [-n] [-w] [-d] [-f] [-i] 重新启动计算机; -f : 强迫重开机"
+        "detail": "reboot [-n] [-w] [-d] [-f] [-i] 重新启动计算机; -f : 强迫重开机",
+        "specific":"-n : 在重开机前不做将记忆体资料写回硬盘的动作<br>$nbsp;<br>-w : 并不会真的重开机，只是把记录写到 /var/log/wtmp 档案里<br>$nbsp;<br>-d : 不把记录写到 /var/log/wtmp 档案里（-n 这个参数包含了 -d）<br>$nbsp;<br>-f : 强迫重开机，不呼叫 shutdown 这个指令<br>$nbsp;<br>-i : 在重开机之前先把所有网络相关的装置先停止"
     },
     {
         "name": "login",
-        "detail": "login命令用于登入系统"
+        "detail": "login命令用于登入系统",
+        "specific":"login [name][-p ][-h 主机名称]<br>在命令行系统里登录某个用户进行工作<br>-p保持当前的环境参数<br>&nbsp;<br>-h远程登录<br>&nbsp;<br># login user 切换为user用户身份<br>"
     },
     {
         "name": "finger",
@@ -319,12 +367,11 @@
     {
         "name": "yum",
         "detail": "yum [options] [command] [package]；例：yum check-update 可更新软件；yum update 更新所有软件；yum install package 安装指定软件；yum remove package 删除软件；yum search key 查找软件包",
-        "specific":"# yum install PACKAGE_NAME 安装yum包<br># yum remove PACKAGE_NAME 删除yum包装<br># yum reinstall PACKAGE_NAME 重新安装一个yum包<br># yum search PACKAGE_NAME 搜索yum包<br># yum info PACKAGE_NAME 显示yum包的信息<br># yum update 更新安装的yum包<br># yum update PACKAGE_NAME 更新具体的yum包<br># yum history 显示yum历史<br># yum repolist 显示已启用的yum存储库的列表<br># yum clean all 清除yum缓存"
+        "specific": "# yum install PACKAGE_NAME 安装yum包<br># yum remove PACKAGE_NAME 删除yum包装<br># yum reinstall PACKAGE_NAME 重新安装一个yum包<br># yum search PACKAGE_NAME 搜索yum包<br># yum info PACKAGE_NAME 显示yum包的信息<br># yum update 更新安装的yum包<br># yum update PACKAGE_NAME 更新具体的yum包<br># yum history 显示yum历史<br># yum repolist 显示已启用的yum存储库的列表<br># yum clean all 清除yum缓存"
     },
     {
         "name": "apt",
         "detail": "apt [options] [command] [package]；例：sudo apt update 列出所有可更新软件；sudo apt install package_1 package_2 安装多个软件包；sudo apt remove package 删除软件包；sudo apt search key 查找软件包",
-        "specific":"# sudo apt update && sudo apt upgrade -y  查看一些可更新的包 ,并升级安装包<br># apt list --all-versions 列出所有已安装的包的版本信息<br># sudo apt search keyword 查找软件包命令<br># sudo apt install package_name 安装指定的软件命令<br># sudo apt install package_1 package_2 package_3 安装多个软件包<br># sudo apt update package_name 更新指定的软件命令<br># sudo apt show package_name 显示软件包具体信息,例如：版本号，安装大小，依赖关系等等<br># sudo apt remove package_name 删除软件包命令<br># sudo apt autoremove 清理不再使用的依赖和库文件<br># sudo apt purge package_name 移除软件包及配置文件<br>"
-        
+        "specific": "# sudo apt update && sudo apt upgrade -y  查看一些可更新的包 ,并升级安装包<br># apt list --all-versions 列出所有已安装的包的版本信息<br># sudo apt search keyword 查找软件包命令<br># sudo apt install package_name 安装指定的软件命令<br># sudo apt install package_1 package_2 package_3 安装多个软件包<br># sudo apt update package_name 更新指定的软件命令<br># sudo apt show package_name 显示软件包具体信息,例如：版本号，安装大小，依赖关系等等<br># sudo apt remove package_name 删除软件包命令<br># sudo apt autoremove 清理不再使用的依赖和库文件<br># sudo apt purge package_name 移除软件包及配置文件<br>"
     }
 ]
