@@ -82,7 +82,7 @@
     {
         "name": "man",
         "detail": "man 命令说明书,man shutdown 打开命令说明书之后，使用按键q退出",
-        "specific": "-a --all   寻找所有匹配的手册页<br>1|2|3|4|5  系统命令|接口|函数库|设备|文件格式<br>6|7|8|9|n  游戏|杂项|系统指令|内核|Tcl或TK指令<br># man 5 passwd   查看/etc/passwd文件的帮助<br># man 1 passwd   查看passwd命令的帮助，1可以省略<br>Page down 向下翻一页 | Page up 向上翻一页<br>home 直接前往首页 | end 直接前往尾页<br>/ 从上至下搜索，如“/linux”| ? 从下至上搜索，如“?linux”<br>n 定位下一个搜索关键词 | N 定位上一个搜索关键词<br>q 退出帮助文档<br>"
+        "specific": "-a --all   寻找所有匹配的手册页<br># man 1 passwd   查看passwd命令的帮助，1可以省略<br>1|2|3|4|5  系统命令|接口|函数库|设备|文件格式<br># man 5 passwd 查看/etc/passwd文件的帮助<br>6|7|8|9|n  游戏|杂项|系统指令|内核|Tcl或TK指令<br>Page down 向下翻一页 | Page up 向上翻一页<br>home 直接前往首页 | end 直接前往尾页<br>/ 从上至下搜索，如“/linux”| ? 从下至上搜索，如“?linux”<br>q 退出帮助文档<br>n | N定位下一个|上一个搜索关键词<br>"
     },
     {
         "name": "cd",
@@ -306,63 +306,78 @@
     },
     {
         "name": "finger",
-        "detail": "finger [options] user[@address] 查询一些其他使用者的资料,例：finger -m hnlinux 显示指定用户信息；finger -m root@192.168.1.13 显示远程用户信息"
+        "detail": "finger [options] user[@address] 查询一些其他使用者的资料,例：finger -m hnlinux 显示指定用户信息；finger -m root@192.168.1.13 显示远程用户信息",
+        "specific":"finger 安装，RHEL/CentOS： yum install finger* -y；apt-get install finger -y<br># finger -s 列出当前用户信息<br>-l：列用户帐号，姓名，目录，Shell，登入时间，转信地址，邮件，计划和方案<br># finger -p 列出当前用户信息，不显示计划和方案-m：排除查找用户的真实姓名<br>&nbsp;<br>-s：列出用户的帐号，姓名，登入终端机，闲置时间，登入时间以及地址和电话&nbsp;<br>&nbsp;<br>-p：列用户帐号，姓名，目录，Shell，登入时间，转信地址，邮件，但不显示计划和方案"
     },
     {
         "name": "fwhios",
-        "detail": "fwhios [帐号名称] 查找并显示用户信息"
+        "detail": "fwhios [帐号名称] 查找并显示用户信息",
+        "specific":"本指令的功能有点类似finger指令<br>&nbsp;<br>fwhois是到Network Solutions的WHOIS数据库去查找"
     },
     {
         "name": "tail",
-        "detail": "tail [参数] [文件] 查看文件的内容,例：tail -f notes.log 跟踪名为 notes.log 的文件的增长情况，按下（Ctrl-C）组合键停止显示"
+        "detail": "tail [参数] [文件] 查看文件的内容,例：tail -f notes.log 跟踪名为 notes.log 的文件的增长情况，按下（Ctrl-C）组合键停止显示",
+        "specific":"-f 循环读取<br># tail /var/log/yum.log 查看yum.log日志文件最后10行<br>-q 不显示处理信息<br># tail -n 5 log2014.log 显示文件末尾5行内容<br>-v 显示详细的处理信息<br># tail -f test.log 循环查看文件内容<br>-c<数目> 显示的字节数<br># tail -n +5 log2014.log 从第5行开始显示文件<br>-n<行数> 显示行数，直接 - 5也可以"
     },
     {
         "name": "head",
-        "detail": "head [参数] [文件] 查看文件的开头部分的内容,例：head -n 5 notes.log 显示notes.log 文件的开头5行"
+        "detail": "head [参数] [文件] 查看文件的开头部分的内容,例：head -n 5 notes.log 显示notes.log 文件的开头5行",
+        "specific":"-q 隐藏文件名<br># head /etc/passwd 显示 passwd 文件的开头10 行<br>-v 显示文件名<br># head -n 5 runoob_notes.log 显示 notes.log 文件的开头 5 行<br>-c<数目> 显示的字节数<br># head -c 20 runoob_notes.log 显示文件前 20 个字节<br>-n<行数> 显示的行数<br># head -n 2 /etc/passwd /etc/shadow 显示passwd和shadow前两行"
     },
     {
         "name": "join",
-        "detail": "join [-i][-a<1或2>][-e<字符串>][-o<格式>][文件1][文件2] 将两个文件中，指定栏位内容相同的行连接起来,例：join testfile_1 testfile_2"
+        "detail": "join [-i][-a<1或2>][-e<字符串>][-o<格式>][文件1][文件2] 将两个文件中，指定栏位内容相同的行连接起来,例：join testfile_1 testfile_2",
+        "specific":"-a<1或2> 除显示原来的输出内容外，还显示指令文件中没有相同栏位的行<br>-e<字符串> 若[文件1]与[文件2]中找不到指定的栏位，则在输出中填入选项中的字符串<br>-i或--igore-case 比较栏位内容时，忽略大小写的差异<br>-o<格式> 按照指定的格式来显示结果<br>-t<字符> 使用栏位的分隔字符<br>-v<1或2> 跟-a相同，但是只显示文件中没有相同栏位的行<br>-1<栏位> 连接[文件1]指定的栏位<br>-2<栏位> 连接[文件2]指定的栏位<br># join testfile_1 testfile_2 将两个文件连接"
     },
     {
         "name": "df",
-        "detail": "df [选项]... [FILE]... 显示目前在 Linux 系统上的文件系统磁盘使用情况统计,例：df test 显示磁盘使用的test文件系统信息"
+        "detail": "df [选项]... [FILE]... 显示目前在 Linux 系统上的文件系统磁盘使用情况统计,例：df test 显示磁盘使用的test文件系统信息",
+        "specific":"-a 全部文件系统列表<br>-h 方便阅读方式显示<br>-i 显示inode信息<br># df -t ext3 显示指定类型磁盘<br>-k | -m 区块为1024|1048576字节<br>-l 只显示本地文件系统<br># df -ia 列出各文件系统的i节点使用情况<br>-t<文件系统类型> -T   显示指定类型的磁盘信息<br># df -T 显示文件系统的类型"
     },
     {
         "name": "who",
-        "detail": "who - [husfV] [user]. 显示系统中使用者信息,例：who -u -H 显示用户登录来源"
+        "detail": "who - [husfV] [user]. 显示系统中使用者信息,例：who -u -H 显示用户登录来源",
+        "specific":"-b 指出最近系统启动的时间和日期<br>-l 列出任何登录进程<br>-m 仅显示关于当前终端的信息<br>-p 列出任何当前活动的和以前已由 init 生成的活动进程<br>-q 打印一份在本地系统上的用户和用户数的快速清单<br>-r 显示当前进程的运行级别<br>-t 显示 root 用户上一次用 date 命令对系统时钟做的更改，没更改不输出<br>-u 或 -i 显示每个当前用户的用户名、tty、登录时间、线路活动和进程标识<br>-H 显示一个头（标题）<br># who -m -H 显示用户登录来源和显示的标题"
     },
     {
         "name": "whoami",
-        "detail": "whoami命令用于显示自身用户名称,例：whoami"
+        "detail": "whoami命令用于显示自身用户名称,例：whoami",
+        "specific":"whoami命令用于显示自身用户名称"
     },
     {
         "name": "id",
-        "detail": "id命令用于显示用户的ID，以及所属群组的ID,例：id -g 显示用户群组的ID"
+        "detail": "id命令用于显示用户的ID，以及所属群组的ID,例：id -g 显示用户群组的ID",
+        "specific":"-g或--group 　显示用户所属群组的ID<br>-G或--groups 　显示用户所属附加群组的ID<br>-n或--name 　显示用户，所属群组或附加群组的名称<br>-r或--real 　显示实际ID<br>-u或--user 　显示用户ID<br># id -a 打印用户名、UID 和该用户所属的所有组<br># id user 输出特定用户信息"
     },
     {
         "name": "rsh",
-        "detail": "rsh [-dn][-l <用户名称>][主机名称或IP地址][执行指令] 远端登入的Shell,例：rsh -l hnlinux 192.168.1.88 /bin/ls 远程执行ls命令"
+        "detail": "rsh [-dn][-l <用户名称>][主机名称或IP地址][执行指令] 远端登入的Shell,例：rsh -l hnlinux 192.168.1.88 /bin/ls 远程执行ls命令",
+        "specific":"rsh $host ： 远程登录，启动交互式进程<br>rsh $host $command ：远程执行命令，并显示输出<br>-d 　使用Socket层级的排错功能<br>&nbsp;<br>-l<用户名称> 　指定要登入远端主机的用户名称<br>&nbsp;<br>-n 　把输入的指令号向代号为/dev/null的特殊外围设备<br>&nbsp;<br># rsh -l hnlinux 192.168.1.88 /bin/ls //远程执行ls命令"
     },
     {
         "name": "nice",
-        "detail": "nice [-n adjustment] [-adjustment] [--adjustment=adjustment] [command [arg...]],例：nice -n 1 ls 将 ls 的优先序加 1 并执行"
+        "detail": "nice [option] [command [arg...],例：nice -n 1 ls 将 ls 的优先序加 1 并执行",
+        "specific":"-n 设置进程优先级为n，范围-20~19<br>&nbsp;<br># nice -n -10 ws_gw  设置进程ws_gw的优先级的修正值为-10<br>&nbsp;<br># nice -19 tar zcf pack.tar.gz documents 将documents目录打包，不希望tar占用太多CPU<br>&nbsp;<br># nice -n 19 tar zcf pack.tar.gz documents 将documents目录打包，设置较高优先度<br>&nbsp;<br># nice -n  ls 将 ls 的优先序加 10 并执行"
     },
     {
         "name": "locate",
-        "detail": "locate [-d ][--help][--version][范本样式...] 快速的搜寻某个路径；例：locate /etc/sh 搜索et 目录以sh开头的文件；locate -i ~/r 忽略大小写搜索当前用户目录以 r 开头文件"
+        "detail": "locate [-d ][--help][--version][范本样式...] 快速的搜寻某个路径；例：locate /etc/sh 搜索et 目录以sh开头的文件；locate -i ~/r 忽略大小写搜索当前用户目录以 r 开头文件",
+        "specific":"-b, --basename -- 仅匹配路径名的基本名称<br>locate命令比find快，它搜索数据库mlocate.db<br>-c, --count -- 只输出找到的数量<br># location android -n 5 查找和android相关的文件，且只显示前5个<br>-l, --limit, -n LIMIT -- 将输出（或计数）限制为LIMIT个条目<br># locate ~/alm/bin/I* -i  不区分大小写搜索bin目录下以I开头的文件<br>-i, --ignore-case -- 忽略大小写<br># updatedb 新增的文件无法locate，使用updatedb<br>-r, --regexp REGEXP -- 使用基本正则表达式<br>"
     },
     {
         "name": "useradd",
-        "detail": "useradd [-c 备注][-d 目录][-e 期限][-f 天数][-g 群组][-G 群组][-s shell][-u uid][帐号] 新建用户；例：useradd -g root tt 添加tt用户到相应root组；useradd -d /home/myd tt 新添加用户指定home目录"
+        "detail": "useradd [option][帐号] 新建用户；例：useradd -g root tt 添加tt用户到相应root组；useradd -d /home/myd tt 新添加用户指定home目录",
+        "specific":"-c：加上备注文字，备注文字保存在passwd的备注栏中<br>-d：指定用户登入时的主目录，替换系统默认值/home/用户名<br>-e：指定账号的失效日期，日期格式为MM/DD/YY，例如06/30/12,缺省表示永久有效<br>-f：指定在密码过期后多少天关闭账号,,为0账号立即被停用；为-1账号一直可用,默认值为-1<br>-g：指定用户所属的群组。使组名也可以是GID，期默认值为100，即users<br>-m | M：自动|不要自动建立用户的登入目录<br>-r：建立系统账号<br>-s：指定用户登入后所使用的shell。默认值为/bin/bash<br>-u：指定用户ID号，在系统中是唯一的，0~499是保留给系统用户账号使用，所以值须大于499<br>#useradd -u 544 -d /test -g users -m test 建新用户test，UID为544，目录/test，users组<br>"
     },
     {
         "name": "usermod",
-        "detail": "usermod [-c 备注][-d 目录][-e 期限][-f 天数][-g 群组][-G 群组][-l 名称][-s shell][-u uid][帐号]；例：usermod -l uu(新名) tt(原名) 修改用户名；usermod -aG user test 把test用户加入user组"
+        "detail": "usermod [option][帐号] 修改账号；例：usermod -l uu(新名) tt(原名) 修改用户名；usermod -aG user test 把test用户加入user组",
+        "specific":"-c ：修改用户帐号的备注文字<br>-d 登入目录：修改用户登入时的目录<br>-e： 修改帐号的有效期限。<br>-f： 修改在密码过期后多少天即关闭该帐号<br>-g | -G： 修改用户所属的群组 | 附加群组<br>-l：修改用户帐号名称<br>-L | -U：锁定用户密码 | 解除密码锁定<br>-s ：修改用户登入后所使用的shell<br>-u ：修改用户ID<br># usermod -G staff user2 将 user2 添加到组 staff 中<br># usermod - f 0 testnew 指定用户帐号密码过期0天后，禁用该帐号"
     },
     {
         "name": "userdel",
-        "detail": "userdel [-r] 登录名 删除用户帐号与相关的文件。若不加参数，则仅删除用户帐号，而不删除相关文件"
+        "detail": "userdel [option] 登录名 删除用户帐号与相关的文件。例userdel user1 删除用户user1",
+        "specific":"-f, --force 强制删除用户，即使用户当前已登录<br>&nbsp;<br>-r, --remove 删除用户的同时删除与用户相关的所有文件，比如删除主目录和邮件池<br>&nbsp;<br>-Z, --selinux-user 为用户删除所有的 SELinux 用户映射<br>&nbsp;<br># userdel -r tom 删除用户，删除主目录和邮件(不要轻易使用)<br>&nbsp;<br># userdel -f tom 强制删除用户"
     },
     {
         "name": "yum",
