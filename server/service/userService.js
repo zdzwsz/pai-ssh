@@ -42,6 +42,7 @@ var userService = {
         app.post('/login', function (req, res, next) {
             var name = req.body.name;
             var pass = req.body.pass;
+            pass = cryptoUtil.getMD5Hash(pass)//登录加密密码
             //console.log(name);
             db.find({
                 name: name,
@@ -63,6 +64,7 @@ var userService = {
             var newpwd = req.body.newpwd;
             var userName = req.body.userName;
             console.log(oldpwd, newpwd, userName);
+            oldpwd = cryptoUtil.getMD5Hash(oldpwd)//修改加密密码
             db.find({
                 name: userName,
                 passworld: oldpwd
@@ -71,6 +73,7 @@ var userService = {
                     console.log(err);
                     res.send({ 'status': false,message: "数据查询操作失败" });
                 } else if (docs && docs.length == 1) {
+                    newpwd = cryptoUtil.getMD5Hash(newpwd)//加密密码
                     db.update({ name: userName }, {
                         name: userName,
                         passworld: newpwd
@@ -100,6 +103,7 @@ var userService = {
                 } else if (docs && docs.length == 1) {
                     res.send({ 'status': false, message: "用户已经存在，请注册新用户" });
                 } else {
+                    passworld = cryptoUtil.getMD5Hash(passworld)//新增加密密码
                     db.insert({
                         name: userName,
                         passworld: passworld

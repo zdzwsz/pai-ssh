@@ -1,6 +1,7 @@
 var Datastore = require('nedb');
 const path = require('path');
 const fs = require('fs');
+const showPassword = "********"
 let currentpath = __dirname;
 let databaseFile = path.resolve(currentpath , '../data/data.db');
 let databasePath = path.resolve(currentpath , '../data');
@@ -14,10 +15,13 @@ if(!fs.existsSync(databasePath)){
 }
 var db = new Datastore({ filename: databaseFile, autoload: true });
 var cryptoUtil = require('../util/CryptoUtil');
+
 var dbService = {
+    
     init(app) {
         app.post('/db/insert', function (req, res, next) {
             let data = req.body.data;
+            data.password = cryptoUtil.cryptoString(data.password);
             db.insert(data, function (err, newDoc) {
                 if (err) {
                     console.log("error save data");
@@ -34,6 +38,9 @@ var dbService = {
             db.find({own:user.username}, function (err, docs) {
                 if (err) {
                     res.send({ 'status': false,data:err });
+                }
+                for(let i =0;i<docs.length;i++){
+                    docs[i].password = showPassword;
                 }
                 res.send({ 'status': true, data: docs });
             });
@@ -58,7 +65,11 @@ var dbService = {
 
         app.post('/db/update', function (req, res, next) {
             let data = req.body.data;
-
+            if(data.password == showPassword){
+                delete data.password
+            }else{
+                data.password = cryptoUtil.cryptoString(data.password);
+            }
             db.update({ '_id': data._id }, data, function (err, numReplaced) {
                 if (err) {
                     res.send({ 'status': false });
@@ -71,6 +82,7 @@ var dbService = {
             let id = req.body.id;
             let username = req.body.username;
             let password = req.body.password;
+            password = cryptoUtil.cryptoString(password);
             console.log(id);
             db.find({ '_id': id }, function (err, docs) {
                 if (err || docs.length == 0) {
@@ -90,6 +102,9 @@ var dbService = {
 
     getSpace(id, callback) {
         db.find({ '_id': id }, function (err, docs) {
+            if(docs && docs.length >0){
+                docs[0].password = cryptoUtil.decString(docs[0].password);
+            }
             callback(err, docs);
         });
     }

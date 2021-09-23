@@ -2,7 +2,7 @@ var crypto = require('crypto');
 const algorithm = 'aes-192-cbc';
 var CryptoUtil = {
     password: "fnJt7EDzjqWjcaY945678902",
-    iv : Buffer.from('fnJt7EDzjqWjcaY9', 'utf8'),
+    iv: Buffer.from('fnJt7EDzjqWjcaY9', 'utf8'),
     /**
      * @aes192加密模块
      * @param str string 要加密的字符串
@@ -10,14 +10,14 @@ var CryptoUtil = {
      * @retrun string 加密后的字符串
      * */
     getEncAse192: function (str, secret) {
-        var cipher = crypto.createCipheriv(algorithm, secret,this.iv); //设置加密类型 和 要使用的加密密钥
+        var cipher = crypto.createCipheriv(algorithm, secret, this.iv); //设置加密类型 和 要使用的加密密钥
         var enc = cipher.update(str, "utf8", "hex");    //编码方式从utf-8转为hex;
         enc += cipher.final("hex"); //编码方式从转为hex;
         return enc; //返回加密后的字符串
     },
 
     getDecAse192: function (str, secret) {
-        var decipher = crypto.createCipheriv(algorithm, secret,this.iv);
+        var decipher = crypto.createCipheriv(algorithm, secret, this.iv);
         var dec = decipher.update(str, "hex", "utf8");//编码方式从hex转为utf-8;
         dec += decipher.final("utf8");//编码方式从utf-8;
         return dec;
@@ -35,10 +35,10 @@ var CryptoUtil = {
         if (str == null || str == "" || str.length < 5) return false;
         var this_time = new Date().getTime();
         var value = this.getDecAse192(str, this.password);
-        
+
         var vs = value.split("|");
         if (vs.length < 1) return false;
-        console.log(ip+(vs[1] == ip));
+        console.log(ip + (vs[1] == ip));
         console.log(Number(vs[0]));
         console.log(this_time);
         console.log(Number(vs[0]) > this_time);
@@ -61,10 +61,10 @@ var CryptoUtil = {
 
     takenUserToken: function (str, ip) {
         if (str == null || str == "" || str.length < 5) return false;
-        var tokenBuffer = Buffer.from(str,'base64');
+        var tokenBuffer = Buffer.from(str, 'base64');
         str = tokenBuffer.toString();
         var values = str.split(".");
-        if(values.length<3)return false;
+        if (values.length < 3) return false;
         var user = values[1];
         var value = this.getDecAse192(values[2], this.password);
         var vs = value.split("|");
@@ -76,6 +76,21 @@ var CryptoUtil = {
             return false;
         }
     },
+    getMD5Hash: function (str) {
+        let md5 = crypto.createHash("md5");
+        let md5Sum = md5.update(str);
+        return md5Sum.digest("hex");
+    },
+    cryptoString: function (str) {
+        const cipher = crypto.createCipheriv('aes-128-cbc', 'FnJL7EDzjqWjcaY9', "FnJL7EDzjqWjcaY9");
+        cipher.update(str, 'utf8', 'hex')
+        return cipher.final('hex');
+    },
+    decString: function (str) {
+        const decipher = crypto.createDecipheriv('aes-128-cbc', 'FnJL7EDzjqWjcaY9', "FnJL7EDzjqWjcaY9");
+        decipher.update(str, 'hex', 'utf8')
+        return decipher.final().toString();
+    }
 
 }
 module.exports = CryptoUtil;

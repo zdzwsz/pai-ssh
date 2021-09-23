@@ -79,7 +79,7 @@ export default class LoginView extends React.Component {
         }
 
         return (
-            <div className="container" style={{ "padding-top": "130px" }}>
+            <div className="container" style={{ "padding-top": "130px","height":"100%" }}>
                 <div className="col-md-offset-3 col-lg-offset-3 col-md-6 col-lg-6">
                     <div className="panel panel-default">
                         <div style={{ padding: "20px" }}>

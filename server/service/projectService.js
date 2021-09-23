@@ -10,6 +10,7 @@ if (typeof (__path) != "undefined") {
 if (!fs.existsSync(downloadPath)) {
     fs.mkdirSync(downloadPath);
 }
+
 var dbService = require('./dbService.js');
 var servers = {}
 var projectService = {
@@ -26,6 +27,8 @@ var projectService = {
                     _this.errHandle(err, res);
                 } else {
                     var spaceInfo = docs[0];
+                    //spaceInfo.password = cryptoUtil.getEncAse192(data.password,word_key);
+                    console.log(JSON.stringify(spaceInfo));
                     spaceInfo.readyTimeout = 10000;
                     servers[spaceInfo._id] = spaceInfo;
                     args.unshift(spaceInfo);
