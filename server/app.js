@@ -16,7 +16,7 @@ var dbService = require('./service/dbService.js');
 const { join } = require('path');
 
 //动态编译文件
-/**  */
+/** 
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
@@ -24,20 +24,20 @@ const config = require('../webpack.config.js');
 process.noDeprecation = true;
 
 const compiler = webpack(config);
-
+ */
 
 
 //日志
 //log.use(app);
 
 //动态编译文件
-/**  */
+/**  
 app.use(webpackHotMiddleware(compiler));
 app.use(webpackDevMiddleware(compiler, {
     noInfo: true,
     publicPath: config.output.publicPath
 }))
-
+*/
 
 //静态资源处理
 //console.log(join(__dirname,'/client'));

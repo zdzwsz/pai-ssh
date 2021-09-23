@@ -1,6 +1,6 @@
 
 #myiframe {
-			border: 1px solid #222;
+			border: 0px solid #222;
         }
 
 .span-padding{
@@ -168,6 +168,7 @@
     padding-bottom: 3px;
     padding-right: 4px;
     background-color: rgba(22, 22, 22, 0.8);
+    margin: 0px;
 }
 
 .tab-delete{
@@ -197,7 +198,7 @@
 
 body {
     background-color: #1b1b1b;
-    background-image:url('/images/background.jpg');
+    background-image:url('/images/background_ss0.jpg');/*科技、望月、喜鹊、白雪 */
     color: #eeeeee;
     margin: 0;
     padding: 0;
@@ -222,7 +223,7 @@ a:hover,a:visited,a:focus {
 }
 
 .nav-tabs {
-    border-bottom: 2px solid #0a0c0e;
+    border-bottom: 2px solid rgba(22, 22, 22, 0.8);
 }
 
 #tabs{
@@ -234,8 +235,8 @@ a:hover,a:visited,a:focus {
 .nav-tabs>li.active>a:hover {
     color: #eee;
     cursor: default;
-    background-color: #121212;
-    border: 1px solid #121212;
+    background-color: rgba(22, 22, 22, 0.7);
+    border: 1px solid rgba(22, 22, 22, 0.7);
     border-bottom-color: transparent;
 }
 
@@ -423,11 +424,11 @@ a:hover,a:visited,a:focus {
     padding: 9px 5px 5px 10px;
     background: rgb(24, 24, 24);
     color: #fff;
-    width: 99%;
+    width: 98%;
     top: 50px;
     position: absolute;
     height: 42px;
-    left: 10px;
+    left: 14px;
     display: none;
     font-size: 14px;
     font-family:"Microsoft YaHei",微软雅黑,"MicrosoftJhengHei",华文细黑,STHeiti,MingLiu;

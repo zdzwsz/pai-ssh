@@ -50,7 +50,7 @@ export default class EditorToolBarView extends React.Component {
 
     render() {
         return (
-             <div className="btn-toolbar toolbar" style={{"padding-top":3}}>
+             <div className="btn-toolbar toolbar" style={{padding:"4px 0px 5px 0px"}}>
                         <div className="btn-group toolbar">
                             <button id="editor_save" data-toggle="tooltip"  title="保存文件" type="button" onClick={this.save} className="btn btn-default btn-sm"><span className="fa fa-save"> </span></button>
                             <button data-toggle="tooltip"  title="撤销" type="button" onClick={this.undo.bind(this)} className="btn btn-default btn-sm"><span className="fa fa-undo"> </span></button>

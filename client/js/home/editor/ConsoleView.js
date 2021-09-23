@@ -299,9 +299,9 @@ export default class ConsoleView extends React.Component {
 
         return (
             <div>
-                <div className="row">
-                    <div className="btn-toolbar toolbar" style={{ padding: 8 }}>
-                        <div className="btn-group toolbar" >
+                <div>
+                    <div className="btn-toolbar toolbar" style={{padding:"8px 0px 8px 0px"}}>
+                        <div className="btn-group toolbar">
                             <select onChange={this.onChangeSelectTerm.bind(this)} id="termName" className="form-control" style={{ width: 200 }}>
                             </select>
                         </div>

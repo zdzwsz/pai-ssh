@@ -478,7 +478,7 @@ export default class ResToolBarView extends React.Component {
     render() {
         return (
             <div>
-                <div style={{height:"43px","background-color":"#121212","padding":"6px 2px 0 4px"}}>
+                <div style={{height:"43px","backgroundColor":"rgba(22, 22, 22, 0.5)","padding":"6px 2px 0 4px"}}>
                     <span style={{"line-height":"30px"}}>
                         <i className="fa fa-server span-padding"></i>{this.props.name}<input id="file" type="file" multiple="multiple" onChange={this.onUpload.bind(this)} name="file" style={{"display":"none"}}  />
                     </span>
@@ -491,7 +491,6 @@ export default class ResToolBarView extends React.Component {
                     </span>
                 </div>
                 <div className="tab-content">
-                    
                     <div className="tab-pane fade in active" id="res_tree">
                         <Tree onListDir={this.onListDir} onAddFolder={this.onAddFolder} onAddFile={this.onAddFile} onRename={this.onRename} data={this.state.data} action={this.props.action} selectValue={this.props.selectValue} onDelete={this.onDelete} />
                     </div>

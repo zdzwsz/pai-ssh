@@ -26,7 +26,7 @@ export default class ModalView extends React.Component {
     return (
       <div className="modal fade" tabindex="-1" role="dialog" id={this.props.id}>
         <div className="modal-dialog" role="document">
-          <div className="modal-content">
+          <div className="modal-content" style={{backgroundColor:"rgba(22, 22, 22, 0.4)"}}>
             <div className="modal-header modalstyle-header">
               <h4 className="modal-title"><i className={this.props.icon}></i>{this.props.title}</h4>
             </div>
