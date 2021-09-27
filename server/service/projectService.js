@@ -30,7 +30,7 @@ var projectService = {
                     var spaceInfo = docs[0];
                     //console.log(JSON.stringify(spaceInfo));
                     spaceInfo.readyTimeout = 10000;
-                    //servers[spaceInfo._id] = spaceInfo; //改为不用缓存
+                    servers[spaceInfo._id] = spaceInfo; //改为不用缓存
                     args.unshift(spaceInfo);
                     callback.apply(null, args);
                 }
