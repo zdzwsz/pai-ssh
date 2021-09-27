@@ -6,6 +6,7 @@ export default class ManagerView extends React.Component {
         this.store = new Store(this);
         this.onSaveSpace = this.onSaveSpace.bind(this);
         this.onDeleteSpace = this.onDeleteSpace.bind(this);
+        this.onUpdateSpace = this.onUpdateSpace.bind(this);
         this.state={};
         
     }
@@ -18,6 +19,10 @@ export default class ManagerView extends React.Component {
       this.store.deleteSpace(title,id);
     }
 
+    onUpdateSpace(){
+        this.store.updateSpace();
+      }
+
     componentWillMount(){
        this.store.loadServiceSpace();
     }
@@ -28,7 +33,7 @@ export default class ManagerView extends React.Component {
                 {
                     this.state.serviceSpace?
                     this.state.serviceSpace.map((entry, index) => (
-                    <ServiceSpace key={entry._id} data={entry} onSaveSpace={this.onSaveSpace} onDeleteSpace={this.onDeleteSpace} /> ))
+                    <ServiceSpace key={entry._id} data={entry} onSaveSpace={this.onSaveSpace} onDeleteSpace={this.onDeleteSpace} onUpdateSpace={this.onUpdateSpace} /> ))
                     :""
                 }
             </div>

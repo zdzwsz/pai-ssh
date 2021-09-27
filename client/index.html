@@ -12,13 +12,23 @@
     <link rel="stylesheet" href="css/cloud-ide.css" type="text/css" />
     <script src="lib/common/jquery-2.2.2.min.js"></script>
     <script src="lib/common/bootstrap.min.js"></script>
+    <script>
+        function localbackground() {
+            url = localStorage.getItem("localbackground");
+            if (!url) {
+                url = "/images/background_ss0.jpg";
+            }
+            document.body.style.backgroundImage = "url(" + url + ")";
+        }
+    </script>
 </head>
 
-<body>
+<body onload="localbackground()">
     <div class="tool" style="-webkit-app-region: drag;-webkit-user-select: none;"><img src="/logo.png" width="28"
             height="28" style="padding:4px" />欢迎使用PAI-SSH工具</div>
     <div class="downloadcss">
-        <span style="cursor:pointer;width:75px" onclick="openWindowFolder()" onmouseover="showFileListStatus(true)">传输列表</span>
+        <span style="cursor:pointer;width:75px" onclick="openWindowFolder()"
+            onmouseover="showFileListStatus(true)">传输列表</span>
         <span id="download-num"></span>
         <span id="downloadprocesscss"></span>
     </div>

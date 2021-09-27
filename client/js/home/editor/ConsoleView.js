@@ -13,14 +13,13 @@ export default class ConsoleView extends React.Component {
             rows: 40,
             cols: 80,
             theme: {
-                //foreground: 'white', //字体
-                background: '#212121' //背景色
+                "background":"rgba(25,25,25,0.5)"
             },
             fontSize: 15,
             lineHeight: 1.1,
-            //allowTransparency :true,
             windowsMode: true,
-            scrollback: 100
+            scrollback: 100,
+            allowTransparency: true
             //fontFamily:"黑体,sans-serif"
         }
 
@@ -151,7 +150,6 @@ export default class ConsoleView extends React.Component {
         let socket = io("/" + name);
         this.sockets[name] = socket;
         this.calculateTermRowsAndCols();
-        //opts.scrollback = 100;
         var term = new Terminal(this.opt);
         let terminalContainer = document.getElementById('terminal-container');
         term.open(terminalContainer, true);
@@ -188,6 +186,11 @@ export default class ConsoleView extends React.Component {
                 var buffer = term.buffer.normal;
                 command_prefix = buffer.getLine(buffer.cursorY + buffer.baseY).translateToString(true);
                 $("#promptPanel").hide();
+                //let theCanvas = document.getElementsByTagName('canvas');
+                //for(let i =0;i<theCanvas.length;i++){
+                //    let context = theCanvas[i].getContext('2d');
+                //    context.fillStyle = 'rgba(255, 255, 255, 0)';
+                //}
             }, 500)
         })
 
@@ -251,15 +254,15 @@ export default class ConsoleView extends React.Component {
         });
         socket.on('prompt_specific', function (msg) {
             let msgArray = msg.split("<br>")
-            let msgStrs = ["",""]
-            let styles = ["prompt_white","prompt_white","prompt_black","prompt_black"]
+            let msgStrs = ["", ""]
+            let styles = ["prompt_white", "prompt_white", "prompt_black", "prompt_black"]
             for (let i = 0; i < 10; i++) {
-                if(msgArray.length > i){
-                    msgStrs[i%2] += "<p id='"+styles[i%4]+"'>" + msgArray[i] + "</p>";
-                }else{
-                    msgStrs[i%2] += "<p id='"+styles[i%4]+"'>&nbsp</p>";
+                if (msgArray.length > i) {
+                    msgStrs[i % 2] += "<p id='" + styles[i % 4] + "'>" + msgArray[i] + "</p>";
+                } else {
+                    msgStrs[i % 2] += "<p id='" + styles[i % 4] + "'>&nbsp</p>";
                 }
-                
+
             }
             $("#promptContext_left").html(msgStrs[0])
             $("#promptContext_right").html(msgStrs[1])
@@ -300,7 +303,7 @@ export default class ConsoleView extends React.Component {
         return (
             <div>
                 <div>
-                    <div className="btn-toolbar toolbar" style={{padding:"8px 0px 8px 0px"}}>
+                    <div className="btn-toolbar toolbar" style={{ padding: "9px 0px 10px 0px" }}>
                         <div className="btn-group toolbar">
                             <select onChange={this.onChangeSelectTerm.bind(this)} id="termName" className="form-control" style={{ width: 200 }}>
                             </select>
@@ -314,8 +317,8 @@ export default class ConsoleView extends React.Component {
                         <div id="promptPanel">
                             <div id="promptTitle"></div>
                             <div className="row">
-                            <div className="col-md-6" id="promptContext_left"></div>
-                            <div className="col-md-6" id="promptContext_right"></div>
+                                <div className="col-md-6" id="promptContext_left"></div>
+                                <div className="col-md-6" id="promptContext_right"></div>
                             </div>
                         </div>
                     </div>

@@ -14,10 +14,10 @@ function maxWindow() {
     }
 }
 
-function openWindowFolder(fileName,isPath) {
+function openWindowFolder(fileName, isPath) {
     if (typeof (ipcRenderer) != "undefined") {
         if (fileName) {
-            ipcRenderer.send('window-floder', { fileName: fileName,isPath:isPath });
+            ipcRenderer.send('window-floder', { fileName: fileName, isPath: isPath });
         } else {
             ipcRenderer.send('window-floder');
         }
@@ -93,9 +93,9 @@ function buildFileList() {
             obj.click(function () {
                 openWindowFolder(file.fileName);
             });
-        }else{
+        } else {
             obj.click(function () {
-                openWindowFolder(file.name,true);
+                openWindowFolder(file.name, true);
             });
         }
         i++;
@@ -146,7 +146,7 @@ function downloadFile(name, sshid) {
     var sid = createId();
     socket.emit('filePath', { path: name, sshid: sshid, sid: sid });
     let fileName = name.substring(name.lastIndexOf("/") + 1);
-    allFileList.unshift({ sid: sid, status: 0, name: name, type: "down" ,fileName : fileName});
+    allFileList.unshift({ sid: sid, status: 0, name: name, type: "down", fileName: fileName });
     showNum();
     socket.on('transferred:' + sid, function (msg) {
         if (msg) {
@@ -183,7 +183,7 @@ function uploadFile(localFiles, remotePath, sshid) {
     for (let i = 0; i < localFiles.length; i++) {
         var sid = createId(i);
         let fileName = localFiles[i].substring(localFiles[i].lastIndexOf("\\") + 1);
-        allFileList.unshift({ sid: sid, status: 0, name: localFiles[i], remotePath: remotePath + fileName, sshid: sshid, type: "up",fileName : fileName });
+        allFileList.unshift({ sid: sid, status: 0, name: localFiles[i], remotePath: remotePath + fileName, sshid: sshid, type: "up", fileName: fileName });
     }
     var socket = io('/upload');
     uploading(getUploadFile(), socket);
@@ -249,7 +249,6 @@ $(function () {
     };
 })
 $(function () { $("[data-toggle='tooltip']").tooltip(); });
-// showFileListStatus(false);
 $(window).click(function () {
     showFileListStatus(false);
 })

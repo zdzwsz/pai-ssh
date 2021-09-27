@@ -33,6 +33,11 @@ export default class HeadView extends React.Component {
         $("#passwordModal").modal("show");
     }
 
+    changeBackground(url) {
+        document.body.style.background = "url("+url+")";
+        localStorage.setItem("localbackground" , url);
+    }
+
     openModalAbout() {
         $("#aboutModal").css("top", "200px")
         $("#aboutModal").modal("show");
@@ -91,14 +96,18 @@ export default class HeadView extends React.Component {
             <div style={{ "padding": 8 }}>
                 <div className="ide-user" >
                     <span style={{ "cursor": "pointer" }} onMouseOver={this.showUserListStatus.bind(this, true)} onMouseOut={this.showUserListStatus.bind(this, false)}><span className="fa fa-user span-padding" ></span><span className="span-padding-right">{this.user.username} </span></span>
-                    <Link to="/Home/manager" title="返回"><span className="fa fa-th span-padding"></span><span className="span-padding">地址配置</span> </Link>
+                    <Link to="/Home/manager" title="返回"><span className="fa fa-th span-padding"></span><span className="span-padding">管理</span> </Link>
                     <span onClick={this.openDebugDevTools.bind(this)} style={{ "cursor": "pointer" }}><span className="fa fa-cogs span-padding"></span><span>调试</span></span>
                 </div>
                 <div id="userListStatus" onMouseOver={this.showUserListStatus.bind(this, true)} onMouseOut={this.showUserListStatus.bind(this, false)} >
                     <ul className="list-group">
                         <li className="list-group-item" style={{ "cursor": "pointer" }} onClick={this.openModalModifyPassword.bind(this)}>修改密码</li>
-                        <li className="list-group-item"><Link id="user_logout" to="/" title="重新登陆">重新登录</Link></li>
+                        <li className="list-group-item" ><Link id="user_logout" to="/" title="重新登陆">重新登录</Link></li>
                         <li className="list-group-item" style={{ "cursor": "pointer" }} onClick={this.openModalAbout.bind(this)}>关于</li>
+                        <li className="list-group-item" style={{ "cursor": "pointer" }} onClick={this.changeBackground.bind(this,"/images/background_ss0.jpg")}>科技风格</li>
+                        <li className="list-group-item" style={{ "cursor": "pointer" }} onClick={this.changeBackground.bind(this,"/images/background_ss2.jpg")}>望月风格</li>
+                        <li className="list-group-item" style={{ "cursor": "pointer" }} onClick={this.changeBackground.bind(this,"/images/background_ss4.jpg")}>喜鹊风格</li>
+                        <li className="list-group-item" style={{ "cursor": "pointer" }} onClick={this.changeBackground.bind(this,"/images/background_ss6.jpg")}>白雪风格</li>
                     </ul>
                 </div>
                 <Modal id="passwordModal" title="修改密码" icon="fa fa-key" saveButton={this.changePassword.bind(this)}>

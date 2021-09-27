@@ -17,7 +17,8 @@ var projectService = {
     env(id, callback, args, res) {
         _this = this;
         args.push(res);
-        let spaceInfo = servers[id];
+        //let spaceInfo = servers[id]; //从缓存找 改为不用缓存
+        let spaceInfo = null;
         if (spaceInfo) {
             args.unshift(spaceInfo);
             callback.apply(null, args);
@@ -27,10 +28,9 @@ var projectService = {
                     _this.errHandle(err, res);
                 } else {
                     var spaceInfo = docs[0];
-                    //spaceInfo.password = cryptoUtil.getEncAse192(data.password,word_key);
-                    console.log(JSON.stringify(spaceInfo));
+                    //console.log(JSON.stringify(spaceInfo));
                     spaceInfo.readyTimeout = 10000;
-                    servers[spaceInfo._id] = spaceInfo;
+                    //servers[spaceInfo._id] = spaceInfo; //改为不用缓存
                     args.unshift(spaceInfo);
                     callback.apply(null, args);
                 }
@@ -73,7 +73,7 @@ var projectService = {
     },
     saveFileData(spaceInfo, sshUtils, path, name, code, res) {
         sshUtils.connect(spaceInfo, function () {
-            console.log(path);
+            //console.log(path);
             sshUtils.writeFile(path, code, function (error) {
                 if (error) {
                     res.send({ 'status': false });
@@ -180,7 +180,7 @@ var projectService = {
                 const sshUtils = new SshUtils();
                 const remotePath = path;
                 const localPath = downloadPath + "/" + name;
-                console.log("localPath:" + localPath, "remotePath:" + remotePath);
+                //console.log("localPath:" + localPath, "remotePath:" + remotePath);
                 let fileTimeOut = null;
                 const step = function (transferred, chunk, total) {
                     if (fileTimeOut == null) {
@@ -218,7 +218,7 @@ var projectService = {
                 let remotePath = localFile.remotePath;
                 let sshid = localFile.sshid;
                 let sid = localFile.sid;
-                console.log(JSON.stringify(localFile));
+                //console.log(JSON.stringify(localFile));
                 let fileTimeOut = null;
                 const step = function (transferred, chunk, total) {
                     if (fileTimeOut == null) {
@@ -334,11 +334,11 @@ var projectService = {
             var name = req.body.name;
             var path = req.body.path;
             var id = req.body.id;
-            console.log("id:" + id);
+            //console.log("id:" + id);
             var remotePath = path; //"/home/zdzwsz/22222/SystemUtil.java";
             var localPath = downloadPath + "/" + name;// "d:/test/SystemUtil.java";
-            console.log("localPath:" + localPath);
-            console.log("remotePath:" + remotePath);
+            //console.log("localPath:" + localPath);
+            //console.log("remotePath:" + remotePath);
             sshUtils.connect(servers[id], function () {
                 sshUtils.downloadFile(remotePath, localPath, function (error, ddata) {
                     if (error) {
@@ -380,10 +380,10 @@ var projectService = {
                     res.send({ 'status': false });
                 })
                 .on('end', function () {  //结束
-                    console.log(JSON.stringify(obj));
+                    //console.log(JSON.stringify(obj));
                     let localPath = obj.file.path;
                     let remotePath = obj.path + "/" + obj.file.name;
-                    console.log(remotePath);
+                    //console.log(remotePath);
                     let id = obj.id;
                     var sshUtils = new SshUtils();
                     sshUtils.connect(servers[id], function () {

@@ -33,6 +33,7 @@ export default class Store {
                 } else {
                     _this.view.state.data = Object.assign(_this.view.state.data, data);
                     _this.view.canelAction("view");
+                    _this.view.props.onUpdateSpace();
                 }
             },
             error: function (err) {

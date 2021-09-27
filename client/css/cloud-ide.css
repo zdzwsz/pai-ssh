@@ -9,6 +9,10 @@
 .span-padding-right{
     padding-right: 12px;
 }
+.class-detail{
+    margin: 5px;
+    width: 100%;
+}
 
 .span-padding-left{
     padding-left: 102px;
@@ -165,8 +169,8 @@
 
 .toolbar{
     padding-left: 2px;
-    padding-bottom: 3px;
-    padding-right: 4px;
+    /* padding-bottom: 3px; */
+    /* padding-right: 4px; */
     background-color: rgba(22, 22, 22, 0.8);
     margin: 0px;
 }
@@ -188,17 +192,16 @@
 }
 
 .space-container{
-    min-height: calc(100vh - 200px);
+    height: calc(100vh - 120px);
 }
 
 .terminal-container{
-    padding: 0px;
+    padding-left: 4px;
     height:calc(100vh - 204px);
 }
 
 body {
-    background-color: #1b1b1b;
-    background-image:url('/images/background_ss0.jpg');/*科技、望月、喜鹊、白雪 */
+    background-color: #1f1f1f;
     color: #eeeeee;
     margin: 0;
     padding: 0;
@@ -219,7 +222,9 @@ a:hover,a:visited,a:focus {
 }
 
 .panel-default {
-    border-color: #222;
+    border-color: rgba(22, 22, 22, 0.7);
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
 }
 
 .nav-tabs {
@@ -253,8 +258,8 @@ a:hover,a:visited,a:focus {
 
 .panel-default>.panel-heading {
     color: #eee;
-    background-color: #333;
-    border-color: #222;
+    background-color: rgba(22, 22, 22, 0.7);
+    border-color: rgba(22, 22, 22, 0.6);
 }
 
 .btn-default {
@@ -305,15 +310,15 @@ a:hover,a:visited,a:focus {
 }
 
 .right1 {
-    right: 15px;
+    right: 20px;
 }
 
 .right2 {
-    right: 50px;
+    right: 55px;
 }
 
 .right3 {
-    right: 85px;
+    right: 90px;
 }
 
 /* 设置滚动条的样式 */
@@ -368,6 +373,10 @@ a:hover,a:visited,a:focus {
     background-color: floralwhite;
 }
 
+.dropdown-menu .divider{
+    background-color: #555;
+}
+
 .list-group-item{
     background-color: #2e2e2e;
     border: 1px solid #3e3e3e;
@@ -397,7 +406,7 @@ a:hover,a:visited,a:focus {
     top: 80px;
     left: calc(100% - 270px );
     position: absolute;
-    height: 125px;
+    height: 295px;
     overflow: hidden;
     z-index: 1000;
 }
@@ -454,3 +463,30 @@ a:hover,a:visited,a:focus {
     margin: 2px;
     color: #aaa;
 }
+.selt_title{
+    background-color: rgba(33, 33, 33, 0.6);
+    font-size: 14px;
+    padding: 2px 10px 2px 10px;
+}
+
+.button-active{
+    background-color: #000;
+    border-color: #666;
+    color: #fff;
+    background:linear-gradient(to bottom, #111 5%, #555 100%);
+}
+
+.button-inactivity {
+    color: #a1a1a1;
+    background:linear-gradient(to bottom, #555 5%, #111 100%);
+}
+
+.alone-space{
+    height: calc(100vh - 205px);
+    overflow: auto;
+}
+
+.badge-background{
+    background-color: #666 !important
+}
+

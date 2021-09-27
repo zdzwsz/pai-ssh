@@ -15,11 +15,11 @@ export default class AloneSpaceView extends React.Component {
         this.store = new Store(this);
     }
 
-    openServiceSpace(id,name) {
+    openServiceSpace(id, name) {
         var { history } = this.context.router;
         const location = {
             pathname: '/Home/editor',
-            state: { id: id,name:name }
+            state: { id: id, name: name }
         }
         history.replace(location);
     }
@@ -39,7 +39,7 @@ export default class AloneSpaceView extends React.Component {
 
     saveSpace(e) {
         var data = {};
-        data.team = "free";
+        data.team = this.refs.team.value;
         data.name = this.refs.name.value;
         data.host = this.refs.host.value;
         data.port = this.refs.port.value;
@@ -66,20 +66,23 @@ export default class AloneSpaceView extends React.Component {
     }
 
     validOwn(e) {
-        //var username = this.refs.username.value;
-        //var password = this.refs.password.value;
         var _this = this;
         this.store.validOwn(function (value) {
             if (_this.action == "MODIFY") {
                 _this.state.status = "edit";
                 _this.action = "MODIFY";
                 _this.setState(_this.state);
-            } else if(_this.action == "DELETE") {
+            } else if (_this.action == "DELETE") {
                 _this.state.status = "view";
                 _this.setState(_this.state);
-               _this.store.deleteSpace(_this.state.data.title,_this.state.data._id);
+                _this.store.deleteSpace(_this.state.data.title, _this.state.data._id);
             }
         });
+    }
+
+    selectType(type){
+        this.refs.team.value = type;
+        this.refs.team.firstChild.innerText = type
     }
 
     saveModify(e) {
@@ -88,21 +91,27 @@ export default class AloneSpaceView extends React.Component {
         data.username = this.refs.username.value;
         data.password = this.refs.password.value;
         data.path = this.refs.path.value;
+        data.team = this.refs.team.value;
         this.store.updateSpace(data);
     }
 
     componentDidMount() {
         $(function () { $("[data-toggle='tooltip']").tooltip(); });
     }
-    
+
 
     render() {
         $(".downloadcss").show();
         var entry = this.state.data;
         if (this.state.status == "view") {
             //console.log(entry._id);
-            if(entry._id == "delete"){
-                return(
+            let team = entry.team;
+            if (entry._id == "delete") {
+                return (
+                    <div></div>
+                );
+            }else if(this.props.type != "所有" && team != this.props.type){
+                return (
                     <div></div>
                 );
             }
@@ -110,13 +119,13 @@ export default class AloneSpaceView extends React.Component {
                 <div key={entry._id} id={entry._id} className="col-sm-6 col-md-3 col-lg-3" >
                     <div className="thumbnail" style={{ "height": "240px" }}>
                         <div className="manager-title text-center">
-                            <h4 onClick={this.openServiceSpace.bind(this, entry._id,entry.name)}><span className="fa fa-server span-padding"></span>{entry.name}</h4>
+                            <h4 onClick={this.openServiceSpace.bind(this, entry._id, entry.name)}><span className="fa fa-server span-padding"></span>{entry.name}</h4>
                             <span title="修改配置" onClick={this.modify4Auth.bind(this)} className="glyphicon glyphicon-pencil span-padding"></span>
                             <span className="span-padding"></span>
                             <span title="删除配置" onClick={this.delete4Auth.bind(this)} className="glyphicon glyphicon-trash"></span>
                         </div>
                         <div className="manager-detail" style={{ "padding-top": 8 }}>服务地址：{entry.host}</div>
-                        <div className="manager-detail">所属团队：{entry.team}</div>
+                        <div className="manager-detail">环境分类：{entry.team}</div>
                         <div className="manager-detail">创建人员：{entry.own}</div>
                         <div className="manager-detail">创建时间：{entry.sdate}</div>
                         <div className="manager-detail">工作目录：{entry.path}</div>
@@ -137,15 +146,30 @@ export default class AloneSpaceView extends React.Component {
             )
         } else if (this.state.status == "new") {
             var entry = {};
-            entry.port=22;
-            entry.path="/root/";
-            entry.username="root";
+            entry.port = 22;
+            entry.path = "/root/";
+            entry.username = "root";
             return (
-                <div  className="col-sm-6 col-md-3 col-lg-3">
+                <div className="col-sm-6 col-md-3 col-lg-3">
                     <div className="thumbnail text-center" style={{ "height": "240px", "padding": "6px" }}>
                         <div className="input-group input-group-sm" style={{ "padding-top": "2px" }}>
                             <span className="input-group-addon">名称</span>
                             <input type="text" ref="name" className="form-control" placeholder="服务名称" />
+                            <div className="input-group-btn">
+                                <button type="button" ref="team" value="生产" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span style={{'margin-right':"4px"}}>生产</span>
+                                    <span className="caret"></span>
+                                </button>
+                                <ul className="dropdown-menu dropdown-menu-right">
+                                    <li style={{cursor: 'pointer'}} onClick={this.selectType.bind(this,'生产')} ><a>生产环境</a></li>
+                                    <li role="separator" className="divider"></li>
+                                    <li style={{cursor: 'pointer'}} onClick={this.selectType.bind(this,'测试')}><a>测试环境</a></li>
+                                    <li role="separator" className="divider"></li>
+                                    <li style={{cursor: 'pointer'}} onClick={this.selectType.bind(this,'研发')}><a>研发环境</a></li>
+                                    <li role="separator" className="divider"></li>
+                                    <li style={{cursor: 'pointer'}} onClick={this.selectType.bind(this,'其他')}><a>其他环境</a></li>
+                                </ul>
+                            </div>
                         </div>
                         <div className="input-group input-group-sm" style={{ "padding-top": "2px" }}>
                             <span className="input-group-addon">地址</span>
@@ -177,6 +201,21 @@ export default class AloneSpaceView extends React.Component {
                         <div className="input-group input-group" style={{ "padding-top": "2px" }}>
                             <span className="input-group-addon">名称</span>
                             <input type="text" ref="name" className="form-control" defaultValue={entry.name} />
+                            <div className="input-group-btn">
+                                <button type="button" ref="team" value={entry.team}  className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span style={{'margin-right':"4px"}}>{entry.team}</span>
+                                    <span className="caret"></span>
+                                </button>
+                                <ul className="dropdown-menu dropdown-menu-right">
+                                    <li style={{cursor: 'pointer'}} onClick={this.selectType.bind(this,'生产')}><a>生产环境</a></li>
+                                    <li role="separator" className="divider"></li>
+                                    <li style={{cursor: 'pointer'}} onClick={this.selectType.bind(this,'测试')}><a>测试环境</a></li>
+                                    <li role="separator" className="divider"></li>
+                                    <li style={{cursor: 'pointer'}} onClick={this.selectType.bind(this,'研发')}><a>研发环境</a></li>
+                                    <li role="separator" className="divider"></li>
+                                    <li style={{cursor: 'pointer'}} onClick={this.selectType.bind(this,'其他')}><a>其他环境</a></li>
+                                </ul>
+                            </div>
                         </div>
                         <div className="input-group input-group" style={{ "padding-top": "2px" }}>
                             <span className="input-group-addon">用户</span>

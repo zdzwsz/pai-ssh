@@ -24,8 +24,8 @@ const config = require('../webpack.config.js');
 process.noDeprecation = true;
 
 const compiler = webpack(config);
- */
 
+ */
 
 //日志
 //log.use(app);
