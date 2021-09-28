@@ -31,13 +31,13 @@ const compiler = webpack(config);
 //log.use(app);
 
 //动态编译文件
-/**  
+/** 
 app.use(webpackHotMiddleware(compiler));
 app.use(webpackDevMiddleware(compiler, {
     noInfo: true,
     publicPath: config.output.publicPath
 }))
-*/
+ */
 
 //静态资源处理
 //console.log(join(__dirname,'/client'));

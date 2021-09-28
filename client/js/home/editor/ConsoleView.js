@@ -171,12 +171,13 @@ export default class ConsoleView extends React.Component {
                 command_prefix = buffer.getLine(buffer.cursorY + buffer.baseY).translateToString(true);
             }
             if (command_model == 1 && data.key && data.key.charCodeAt(0) == 27) {
-                if ($("#promptPanel").css('display') != 'none' && $("#promptPanel").css('top') == "50px") {
+                if ($("#promptPanel").css('display') != 'none' && $("#promptPanel").css('top') == "42px") {
                     $("#promptPanel").css({ "top": "-86px", "height": "178px" });
                     socket.emit('prompt_specific', command);
                 } else {
-                    $("#promptPanel").css({ "top": "50px", "height": "42px" });
-                    $("#promptContext").html("");
+                    $("#promptPanel").css({ "top": "42px", "height": "45px" });
+                    $("#promptContext_left").html("");
+                    $("#promptContext_right").html("");
                 }
             }
         })
@@ -186,11 +187,6 @@ export default class ConsoleView extends React.Component {
                 var buffer = term.buffer.normal;
                 command_prefix = buffer.getLine(buffer.cursorY + buffer.baseY).translateToString(true);
                 $("#promptPanel").hide();
-                //let theCanvas = document.getElementsByTagName('canvas');
-                //for(let i =0;i<theCanvas.length;i++){
-                //    let context = theCanvas[i].getContext('2d');
-                //    context.fillStyle = 'rgba(255, 255, 255, 0)';
-                //}
             }, 500)
         })
 
@@ -242,7 +238,7 @@ export default class ConsoleView extends React.Component {
                     command_model = 1;
                 } else {
                     $("#promptTitle").html(msg)
-                    $("#promptPanel").css({ "top": "50px", "height": "42px" }).show();
+                    $("#promptPanel").css({ "top": "42px", "height": "45px" }).show();
                     $("#promptContext").html("");
                     command_model = 0;
                 }
